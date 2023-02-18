@@ -1,11 +1,14 @@
+import 'package:ccd2023/screens/login/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const CCDApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CCDApp extends StatelessWidget {
+
+  const CCDApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -24,28 +27,10 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Homepage(),
+      /// TODO: Configure Auto Router
+
+      home: LoginScreen(),
     );
   }
 }
 
-class Homepage extends StatefulWidget {
-  const Homepage({super.key});
-
-  @override
-  State<Homepage> createState() => _HomepageState();
-}
-
-class _HomepageState extends State<Homepage> {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      body: Center(
-        child: Text(
-          "CCD Kol 2023",
-        ),
-      ),
-    ));
-  }
-}
