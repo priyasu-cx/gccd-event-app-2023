@@ -1,5 +1,5 @@
+import 'package:ccd2023/utils/typography.dart';
 import 'package:flutter/material.dart';
-
 
 final ThemeData lightTheme = ThemeData.light().copyWith(
   appBarTheme: const AppBarTheme(
@@ -10,13 +10,7 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
     ),
   ),
   scaffoldBackgroundColor: Colors.white,
-  textTheme: const TextTheme(
-    bodyLarge: TextStyle(color: Colors.black),
-    bodyMedium: TextStyle(
-      color: Colors.black87,
-      // color: Colors.black87,
-    ),
-  ),
+  textTheme: AppTextStyle.textTheme,
   inputDecorationTheme: const InputDecorationTheme(
     border: OutlineInputBorder(
       borderSide: BorderSide(
