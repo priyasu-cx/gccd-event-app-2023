@@ -72,14 +72,14 @@ class HomeScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.1),
                   child: Column(
-                    children: [
-                      defaultButton("Register Now", GCCDColor.googleBlue),
-                      defaultButton("Call for Speakers", GCCDColor.googleGrey),
+                    children: const [
+                      DefaultButton(text: "Register Now", color: GCCDColor.googleBlue),
+                      DefaultButton(text: "Call for Speakers", color: GCCDColor.googleGrey),
                     ],
                   ),
                 ),
 
-                aboutSection(),
+                const AboutSection(),
               ],
             ),
           ),
