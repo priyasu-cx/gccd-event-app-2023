@@ -19,9 +19,12 @@ Widget DefaultAppbar(BuildContext context) {
             )),
       );
     }),
-    title: Image.asset(
-      GCCDImageAssets.gdgCloudLogo,
-      width: screenWidth! * 0.6,
+    title: ColorFiltered(
+      colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+      child: Image.asset(
+        GCCDImageAssets.gdgCloudLogo,
+        width: screenWidth! * 0.6,
+      ),
     ),
     // actions: [
     //   Padding(
