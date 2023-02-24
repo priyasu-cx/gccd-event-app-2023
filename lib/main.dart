@@ -1,34 +1,36 @@
-
+import 'package:ccd2023/app_builder.dart';
+import 'package:ccd2023/features/app/ccd_app_runner.dart';
 import 'package:ccd2023/router/ccd_router.gr.dart';
-import 'package:ccd2023/screens/login/login.dart';
-import 'package:ccd2023/utils/size_config.dart';
-import 'package:ccd2023/utils/theme.dart';
+import 'package:ccd2023/utils/ccd_app_snackbar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(CCDApp());
-}
+  CCDAppRunner.run(
+    onException: (exception, stackTrace) {
+      debugPrint('Exception Caught -- $exception');
 
-class CCDApp extends StatelessWidget {
-  CCDApp({super.key});
+      ///Can be used to log error to online error reporting libraries
 
-  final _appRouter = AppRouter();
+      ///Show error to user
+      CCDAppSnackBar.showError(
+        exception.toString(),
+      );
+    },
+    rootWidgetBuilder: (appBuilder) async {
+      // Initialize project specific initializations here
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return OrientationBuilder(builder: (context, orientation) {
-        SizeConfig().init(constraints, orientation);
-        return MaterialApp.router(
-          title: 'CCD 2023',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.light,
-          routerDelegate: _appRouter.delegate(),
-          routeInformationParser: _appRouter.defaultRouteParser(),
-        );
-      });
-    });
-  }
+      // await Firebase.initializeApp(
+      //   options: DefaultFirebaseOptions.currentPlatform,
+      // );
+
+      // initialize router
+      final router = AppRouter();
+
+      return appBuilder(
+        CCDAppBuilder(
+          appRouter: router,
+        ),
+      );
+    },
+  );
 }

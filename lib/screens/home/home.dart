@@ -22,9 +22,7 @@ class HomeScreen extends StatelessWidget {
             preferredSize: Size.fromHeight(screenHeight! * 0.07),
             child: DefaultAppbar(context),
           ),
-
           drawer: defaultDrawer(),
-
           body: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
@@ -49,46 +47,49 @@ class HomeScreen extends StatelessWidget {
                           )),
                       SizedBox(height: screenWidth! * 0.06),
                       RichText(
-                          textAlign: TextAlign.justify,
-                          text: TextSpan(children: [
-                        TextSpan(
-                            text: HomeScreenData.eventHashTag,
-                            style: TextStyle(
-                              color: GCCDColor.googleYellow,
-                              fontSize: screenWidth! * 0.04,
-                              // fontWeight: FontWeight.w200,
-                              fontFamily: GoogleFonts.openSans().fontFamily,
-                              fontStyle: FontStyle.normal,
-                            )),
-                        TextSpan(
-                            text: HomeScreenData.eventDescription,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: screenWidth! * 0.04,
-                              // fontWeight: FontWeight.w200,
-                              fontFamily: GoogleFonts.openSans().fontFamily,
-                              fontStyle: FontStyle.normal,
-                            ),),
-                      ])),
+                        textAlign: TextAlign.justify,
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                                text: HomeScreenData.eventHashTag,
+                                style: TextStyle(
+                                  color: GCCDColor.googleYellow,
+                                  fontSize: screenWidth! * 0.04,
+                                  // fontWeight: FontWeight.w200,
+                                  fontFamily: GoogleFonts.openSans().fontFamily,
+                                  fontStyle: FontStyle.normal,
+                                )),
+                            TextSpan(
+                              text: HomeScreenData.eventDescription,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: screenWidth! * 0.04,
+                                // fontWeight: FontWeight.w200,
+                                fontFamily: GoogleFonts.openSans().fontFamily,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
 
                       /// TODO: Timer
 
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.1),
+                        padding:
+                            EdgeInsets.symmetric(vertical: screenWidth! * 0.1),
                         child: Column(
                           children: [
                             defaultButton("Register Now", GCCDColor.googleBlue),
-                            defaultButton("Call for Speakers", GCCDColor.googleGrey),
+                            defaultButton(
+                                "Call for Speakers", GCCDColor.googleGrey),
                           ],
                         ),
                       ),
 
                       aboutSection(),
-
                     ]),
               )),
         ));
   }
 }
-
-
