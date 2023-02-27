@@ -1,5 +1,5 @@
-import 'package:ccd2023/utils/ccd_external_links.dart';
 import 'package:flutter/material.dart';
+import 'package:ccd2023/utils/ccd_external_links.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -9,9 +9,9 @@ class LoginScreen extends StatelessWidget {
     return SafeArea(
       top: true,
       child: Scaffold(
-          appBar: AppBar(
-            title: Text("Temp Login Page"),
-          ),
+        appBar: AppBar(
+          title: Text("Temp Login Page"),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -42,7 +42,6 @@ class LoginScreen extends StatelessWidget {
                     left: 15.0, right: 15.0, top: 15, bottom: 20),
                 //padding: EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
-
                   obscureText: true,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -63,7 +62,8 @@ class LoginScreen extends StatelessWidget {
                 height: 50,
                 width: 250,
                 decoration: BoxDecoration(
-                    color: Colors.blue, borderRadius: BorderRadius.circular(20)),
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(20)),
                 child: ElevatedButton(
                   onPressed: () {
                     /// TODO: Navigate to Home Screen
@@ -80,7 +80,8 @@ class LoginScreen extends StatelessWidget {
               Text('New User? Create Account')
             ],
           ),
-        ),),
+        ),
+      ),
     );
   }
 }
