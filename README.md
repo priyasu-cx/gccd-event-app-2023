@@ -49,7 +49,7 @@ This repo contains source code for the official Flutter app of Cloud Community D
 
 - ### Built With
 
-  [![Flutter][flutter-image]][flutter-url] &emsp; [![Firebase][firebase-image]][firebase-url]
+  [![Flutter][flutter-image]][flutter-url] &emsp; 
 
 <!--
 - <details>
