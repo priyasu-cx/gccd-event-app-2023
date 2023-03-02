@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onSubmit() {
     print('Sign In !!!!');
-    AppRouter().push(const HomeRoute());
+    AppRouter().replace(const HomeRoute());
   }
 
   @override
