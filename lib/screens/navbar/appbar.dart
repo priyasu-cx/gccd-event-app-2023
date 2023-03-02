@@ -22,7 +22,7 @@ Widget DefaultAppbar(BuildContext context) {
     title: ColorFiltered(
       colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
       child: Image.asset(
-        GCCDImageAssets.gdgCloudLogo,
+        GCCDImageAssets.gdgCloudKolkataLogo,
         width: screenWidth! * 0.6,
       ),
     ),

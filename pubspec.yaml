@@ -37,6 +37,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_local_notifications: ^13.0.0
+  custom_timer: ^0.2.3
   flutter_svg: ^2.0.2
   flutter_timer_countdown: ^1.0.5
   http: ^0.13.5

@@ -89,7 +89,7 @@ This repo contains source code for the official Flutter app of Cloud Community D
     * Fluid animations
     * Custom Navigation Stack
     * Modern, Material UI (we all love this!)
-    * Heavyily documented code (who doesn't like clean code)
+    * Heavily documented code (who doesn't like clean code)
     -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -120,6 +120,7 @@ samples, guidance on mobile development, and a full API reference.
         * Run `flutter clean` command.
         * Run `flutter pub get` command.
         * Run `flutter run` command.
+        * Run `flutter packages pub run build_runner watch` command to generate `*.g.dart` files.
         * To get apk Run `flutter build apk --release` command.
         * The apk will get stored in the build folder.
 <!--
