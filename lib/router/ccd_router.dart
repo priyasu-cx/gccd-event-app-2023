@@ -5,7 +5,8 @@ import 'package:ccd2023/screens/login/login.dart';
 @AdaptiveAutoRouter(replaceInRouteName: 'Screen,Route', routes: <AutoRoute>[
   AutoRoute(
     page: HomeScreen,
+    initial: true
   ),
-  AutoRoute(page: LoginScreen, initial: true),
+  AutoRoute(page: LoginScreen),
 ])
 class $AppRouter {}

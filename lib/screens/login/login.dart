@@ -3,6 +3,7 @@ import 'package:ccd2023/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:ccd2023/router/ccd_router.gr.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onSubmit() {
     print('Sign In !!!!');
+    AppRouter().replace(const HomeRoute());
   }
 
   @override
