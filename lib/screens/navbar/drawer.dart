@@ -11,7 +11,7 @@ Widget defaultDrawer() {
         children: [
           DrawerHeader(
             child: Image.asset(
-              GCCDImageAssets.gdgCloudLogo,
+              GCCDImageAssets.gdgCloudKolkataLogo,
               width: screenWidth! * 0.5,
             ),
             decoration: BoxDecoration(

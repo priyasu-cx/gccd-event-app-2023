@@ -40,11 +40,11 @@ class AppRouter extends _i3.RootStackRouter {
   List<_i3.RouteConfig> get routes => [
         _i3.RouteConfig(
           HomeRoute.name,
-          path: '/',
+          path: '/home-screen',
         ),
         _i3.RouteConfig(
           LoginRoute.name,
-          path: '/login-screen',
+          path: '/',
         ),
       ];
 }
@@ -55,7 +55,7 @@ class HomeRoute extends _i3.PageRouteInfo<void> {
   const HomeRoute()
       : super(
           HomeRoute.name,
-          path: '/',
+          path: '/home-screen',
         );
 
   static const String name = 'HomeRoute';
@@ -67,7 +67,7 @@ class LoginRoute extends _i3.PageRouteInfo<void> {
   const LoginRoute()
       : super(
           LoginRoute.name,
-          path: '/login-screen',
+          path: '/',
         );
 
   static const String name = 'LoginRoute';

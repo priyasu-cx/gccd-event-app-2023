@@ -1,5 +1,6 @@
 import 'package:ccd2023/utils/typography.dart';
 import 'package:flutter/material.dart';
+
 class AppTheme {
   static ThemeData light = ThemeData.light().copyWith(
     appBarTheme: const AppBarTheme(
