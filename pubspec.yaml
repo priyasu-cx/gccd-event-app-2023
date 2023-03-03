@@ -28,19 +28,29 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+
+  flutter_localizations:
+    sdk: flutter
+
+  flutter:
+    sdk: flutter
+
   auto_route: ^5.0.4
   cached_network_image: ^3.2.3
   cupertino_icons: ^1.0.2
+  custom_timer: ^0.2.3
+  djangoflow_app: ^3.0.1
   firebase_analytics: ^10.1.3
   firebase_core: ^2.6.1
   firebase_messaging: ^14.2.4
-  flutter:
-    sdk: flutter
+  flutter_bloc: ^8.1.2
   flutter_local_notifications: ^13.0.0
-  custom_timer: ^0.2.3
   flutter_svg: ^2.0.2
   flutter_timer_countdown: ^1.0.5
+  freezed_annotation: ^2.2.0
   http: ^0.13.5
+  hydrated_bloc: ^9.0.0
+  json_annotation: ^4.7.0
   reactive_forms: ^14.2.0
 
 dev_dependencies:
@@ -49,6 +59,23 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  freezed: ^2.3.2
+  icons_launcher: ^2.0.7
+  json_serializable: ^6.5.4
+
+dependency_overrides:
+  # Until null check error fixed pushed https://github.com/Milad-Akarie/auto_route_library/pull/1301
+  auto_route:
+    git:
+      url: "https://github.com/djangoflow/auto_route_library.git"
+      ref: master
+      path: "auto_route"
+  auto_route_generator:
+    git:
+      url: "https://github.com/djangoflow/auto_route_library.git"
+      ref: master
+      path: "auto_route_generator"
+  intl: ^0.18.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -61,8 +88,7 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-    #     - icons/
-    - assets/
+     - assets/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

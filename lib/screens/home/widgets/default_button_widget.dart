@@ -1,8 +1,6 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:ccd2023/router/ccd_router.gr.dart';
-import 'package:ccd2023/screens/login/login.dart';
-import 'package:ccd2023/utils/size_config.dart';
+import 'package:ccd2023/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:ccd2023/configurations/configurations.dart';
 
 class DefaultButton extends StatelessWidget {
   final String text;
@@ -10,7 +8,10 @@ class DefaultButton extends StatelessWidget {
   final Future route;
 
   const DefaultButton({
-    Key? key, required this.text, required this.color, required this.route,
+    Key? key,
+    required this.text,
+    required this.color,
+    required this.route,
   }) : super(key: key);
 
   @override
@@ -22,7 +23,7 @@ class DefaultButton extends StatelessWidget {
         height: screenHeight! * 0.06,
         child: ElevatedButton(
           onPressed: () {
-            context.router.replace(LoginRoute());
+            context.router.replace(const LoginRoute());
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: color,
@@ -43,4 +44,3 @@ class DefaultButton extends StatelessWidget {
     );
   }
 }
-

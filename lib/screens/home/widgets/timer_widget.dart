@@ -1,5 +1,5 @@
-import 'package:ccd2023/utils/ccd_colors.dart';
-import 'package:ccd2023/utils/size_config.dart';
+import 'package:ccd2023/configurations/theme/ccd_colors.dart';
+import 'package:ccd2023/utils/size_util.dart';
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:ccd2023/screens/data/home_screen_data.dart';
