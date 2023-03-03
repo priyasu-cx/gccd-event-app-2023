@@ -1,29 +1,20 @@
-import 'package:ccd2023/app_builder.dart';
-import 'package:ccd2023/features/app/ccd_app_runner.dart';
-import 'package:ccd2023/router/ccd_router.gr.dart';
-import 'package:ccd2023/utils/ccd_app_snackbar.dart';
+import 'package:ccd2023/ccd_app_builder.dart';
+import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  CCDAppRunner.run(
+import 'configurations/configurations.dart';
+
+Future<void> main() async {
+  DjangoflowAppRunner.run(
     onException: (exception, stackTrace) {
       debugPrint('Exception Caught -- $exception');
-
-      ///Can be used to log error to online error reporting libraries
-
-      ///Show error to user
-      CCDAppSnackBar.showError(
+      // Dispatch exception to error reporters
+      // ExeptionFilter.filter(exception); returns: true -> show exception to user or false -> do not show
+      DjangoflowAppSnackbar.showError(
         exception.toString(),
       );
     },
     rootWidgetBuilder: (appBuilder) async {
-      // Initialize project specific initializations here
-
-      // await Firebase.initializeApp(
-      //   options: DefaultFirebaseOptions.currentPlatform,
-      // );
-
-      // initialize router
       final router = AppRouter();
 
       return appBuilder(

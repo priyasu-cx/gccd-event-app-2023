@@ -1,18 +1,13 @@
-
-
 import 'package:ccd2023/screens/data/home_screen_data.dart';
 import 'package:ccd2023/screens/home/widgets/about_section_widget.dart';
 import 'package:ccd2023/screens/home/widgets/default_button_widget.dart';
 import 'package:ccd2023/screens/home/widgets/timer_widget.dart';
-import 'package:ccd2023/screens/login/login.dart';
 import 'package:ccd2023/screens/navbar/appbar.dart';
 import 'package:ccd2023/screens/navbar/drawer.dart';
-import 'package:ccd2023/utils/ccd_asset.dart';
-import 'package:ccd2023/utils/ccd_colors.dart';
-import 'package:ccd2023/utils/size_config.dart';
+import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
 
-import '../../router/ccd_router.gr.dart';
+import 'package:ccd2023/configurations/configurations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -74,26 +69,31 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.085),
+                      padding:
+                          EdgeInsets.symmetric(vertical: screenWidth! * 0.085),
                       child: const EventTimer(),
                     ),
-
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.06),
+                      padding:
+                          EdgeInsets.symmetric(vertical: screenWidth! * 0.06),
                       child: Column(
                         children: [
                           /// TODO: Change text after login is integrated
 
-                          DefaultButton(text: "Register Now / Login", color: GCCDColor.googleBlue, route: AppRouter().replace(const LoginRoute())),
-                          DefaultButton(text: "Call for Speakers", color: GCCDColor.googleGrey, route: AppRouter().replace(const LoginRoute())),
+                          DefaultButton(
+                              text: "Register Now / Login",
+                              color: GCCDColor.googleBlue,
+                              route: AppRouter().replace(const LoginRoute())),
+                          DefaultButton(
+                              text: "Call for Speakers",
+                              color: GCCDColor.googleGrey,
+                              route: AppRouter().replace(const LoginRoute())),
                         ],
                       ),
                     ),
-
                     Padding(
-                      padding: EdgeInsets.only(top:screenWidth! * 0.06),
+                      padding: EdgeInsets.only(top: screenWidth! * 0.06),
                       child: const AboutSection(),
                     ),
                   ],
@@ -101,7 +101,10 @@ class HomeScreen extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(top: screenWidth! * 0.14),
-                child: Image.asset(GCCDImageAssets.backgroundGraphics, width: screenWidth!,),
+                child: Image.asset(
+                  GCCDImageAssets.backgroundGraphics,
+                  width: screenWidth!,
+                ),
               ),
             ],
           ),
