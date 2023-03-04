@@ -1,5 +1,10 @@
-import 'package:ccd2023/utils/typography.dart';
+import 'typography.dart';
 import 'package:flutter/material.dart';
+
+export 'typography.dart';
+export 'ccd_asset.dart';
+export 'ccd_colors.dart';
+export 'ccd_icons.dart';
 
 class AppTheme {
   static ThemeData light = ThemeData.light().copyWith(

@@ -1,12 +1,17 @@
-import 'package:ccd2023/utils/size_config.dart';
+import 'package:ccd2023/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:ccd2023/configurations/configurations.dart';
 
 class DefaultButton extends StatelessWidget {
   final String text;
   final Color color;
+  final Future route;
 
   const DefaultButton({
-    Key? key, required this.text, required this.color,
+    Key? key,
+    required this.text,
+    required this.color,
+    required this.route,
   }) : super(key: key);
 
   @override
@@ -17,7 +22,9 @@ class DefaultButton extends StatelessWidget {
         width: screenWidth!,
         height: screenHeight! * 0.06,
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            context.router.replace(const LoginRoute());
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: color,
             shape: RoundedRectangleBorder(
@@ -37,4 +44,3 @@ class DefaultButton extends StatelessWidget {
     );
   }
 }
-

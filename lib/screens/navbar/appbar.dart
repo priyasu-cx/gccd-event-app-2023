@@ -1,5 +1,5 @@
-import 'package:ccd2023/utils/ccd_asset.dart';
-import 'package:ccd2023/utils/size_config.dart';
+import 'package:ccd2023/configurations/configurations.dart';
+import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
 
 Widget DefaultAppbar(BuildContext context) {
@@ -7,7 +7,7 @@ Widget DefaultAppbar(BuildContext context) {
     backgroundColor: Colors.transparent,
     leading: Builder(builder: (BuildContext context) {
       return Padding(
-        padding: EdgeInsets.only(left: screenWidth! * 0.04),
+        padding: EdgeInsets.only(left:screenWidth! * 0.04),
         child: GestureDetector(
             onTap: () {
               Scaffold.of(context).openDrawer();
@@ -19,9 +19,12 @@ Widget DefaultAppbar(BuildContext context) {
             )),
       );
     }),
-    title: Image.asset(
-      GCCDImageAssets.gdgCloudKolkataLogo,
-      width: screenWidth! * 0.6,
+    title: ColorFiltered(
+      colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+      child: Image.asset(
+        GCCDImageAssets.gdgCloudKolkataLogo,
+        width: screenWidth! * 0.6,
+      ),
     ),
     // actions: [
     //   Padding(

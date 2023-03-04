@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 double? screenWidth;
 double? screenHeight;
 
-class SizeConfig {
+class SizeUtil {
   static double? _screenWidth;
   static double? _screenHeight;
 
-  static final SizeConfig _singleton = SizeConfig._internal();
+  static final SizeUtil _singleton = SizeUtil._internal();
 
-  factory SizeConfig() {
+  factory SizeUtil() {
     return _singleton;
   }
 
-  SizeConfig._internal();
+  SizeUtil._internal();
 
   void init(BoxConstraints boxConstraints, Orientation orientation) {
 
