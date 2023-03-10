@@ -57,14 +57,14 @@ class _EventTimerState extends State<EventTimer> with SingleTickerProviderStateM
                       width: screenWidth! * 0.2,
                       child: TimeWidget(
                         time: time.hours.toString(),
-                        placeholder: " m",
+                        placeholder: " h",
                       ),
                     ),
                     SizedBox(
                       width: screenWidth! * 0.2,
                       child: TimeWidget(
                         time: time.minutes.toString(),
-                        placeholder: " h",
+                        placeholder: " m",
                       ),
                     ),
                     SizedBox(

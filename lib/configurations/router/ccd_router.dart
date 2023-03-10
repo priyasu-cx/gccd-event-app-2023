@@ -6,10 +6,7 @@ export 'package:auto_route/auto_route.dart';
 export 'ccd_router.gr.dart';
 
 @AdaptiveAutoRouter(replaceInRouteName: 'Screen,Route', routes: <AutoRoute>[
-  AutoRoute(
-    page: HomeScreen,
-    initial: true
-  ),
-  AutoRoute(page: LoginScreen),
+  AutoRoute(page: HomeScreen, initial: true, path: "/home"),
+  AutoRoute(page: LoginScreen, path: "/login"),
 ])
 class $AppRouter {}
