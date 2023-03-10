@@ -1,5 +1,7 @@
+import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:ccd2023/configurations/configurations.dart';
@@ -12,34 +14,45 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final form = FormGroup({
-    'username':
-        FormControl<String>(value: '', validators: [Validators.required]),
-    'password': FormControl<String>(validators: [Validators.required]),
-  });
+  FormGroup _formBuilder() => fb.group(
+        {
+          passwordControlName: FormControl<String>(
+            validators: [
+              Validators.required,
+            ],
+          ),
+          usernameControlName: FormControl<String>(
+            validators: [
+              Validators.required,
+            ],
+          ),
+        },
+      );
 
-  void _onSubmit() {
-    print('Sign In !!!!');
-    AppRouter().replace(const HomeRoute());
+  void _onSubmit(FormGroup form) async {
+    final username = form.control('username').value as String;
+    final password = form.control('password').value as String;
+
+    await context.read<AuthCubit>().loginWithUsernamePassword(
+          username: username,
+          password: password,
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
+      appBar: AppBar(
+        title: Text(
+          "Sign in to your account",
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ),
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: screenHeight! * 0.1),
-            const Text(
-              "Sign in to your account",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600),
-            ),
-            SizedBox(height: screenHeight! * 0.08),
             SvgPicture.asset(
               GCCDImageAssets.victoriaSVGImage,
               width: screenWidth! * 0.8,
@@ -47,135 +60,106 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: screenHeight! * 0.08),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth! * 0.1),
-              child: ReactiveForm(
-                formGroup: form,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text(
-                      "Username",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      textAlign: TextAlign.start,
+              child: ReactiveFormBuilder(
+                form: _formBuilder,
+                builder: (context, form, child) => AutofillGroup(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: kPadding * 2,
                     ),
-                    const SizedBox(height: 6),
-                    ReactiveTextField(
-                      formControlName: 'username',
-                      validationMessages: {
-                        'required': (error) => 'Username cannot be empty',
-                      },
-                      decoration: const InputDecoration(
-                        // hintText: "Username",
-                        filled: true,
-                        fillColor: Colors.white,
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xff4285f4),
-                          ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const Text(
+                          "Username",
+                          textAlign: TextAlign.start,
                         ),
-                        contentPadding: EdgeInsets.all(10),
-                      ),
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      "Password",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      textAlign: TextAlign.start,
-                    ),
-                    const SizedBox(height: 6),
-                    ReactiveTextField(
-                      formControlName: 'password',
-                      obscureText: true,
-                      validationMessages: {
-                        'required': (error) => 'Password cannot be empty',
-                        'minLength': (error) =>
-                            'Password must have at least 8 characters'
-                      },
-                      decoration: const InputDecoration(
-                        // hintText: "",
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xff4285f4),
-                          ),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: EdgeInsets.all(10),
-                      ),
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            print("Create an account");
+                        const SizedBox(height: 6),
+                        ReactiveTextField(
+                          formControlName: 'username',
+                          autofillHints: const [AutofillHints.username],
+                          validationMessages: {
+                            'required': (error) => 'Username cannot be empty',
                           },
-                          child: const Text(
-                            "Create an account",
-                            style: TextStyle(
-                              color: Color(0xff4285f4),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            print("Forgot your password?");
+                        const SizedBox(height: 20),
+                        const Text(
+                          "Password",
+                          textAlign: TextAlign.start,
+                        ),
+                        const SizedBox(height: 6),
+                        ReactiveTextField(
+                          autofillHints: const [AutofillHints.password],
+                          formControlName: 'password',
+                          obscureText: true,
+                          validationMessages: {
+                            ValidationMessage.required: (_) =>
+                                'Password cannot be empty',
                           },
-                          child: const Text(
-                            "Forgot your password?",
-                            style: TextStyle(
-                              color: Color(0xff4285f4),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    ReactiveFormConsumer(
-                      builder: (buildContext, form, child) {
-                        return Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: form.valid ? _onSubmit : null,
-                            child: Container(
-                              width: screenWidth! * 0.8,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Color(0xff4285f4),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  "Sign in",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                print("Create an account");
+                              },
+                              child: const Text(
+                                "Create an account",
+                                style: TextStyle(
+                                  color: Color(0xff4285f4),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      },
+                            InkWell(
+                              onTap: () {
+                                print("Forgot your password?");
+                              },
+                              child: const Text(
+                                "Forgot your password?",
+                                style: TextStyle(
+                                  color: Color(0xff4285f4),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: kPadding * 2.5),
+                        ReactiveFormConsumer(
+                          builder: (buildContext, form, child) {
+                            return ElevatedButton(
+                              onPressed: form.valid
+                                  ? () {
+                                      _onSubmit(form);
+                                    }
+                                  : null,
+                              child: SizedBox(
+                                width: screenWidth! * 0.8,
+                                height: 50,
+                                child: const Center(
+                                  child: Text(
+                                    "Login",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

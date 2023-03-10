@@ -14,15 +14,15 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       top: true,
       child: Scaffold(
-        backgroundColor: Colors.black,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(screenHeight! * 0.07),
-          child: DefaultAppbar(context),
+          child: const CCDAppBar(),
         ),
-        drawer: defaultDrawer(),
+        drawer: const CCDDrawer(),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Stack(
@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: screenWidth! * 0.13),
+                      padding: EdgeInsets.only(top: screenWidth! * 0.05),
                       child: Image.asset(
                         GCCDImageAssets.googleCloudLogo,
                         width: screenWidth! * 0.58,
@@ -41,30 +41,23 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     Text(HomeScreenData.eventTitle,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: screenWidth! * 0.1,
-                          fontWeight: FontWeight.w400,
-                        )),
+                        style: Theme.of(context).textTheme.titleLarge),
                     SizedBox(height: screenWidth! * 0.06),
                     RichText(
                       textAlign: TextAlign.justify,
                       text: TextSpan(
                         children: [
                           TextSpan(
-                              text: HomeScreenData.eventHashTag,
-                              style: TextStyle(
-                                color: GCCDColor.googleYellow,
-                                fontSize: screenWidth! * 0.04,
-                                fontStyle: FontStyle.normal,
-                              )),
-                          TextSpan(
-                            text: HomeScreenData.eventDescription,
+                            text: HomeScreenData.eventHashTag,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: GCCDColor.googleYellow,
                               fontSize: screenWidth! * 0.04,
                               fontStyle: FontStyle.normal,
                             ),
+                          ),
+                          TextSpan(
+                            text: HomeScreenData.eventDescription,
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
                         ],
                       ),
@@ -84,11 +77,13 @@ class HomeScreen extends StatelessWidget {
                           DefaultButton(
                               text: "Register Now / Login",
                               color: GCCDColor.googleBlue,
-                              route: AppRouter().replace(const LoginRoute())),
+                              onPressed: () =>
+                                  context.router.push(const LoginRoute())),
                           DefaultButton(
                               text: "Call for Speakers",
                               color: GCCDColor.googleGrey,
-                              route: AppRouter().replace(const LoginRoute())),
+                              onPressed: () =>
+                                  context.router.push(const LoginRoute())),
                         ],
                       ),
                     ),
