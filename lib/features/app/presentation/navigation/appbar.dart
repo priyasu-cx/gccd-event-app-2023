@@ -10,20 +10,6 @@ class CCDAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: Builder(builder: (BuildContext context) {
-        return Padding(
-          padding: EdgeInsets.only(left: screenWidth! * 0.04),
-          child: GestureDetector(
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-            child: Icon(
-              Icons.menu,
-              size: screenWidth! * 0.09,
-            ),
-          ),
-        );
-      }),
       title: BlocBuilder<AppCubit, AppState>(
         builder: (context, state) {
           return ColorFiltered(

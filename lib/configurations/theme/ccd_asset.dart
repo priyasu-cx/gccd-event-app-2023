@@ -5,7 +5,7 @@ abstract class GCCDImageAssets {
   // Login Screen
   static const String victoriaSVGImage = 'assets/victoria.svg';
 
-  // HomeScreen
+  // HomePage
   static const String googleCloudLogo = 'assets/Google_Cloud_Logo.png';
   static const String backgroundGraphics = 'assets/Background_Home.png';
 }

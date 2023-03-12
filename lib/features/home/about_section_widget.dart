@@ -1,5 +1,4 @@
-import 'package:ccd2023/screens/data/home_screen_data.dart';
-import 'package:ccd2023/configurations/theme/ccd_colors.dart';
+import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +23,7 @@ class AboutSection extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.06),
           child: Text(
-            HomeScreenData.aboutGCCD,
+            aboutGCCD,
             style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.justify,
           ),

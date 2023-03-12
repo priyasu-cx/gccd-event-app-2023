@@ -8,6 +8,11 @@ export 'ccd_colors.dart';
 export 'ccd_icons.dart';
 
 class AppTheme {
+  static CardTheme cardTheme = CardTheme(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(kPadding),
+    ),
+  );
   static ListTileThemeData listTileThemeData = ListTileThemeData(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(8),
@@ -15,10 +20,14 @@ class AppTheme {
   );
 
   static ThemeData light = ThemeData.light().copyWith(
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       backgroundColor: GCCDColor.white,
       elevation: 0,
-      iconTheme: IconThemeData(
+      iconTheme: const IconThemeData(
+        color: GCCDColor.black,
+        size: kPadding * 4,
+      ),
+      titleTextStyle: AppTextStyle.titleLarge.copyWith(
         color: GCCDColor.black,
       ),
     ),
@@ -47,18 +56,47 @@ class AppTheme {
         color: Color(0xFFF1F1F1),
       ),
     ),
+    cardTheme: cardTheme,
+    buttonTheme: const ButtonThemeData(
+      buttonColor: GCCDColor.googleBlue,
+      textTheme: ButtonTextTheme.accent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(kPadding * 3),
+        ),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        textStyle: AppTextStyle.headlineSmall.copyWith(
+          color: GCCDColor.white,
+        ),
+        side: const BorderSide(
+          color: GCCDColor.black,
+        ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(kPadding * 3),
+          ),
+        ),
+      ),
+    ),
   );
 
   static ThemeData dark = ThemeData.dark().copyWith(
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       backgroundColor: GCCDColor.black,
       elevation: 0,
-      iconTheme: IconThemeData(
+      iconTheme: const IconThemeData(
+        color: GCCDColor.white,
+        size: kPadding * 4,
+      ),
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: GCCDColor.black,
+      ),
+      titleTextStyle: AppTextStyle.titleLarge.copyWith(
         color: GCCDColor.white,
       ),
-      systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: GCCDColor.black,
-      )
     ),
     drawerTheme: const DrawerThemeData(
       backgroundColor: GCCDColor.black,
@@ -83,6 +121,31 @@ class AppTheme {
       filled: true,
       labelStyle: TextStyle(
         color: Color(0xFF1F1E1E),
+      ),
+    ),
+    cardTheme: cardTheme,
+    buttonTheme: const ButtonThemeData(
+      buttonColor: GCCDColor.googleBlue,
+      textTheme: ButtonTextTheme.accent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(kPadding * 3),
+        ),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        textStyle: AppTextStyle.headlineMedium.copyWith(
+          color: GCCDColor.white,
+        ),
+        side: const BorderSide(
+          color: GCCDColor.white,
+        ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(kPadding * 3),
+          ),
+        ),
       ),
     ),
   );

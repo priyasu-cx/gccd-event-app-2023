@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ccd2023/features/auth/auth.dart';
 
-part 'login_response_model.g.dart';
-part 'login_response_model.freezed.dart';
+part 'auth_response_model.g.dart';
+part 'auth_response_model.freezed.dart';
 
 //ignore_for_file:invalid_annotation_target
 @freezed
