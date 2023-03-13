@@ -56,7 +56,6 @@ const drawerItemsMain = [
   'Speakers',
   'Profile',
   'Team',
-  'Sign Out'
 ];
 
 const drawerItemsMainPath = [
@@ -66,7 +65,6 @@ const drawerItemsMainPath = [
   '/speakers',
   '/profile',
   '/team',
-  '/sign_out'
 ];
 
 const drawerItemsMainIconOutlined = [
@@ -76,7 +74,6 @@ const drawerItemsMainIconOutlined = [
   Icons.campaign_outlined,
   Icons.person_outlined,
   Icons.group_outlined,
-  Icons.logout_outlined
 ];
 
 const drawerItemsMainIcon = [
@@ -86,7 +83,6 @@ const drawerItemsMainIcon = [
   Icons.campaign,
   Icons.person,
   Icons.group,
-  Icons.logout
 ];
 
 const drawerItemsFooter = [
@@ -98,3 +94,12 @@ const drawerItemsFooter = [
 //Form control names
 const passwordControlName = 'password';
 const usernameControlName = 'username';
+
+const String eventTitle = 'Community Days India, 2023';
+const String eventHashTag = '#GoogleCloudCommunityDays';
+const String eventDescription =
+    ' - is series of community-leds events organised by GDG Cloud communities across India to help you prepare for Google Cloud Certifications and learn more about Cloud technologies.';
+const String aboutGCCD =
+    'GDG Cloud Kolkata is bringing to you the largest Google Cloud developer event in Eastern India. Cloud Community Days Kolkata is the flagship event of GDG Cloud Kolkata, held annually, recollecting the best of the year and setting the stone for the upcoming year. Join us as we bring the best of speakers and help you to put your career on a runway to Google Cloud.';
+
+Duration eventDate = DateTime(2023, 5, 7, 0, 0).difference(DateTime.now());

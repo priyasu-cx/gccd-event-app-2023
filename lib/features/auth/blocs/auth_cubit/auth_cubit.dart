@@ -91,6 +91,30 @@ class AuthCubit extends HydratedCubit<AuthState> {
     }
   }
 
+  Future<void> signUpWithUsernamePassword({
+    required String email,
+    required String password,
+    required String username,
+  }) async {
+    try {
+      if (_authenticationRepository == null) {
+        throw Exception('AuthCubit not initialized');
+      }
+      final signUpResponse = await _authenticationRepository?.signUp(
+        email: email,
+        username: username,
+        password: password,
+      );
+      if (signUpResponse != null) {
+        DjangoflowAppSnackbar.showInfo(
+          'Sign up successful! Please verify email and login.',
+        );
+      }
+    } on Exception catch (e) {
+      DjangoflowAppSnackbar.showError(e.toString());
+    }
+  }
+
   @override
   Map<String, dynamic>? toJson(AuthState state) => state.toJson();
 }

@@ -13,14 +13,33 @@ class AuthenticationRepository {
     required String email,
     required String password,
   }) async {
-    Response response = await _dioApiClient.postData(loginEndpoint,{
-      'username' : username,
-      'email' : email,
-      'password' : password,
+    Response response = await _dioApiClient.postData(loginEndpoint, {
+      'username': username,
+      'email': email,
+      'password': password,
     });
 
     final loginResponse = LoginResponse.fromJson(response.data);
 
     return loginResponse;
+  }
+
+  Future signUp({
+    required String username,
+    required String email,
+    required String password,
+  }) async {
+    Response response = await _dioApiClient.postData(registrationEndpoint, {
+      'username': username,
+      'email': email,
+      'password1': password,
+      'password2': password,
+    });
+
+    final signUpResponse = response.data;
+
+    print(response.data);
+
+    // return signUpResponse;
   }
 }

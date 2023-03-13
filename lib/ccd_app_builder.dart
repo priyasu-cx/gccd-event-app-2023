@@ -1,6 +1,5 @@
 import 'package:ccd2023/features/app/data/repository/dio/dio_api_client.dart';
 import 'package:ccd2023/features/auth/auth.dart';
-import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:dio/dio.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -46,41 +45,55 @@ class CCDAppBuilder extends AppBuilder {
                 ),
             ),
           ],
-          builder: (context) => AppCubitConsumer(
-            listenWhen: (previous, current) =>
-                previous.environment != current.environment,
-            listener: (context, state) async {},
-            builder: (context, appState) => LayoutBuilder(
-              builder: (context, constraints) {
-                return OrientationBuilder(
-                  builder: (context, orientation) {
-                    context
-                        .read<SizeRepository>()
-                        .init(constraints, orientation);
-                    // SizeConfig().init(constraints, orientation);
-                    return MaterialApp.router(
-                      debugShowCheckedModeBanner: false,
-                      scaffoldMessengerKey:
-                          DjangoflowAppSnackbar.scaffoldMessengerKey,
-                      title: appTitle,
-                      theme: AppTheme.light,
-                      darkTheme: AppTheme.dark,
-                      themeMode: appState.themeMode,
-                      locale: Locale(appState.locale, ''),
-                      supportedLocales: const [
-                        Locale('en', ''),
-                      ],
-                      localizationsDelegates: const [
-                        GlobalMaterialLocalizations.delegate,
-                        GlobalWidgetsLocalizations.delegate,
-                        GlobalCupertinoLocalizations.delegate,
-                      ],
-                      routerDelegate: appRouter.delegate(),
-                      routeInformationParser: appRouter.defaultRouteParser(),
-                    );
-                  },
-                );
-              },
+          builder: (context) => LoginListener(
+            onLogin: (context, authState) {
+              appRouter.pushAndPopUntil(
+                const HomeRoute(),
+                predicate: (route) => false,
+              );
+            },
+            onLogout: (context) {
+              appRouter.pushAndPopUntil(
+                const HomeRoute(),
+                predicate: (route) => false,
+              );
+            },
+            child: AppCubitConsumer(
+              listenWhen: (previous, current) =>
+                  previous.environment != current.environment,
+              listener: (context, state) async {},
+              builder: (context, appState) => LayoutBuilder(
+                builder: (context, constraints) {
+                  return OrientationBuilder(
+                    builder: (context, orientation) {
+                      context
+                          .read<SizeRepository>()
+                          .init(constraints, orientation);
+                      // SizeConfig().init(constraints, orientation);
+                      return MaterialApp.router(
+                        debugShowCheckedModeBanner: false,
+                        scaffoldMessengerKey:
+                            DjangoflowAppSnackbar.scaffoldMessengerKey,
+                        title: appTitle,
+                        theme: AppTheme.light,
+                        darkTheme: AppTheme.dark,
+                        themeMode: appState.themeMode,
+                        locale: Locale(appState.locale, ''),
+                        supportedLocales: const [
+                          Locale('en', ''),
+                        ],
+                        localizationsDelegates: const [
+                          GlobalMaterialLocalizations.delegate,
+                          GlobalWidgetsLocalizations.delegate,
+                          GlobalCupertinoLocalizations.delegate,
+                        ],
+                        routerDelegate: appRouter.delegate(),
+                        routeInformationParser: appRouter.defaultRouteParser(),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
         );
