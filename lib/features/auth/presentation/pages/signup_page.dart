@@ -1,7 +1,9 @@
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/app.dart';
+import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -12,11 +14,27 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  /// TODO: Add signup signup submit logic
+  void _onSubmit(FormGroup form) async {
+    final email = form.control(emailControlName).value as String;
+    final username = form.control(usernameControlName).value as String;
+    final password = form.control(passwordControlName).value as String;
+
+    await context.read<AuthCubit>().signUpWithUsernamePassword(
+      email: email,
+      username: username,
+      password: password,
+    );
+  }
 
   FormGroup _formBuilder() => fb.group(
     {
       passwordControlName: FormControl<String>(
+        validators: [
+          Validators.required,
+          // Validators.compare(passwordControlName, confirmPasswordControlName, CompareOption.equal),
+        ],
+      ),
+      confirmPasswordControlName: FormControl<String>(
         validators: [
           Validators.required,
         ],
@@ -24,6 +42,7 @@ class _SignUpPageState extends State<SignUpPage> {
       emailControlName: FormControl<String>(
         validators: [
           Validators.required,
+          Validators.email,
         ],
       ),
       usernameControlName: FormControl<String>(
@@ -32,6 +51,9 @@ class _SignUpPageState extends State<SignUpPage> {
         ],
       ),
     },
+    [
+      Validators.mustMatch(passwordControlName, confirmPasswordControlName),
+    ]
   );
 
 
@@ -40,7 +62,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return FormWrapper(
         appBarTitle: "Sign up for an account",
         loginButtonText: "Sign Up",
-        onSubmit: (form) => print(form.value),
+        onSubmit: _onSubmit,
         formBuilder: _formBuilder,
         formContent: [
           const Text(
@@ -53,6 +75,7 @@ class _SignUpPageState extends State<SignUpPage> {
             autofillHints: const [AutofillHints.email],
             validationMessages: {
               ValidationMessage.required: (_) => 'Email cannot be empty',
+              ValidationMessage.email: (_) => 'Email is not valid',
             },
           ),
           const SizedBox(height: 20),
@@ -80,6 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
             obscureText: true,
             validationMessages: {
               ValidationMessage.required: (_) => 'Password cannot be empty',
+              ValidationMessage.mustMatch: (_) => 'Passwords do not match',
             },
           ),
           const SizedBox(height: 20),
@@ -90,10 +114,11 @@ class _SignUpPageState extends State<SignUpPage> {
           const SizedBox(height: 6),
           ReactiveTextField(
             autofillHints: const [AutofillHints.password],
-            formControlName: passwordControlName,
+            formControlName: confirmPasswordControlName,
             obscureText: true,
             validationMessages: {
               ValidationMessage.required: (_) => 'Password cannot be empty',
+              ValidationMessage.mustMatch: (_) => 'Passwords do not match',
             },
           ),
           const SizedBox(height: 20),

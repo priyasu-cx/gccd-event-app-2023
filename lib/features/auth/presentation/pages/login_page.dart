@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                 if (kDebugMode) {
                   print("Create an account");
                 }
-                context.router.push(const SignUpRoute());
+                context.router.replace(const SignUpRoute());
               },
               child: const Text(
                 "Create an account",
@@ -98,8 +98,10 @@ class _LoginPageState extends State<LoginPage> {
             ),
             InkWell(
               onTap: () {
-                print("Forgot your password?");
-                context.router.push(const ForgotPassRoute());
+                if (kDebugMode) {
+                  print("Forgot your password?");
+                }
+                context.router.replace(const ForgotPassRoute());
               },
               child: const Text(
                 "Forgot your password?",

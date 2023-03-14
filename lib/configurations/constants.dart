@@ -93,6 +93,7 @@ const drawerItemsFooter = [
 
 //Form control names
 const passwordControlName = 'password';
+const confirmPasswordControlName = 'confirm-password';
 const usernameControlName = 'username';
 const emailControlName = 'email';
 

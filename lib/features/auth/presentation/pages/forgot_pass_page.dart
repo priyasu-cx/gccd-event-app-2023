@@ -16,6 +16,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
       emailControlName: FormControl<String>(
         validators: [
           Validators.required,
+          Validators.email,
         ],
       ),
     },
@@ -39,6 +40,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
             autofillHints: const [AutofillHints.email],
             validationMessages: {
               ValidationMessage.required: (_) => 'Email cannot be empty',
+              ValidationMessage.email: (_) => 'Email is not valid',
             },
           ),
         ],
