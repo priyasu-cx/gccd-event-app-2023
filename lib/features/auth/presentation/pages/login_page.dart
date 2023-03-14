@@ -99,6 +99,7 @@ class _LoginPageState extends State<LoginPage> {
             InkWell(
               onTap: () {
                 print("Forgot your password?");
+                context.router.push(const ForgotPassRoute());
               },
               child: const Text(
                 "Forgot your password?",
