@@ -1,5 +1,6 @@
 import 'package:ccd2023/features/auth/auth.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -109,6 +110,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
         DjangoflowAppSnackbar.showInfo(
           'Sign up successful! Please verify email and login.',
         );
+        ///TODO: Navigate to activation page
       }
     } on Exception catch (e) {
       DjangoflowAppSnackbar.showError(e.toString());

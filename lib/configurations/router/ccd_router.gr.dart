@@ -14,10 +14,10 @@
 import 'package:auto_route/auto_route.dart' as _i6;
 import 'package:ccd2023/features/app/app.dart' as _i5;
 import 'package:ccd2023/features/auth/auth.dart' as _i2;
+import 'package:ccd2023/features/auth/presentation/pages/activate_email_page.dart'
+    as _i3;
 import 'package:ccd2023/features/auth/presentation/pages/forgot_pass_page.dart'
     as _i4;
-import 'package:ccd2023/features/auth/presentation/pages/signup_page.dart'
-    as _i3;
 import 'package:ccd2023/features/home/pages/home_page.dart' as _i1;
 import 'package:flutter/material.dart' as _i7;
 
@@ -42,7 +42,13 @@ class AppRouter extends _i6.RootStackRouter {
     SignUpRoute.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i3.SignUpPage(),
+        child: const _i2.SignUpPage(),
+      );
+    },
+    ActivateEmailRoute.name: (routeData) {
+      return _i6.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const _i3.ActivateEmailPage(),
       );
     },
     ForgotPassRoute.name: (routeData) {
@@ -80,6 +86,10 @@ class AppRouter extends _i6.RootStackRouter {
           path: '/signup',
         ),
         _i6.RouteConfig(
+          ActivateEmailRoute.name,
+          path: '/activate-account',
+        ),
+        _i6.RouteConfig(
           ForgotPassRoute.name,
           path: '/forgot-pass',
         ),
@@ -115,7 +125,7 @@ class LoginRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.SignUpPage]
+/// [_i2.SignUpPage]
 class SignUpRoute extends _i6.PageRouteInfo<void> {
   const SignUpRoute()
       : super(
@@ -124,6 +134,18 @@ class SignUpRoute extends _i6.PageRouteInfo<void> {
         );
 
   static const String name = 'SignUpRoute';
+}
+
+/// generated route for
+/// [_i3.ActivateEmailPage]
+class ActivateEmailRoute extends _i6.PageRouteInfo<void> {
+  const ActivateEmailRoute()
+      : super(
+          ActivateEmailRoute.name,
+          path: '/activate-account',
+        );
+
+  static const String name = 'ActivateEmailRoute';
 }
 
 /// generated route for
