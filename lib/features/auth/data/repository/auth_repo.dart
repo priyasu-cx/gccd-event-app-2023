@@ -24,7 +24,7 @@ class AuthenticationRepository {
     return loginResponse;
   }
 
-  Future signUp({
+  Future<String> signUp({
     required String username,
     required String email,
     required String password,
@@ -40,6 +40,6 @@ class AuthenticationRepository {
 
     print(response.data);
 
-    // return signUpResponse;
+    return signUpResponse;
   }
 }

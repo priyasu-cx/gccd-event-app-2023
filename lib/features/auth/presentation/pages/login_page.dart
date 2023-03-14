@@ -1,4 +1,5 @@
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -81,7 +82,10 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             InkWell(
               onTap: () {
-                print("Create an account");
+                if (kDebugMode) {
+                  print("Create an account");
+                }
+                context.router.replace(const SignUpRoute());
               },
               child: const Text(
                 "Create an account",
@@ -94,7 +98,10 @@ class _LoginPageState extends State<LoginPage> {
             ),
             InkWell(
               onTap: () {
-                print("Forgot your password?");
+                if (kDebugMode) {
+                  print("Forgot your password?");
+                }
+                context.router.replace(const ForgotPassRoute());
               },
               child: const Text(
                 "Forgot your password?",
@@ -107,9 +114,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ],
         ),
-        const SizedBox(
-          height: kPadding * 3,
-        )
+        // const SizedBox(
+        //   height: kPadding * 3,
+        // )
       ],
     );
   }

@@ -93,7 +93,9 @@ const drawerItemsFooter = [
 
 //Form control names
 const passwordControlName = 'password';
+const confirmPasswordControlName = 'confirm-password';
 const usernameControlName = 'username';
+const emailControlName = 'email';
 
 const String eventTitle = 'Community Days India, 2023';
 const String eventHashTag = '#GoogleCloudCommunityDays';

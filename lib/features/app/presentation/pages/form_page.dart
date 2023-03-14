@@ -53,22 +53,25 @@ class FormWrapper extends StatelessWidget {
                         ...formContent,
                         ReactiveFormConsumer(
                           builder: (buildContext, form, child) {
-                            return ElevatedButton(
-                              onPressed: form.valid
-                                  ? () {
-                                      onSubmit(form);
-                                    }
-                                  : null,
-                              child: SizedBox(
-                                width: screenWidth! * 0.8,
-                                height: 50,
-                                child: Center(
-                                  child: Text(
-                                    loginButtonText,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: ElevatedButton(
+                                onPressed: form.valid
+                                    ? () {
+                                        onSubmit(form);
+                                      }
+                                    : null,
+                                child: SizedBox(
+                                  width: screenWidth! * 0.8,
+                                  height: 50,
+                                  child: Center(
+                                    child: Text(
+                                      loginButtonText,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ),
                                 ),

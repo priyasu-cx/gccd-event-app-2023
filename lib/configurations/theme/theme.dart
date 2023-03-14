@@ -117,7 +117,7 @@ class AppTheme {
           color: Color(0xFF1F1E1E),
         ),
       ),
-      fillColor: GCCDColor.white,
+      fillColor: GCCDColor.black,
       filled: true,
       labelStyle: TextStyle(
         color: Color(0xFF1F1E1E),
