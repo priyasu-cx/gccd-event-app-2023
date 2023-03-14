@@ -116,6 +116,27 @@ class AuthCubit extends HydratedCubit<AuthState> {
       DjangoflowAppSnackbar.showError(e.toString());
     }
   }
+  //
+  Future<void> forgotPassword({
+    required String email,
+  }) async {
+    try {
+      if (_authenticationRepository == null) {
+        throw Exception('AuthCubit not initialized');
+      }
+      final forgotPasswordResponse = await _authenticationRepository
+          ?.resetPassword(
+        email: email,
+      );
+      if (forgotPasswordResponse != null) {
+        DjangoflowAppSnackbar.showInfo(
+          'Password reset email sent!',
+        );
+      }
+    } on Exception catch (e) {
+      DjangoflowAppSnackbar.showError(e.toString());
+    }
+  }
 
   @override
   Map<String, dynamic>? toJson(AuthState state) => state.toJson();

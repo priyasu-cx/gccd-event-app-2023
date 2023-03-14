@@ -46,9 +46,14 @@ class AppRouter extends _i6.RootStackRouter {
       );
     },
     ActivateEmailRoute.name: (routeData) {
+      final args = routeData.argsAs<ActivateEmailRouteArgs>();
       return _i6.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i3.ActivateEmailPage(),
+        child: _i3.ActivateEmailPage(
+          key: args.key,
+          title: args.title,
+          message: args.message,
+        ),
       );
     },
     ForgotPassRoute.name: (routeData) {
@@ -138,14 +143,41 @@ class SignUpRoute extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.ActivateEmailPage]
-class ActivateEmailRoute extends _i6.PageRouteInfo<void> {
-  const ActivateEmailRoute()
-      : super(
+class ActivateEmailRoute extends _i6.PageRouteInfo<ActivateEmailRouteArgs> {
+  ActivateEmailRoute({
+    _i7.Key? key,
+    required String title,
+    required String message,
+  }) : super(
           ActivateEmailRoute.name,
           path: '/activate-account',
+          args: ActivateEmailRouteArgs(
+            key: key,
+            title: title,
+            message: message,
+          ),
         );
 
   static const String name = 'ActivateEmailRoute';
+}
+
+class ActivateEmailRouteArgs {
+  const ActivateEmailRouteArgs({
+    this.key,
+    required this.title,
+    required this.message,
+  });
+
+  final _i7.Key? key;
+
+  final String title;
+
+  final String message;
+
+  @override
+  String toString() {
+    return 'ActivateEmailRouteArgs{key: $key, title: $title, message: $message}';
+  }
 }
 
 /// generated route for

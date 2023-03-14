@@ -42,4 +42,18 @@ class AuthenticationRepository {
 
     // return signUpResponse;
   }
+
+  Future resetPassword({
+    required String email,
+  }) async {
+    Response response = await _dioApiClient.postData(passwordResetEndpoint, {
+      'email': email,
+    });
+
+    final resetResponse = response.data;
+
+    // print(signUpResponse);
+
+    // return signUpResponse;
+  }
 }

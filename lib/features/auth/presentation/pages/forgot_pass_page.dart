@@ -1,6 +1,8 @@
 import 'package:ccd2023/configurations/constants.dart';
 import 'package:ccd2023/features/app/app.dart';
+import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class ForgotPassPage extends StatefulWidget {
@@ -11,6 +13,14 @@ class ForgotPassPage extends StatefulWidget {
 }
 
 class _ForgotPassPageState extends State<ForgotPassPage> {
+  void _onSubmit(FormGroup form) async {
+    final email = form.control(emailControlName).value as String;
+
+    await context.read<AuthCubit>().forgotPassword(
+      email: email,
+    );
+  }
+
   FormGroup _formBuilder() => fb.group(
     {
       emailControlName: FormControl<String>(
@@ -27,7 +37,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
     return FormWrapper(
         appBarTitle: "Forgot Password",
         loginButtonText: "Reset Password",
-        onSubmit: (data)=>print("Reset Password"),
+        onSubmit: _onSubmit,
         formBuilder: _formBuilder,
         formContent: [
           const Text(
