@@ -24,7 +24,7 @@ class AuthenticationRepository {
     return loginResponse;
   }
 
-  Future<String> signUp({
+  Future signUp({
     required String username,
     required String email,
     required String password,
@@ -38,8 +38,22 @@ class AuthenticationRepository {
 
     final signUpResponse = response.data;
 
-    print(response.data);
+    // print(signUpResponse);
 
-    return signUpResponse;
+    // return signUpResponse;
+  }
+
+  Future resetPassword({
+    required String email,
+  }) async {
+    Response response = await _dioApiClient.postData(passwordResetEndpoint, {
+      'email': email,
+    });
+
+    final resetResponse = response.data;
+
+    // print(signUpResponse);
+
+    // return signUpResponse;
   }
 }
