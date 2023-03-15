@@ -97,6 +97,29 @@ class CCDDrawer extends StatelessWidget {
               );
             },
           ),
+          Divider(),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: drawerItemsFooter.length,
+            itemBuilder: (context, index) {
+              bool isSelected =
+                  context.router.currentPath == drawerItemsFooterPath[index];
+
+              return Padding(
+                padding: EdgeInsets.all(isSelected ? 8.0 : 0),
+                child: DrawerListTile(
+                  selected: isSelected,
+                  title: drawerItemsFooter[index],
+                  icon: isSelected
+                      ? drawerItemsFooterIcon[index]
+                      : drawerItemsFooterIconOutlined[index],
+                  onTap: () {
+                    context.router.pushNamed(drawerItemsFooterPath[index]);
+                  },
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
