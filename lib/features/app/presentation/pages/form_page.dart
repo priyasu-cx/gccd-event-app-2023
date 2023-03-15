@@ -4,6 +4,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../../configurations/configurations.dart';
 import '../../../../utils/size_util.dart';
+import 'package:progress_builder/progress_builder.dart';
 
 class FormWrapper extends StatelessWidget {
   const FormWrapper({
@@ -17,7 +18,7 @@ class FormWrapper extends StatelessWidget {
 
   final String appBarTitle;
   final String loginButtonText;
-  final void Function(FormGroup) onSubmit;
+  final Future<void> Function(FormGroup) onSubmit;
   final FormGroup Function() formBuilder;
   final List<Widget> formContent;
 
@@ -51,34 +52,57 @@ class FormWrapper extends StatelessWidget {
                       children: <Widget>[
                         const SizedBox(height: kPadding * 2.5),
                         ...formContent,
-                        ReactiveFormConsumer(
-                          builder: (buildContext, form, child) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              child: ElevatedButton(
-                                onPressed: form.valid
-                                    ? () {
-                                        onSubmit(form);
-                                      }
-                                    : null,
-                                child: SizedBox(
-                                  width: screenWidth! * 0.8,
-                                  height: 50,
-                                  child: Center(
-                                    child: Text(
-                                      loginButtonText,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
+                        const SizedBox(height: kPadding * 2.5),
+                        Center(
+                          child: CircularProgressBuilder(
+                            builder: (context, action, error) => ElevatedButton(
+                              onPressed:
+                                  (ReactiveForm.of(context)?.valid ?? false)
+                                      ? action
+                                      : null,
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(kPadding * 1.5),
+                                  child: Text(
+                                    loginButtonText,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.copyWith(
+                                          color: Colors.white,
+                                        ),
                                   ),
                                 ),
                               ),
-                            );
-                          },
+                            ),
+                            action: (_) => onSubmit(form),
+                          ),
                         ),
+                        // ReactiveFormConsumer(
+                        //   builder: (buildContext, form, child) {
+                        //     return Padding(
+                        //       padding: const EdgeInsets.symmetric(vertical: 20),
+                        //       child: ElevatedButton(
+                        //         onPressed: form.valid
+                        //             ? () {
+                        //                 onSubmit(form);
+                        //               }
+                        //             : null,
+                        //         child: SizedBox(
+                        //           width: screenWidth! * 0.8,
+                        //           height: 50,
+                        //           child: Center(
+                        //             child: Text(
+                        //               loginButtonText,
+                        //               style:
+                        //                   Theme.of(context).textTheme.bodyLarge,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     );
+                        //   },
+                        // ),
                       ],
                     ),
                   ),

@@ -13,7 +13,7 @@ class ForgotPassPage extends StatefulWidget {
 }
 
 class _ForgotPassPageState extends State<ForgotPassPage> {
-  void _onSubmit(FormGroup form) async {
+  Future<void> _onSubmit(FormGroup form) async {
     final email = form.control(emailControlName).value as String;
 
     await context.read<AuthCubit>().forgotPassword(

@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
         },
       );
 
-  void _onSubmit(FormGroup form) async {
+  Future<void> _onSubmit(FormGroup form) async {
     final username = form.control(usernameControlName).value as String;
     final password = form.control(passwordControlName).value as String;
 

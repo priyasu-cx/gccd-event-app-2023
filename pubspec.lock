@@ -815,6 +815,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+  progress_builder:
+    dependency: "direct main"
+    description:
+      name: progress_builder
+      sha256: e027c61f50e9f978286446c1ca2bfc49837b1207447917b804db3e462522e3a0
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.3"
   provider:
     dependency: transitive
     description:
