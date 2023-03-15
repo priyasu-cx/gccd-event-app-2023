@@ -24,10 +24,26 @@ class CCDDrawer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  GCCDImageAssets.gdgCloudKolkataLogo,
-                  width: screenWidth! * 0.6,
+                BlocBuilder<AppCubit, AppState>(
+                    builder: (context, state){
+                      return ColorFiltered(
+                        colorFilter: state.themeMode == ThemeMode.light
+                        ? ColorFilter.mode(Colors.transparent, BlendMode.saturation)
+                        : ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                        child: Image.asset(
+                          GCCDImageAssets.gdgCloudKolkataLogo,
+                          width: screenWidth! * 0.6,
+                        ),
+                      );
+                    }
                 ),
+                // ColorFiltered(
+                //   colorFilter: ,
+                //   child: Image.asset(
+                //     GCCDImageAssets.gdgCloudKolkataLogo,
+                //     width: screenWidth! * 0.6,
+                //   ),
+                // ),
                 const SizedBox(
                   height: kPadding * 4,
                 ),
