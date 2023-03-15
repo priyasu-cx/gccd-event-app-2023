@@ -105,3 +105,5 @@ const String aboutGCCD =
     'GDG Cloud Kolkata is bringing to you the largest Google Cloud developer event in Eastern India. Cloud Community Days Kolkata is the flagship event of GDG Cloud Kolkata, held annually, recollecting the best of the year and setting the stone for the upcoming year. Join us as we bring the best of speakers and help you to put your career on a runway to Google Cloud.';
 
 Duration eventDate = DateTime(2023, 5, 7, 0, 0).difference(DateTime.now());
+
+const String passwordResetResponse = 'Password reset e-mail has been sent.';

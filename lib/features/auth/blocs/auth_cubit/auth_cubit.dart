@@ -1,7 +1,7 @@
+import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/auth/auth.dart';
+import 'package:dio/dio.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
@@ -36,9 +36,6 @@ class AuthCubit extends HydratedCubit<AuthState> {
 
     _authenticationRepository = authenticationRepository;
   }
-
-  @override
-  AuthState? fromJson(Map<String, dynamic> json) => AuthState.fromJson(json);
 
   void _login(
     User user,
@@ -87,6 +84,21 @@ class AuthCubit extends HydratedCubit<AuthState> {
           loginResponse.user.profile,
         );
       }
+    } on DioError catch (e) {
+      if (e.response != null) {
+        final errorData = e.response!.data as Map<String, dynamic>;
+        if (errorData.containsKey('non_field_errors')) {
+          DjangoflowAppSnackbar.showError(
+            errorData['non_field_errors'][0],
+          );
+        } else {
+          DjangoflowAppSnackbar.showError(
+            errorData.toString(),
+          );
+        }
+      } else {
+        DjangoflowAppSnackbar.showError(e.message ?? 'Error occurred');
+      }
     } on Exception catch (e) {
       DjangoflowAppSnackbar.showError(e.toString());
     }
@@ -110,13 +122,31 @@ class AuthCubit extends HydratedCubit<AuthState> {
         DjangoflowAppSnackbar.showInfo(
           'Sign up successful! Please verify email and login.',
         );
-        ///TODO: Navigate to activation page
+      }
+    } on DioError catch (e) {
+      if (e.response != null) {
+        final errorData = e.response!.data as Map<String, dynamic>;
+        if (errorData.containsKey('email')) {
+          DjangoflowAppSnackbar.showError(
+            errorData['email'][0],
+          );
+        } else if (errorData.containsKey('username')) {
+          DjangoflowAppSnackbar.showError(
+            errorData['username'][0],
+          );
+        } else {
+          DjangoflowAppSnackbar.showError(
+            errorData.toString(),
+          );
+        }
+      } else {
+        DjangoflowAppSnackbar.showError(e.message ?? 'Error occurred');
       }
     } on Exception catch (e) {
       DjangoflowAppSnackbar.showError(e.toString());
     }
   }
-  //
+
   Future<void> forgotPassword({
     required String email,
   }) async {
@@ -124,15 +154,19 @@ class AuthCubit extends HydratedCubit<AuthState> {
       if (_authenticationRepository == null) {
         throw Exception('AuthCubit not initialized');
       }
-      final forgotPasswordResponse = await _authenticationRepository
-          ?.resetPassword(
+      final forgotPasswordResponse =
+          await _authenticationRepository?.resetPassword(
         email: email,
       );
       if (forgotPasswordResponse != null) {
-        DjangoflowAppSnackbar.showInfo(
-          'Password reset email sent!',
-        );
+        if (forgotPasswordResponse['detail'] == passwordResetResponse) {
+          DjangoflowAppSnackbar.showInfo(
+            'Password reset email sent!',
+          );
+        }
       }
+    } on DioError catch (e) {
+      DjangoflowAppSnackbar.showError(e.message ?? 'Error occurred');
     } on Exception catch (e) {
       DjangoflowAppSnackbar.showError(e.toString());
     }
@@ -140,4 +174,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
 
   @override
   Map<String, dynamic>? toJson(AuthState state) => state.toJson();
+
+  @override
+  AuthState? fromJson(Map<String, dynamic> json) => AuthState.fromJson(json);
 }
