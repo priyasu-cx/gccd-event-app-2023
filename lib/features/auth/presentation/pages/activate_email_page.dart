@@ -1,7 +1,11 @@
+import 'package:ccd2023/configurations/configurations.dart';
+import 'package:ccd2023/configurations/constants.dart';
 import 'package:ccd2023/configurations/theme/ccd_asset.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:progress_builder/progress_builder.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class ActivateEmailPage extends StatelessWidget {
   final String title;
@@ -22,18 +26,50 @@ class ActivateEmailPage extends StatelessWidget {
             title: Text(title),
           ),
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: screenHeight! * 0.1),
-                SvgPicture.asset(
-                  GCCDImageAssets.victoriaSVGImage,
-                  width: screenWidth! * 0.8,
-                ),
-                SizedBox(height: screenHeight! * 0.08),
-                Center(
-                  child: Text(message),
-                ),
-              ],
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth! * 0.1),
+              child: Column(
+                children: [
+                  SizedBox(height: screenHeight! * 0.1),
+                  SvgPicture.asset(
+                    GCCDImageAssets.victoriaSVGImage,
+                    width: screenWidth! * 0.8,
+                  ),
+                  SizedBox(height: screenHeight! * 0.08),
+                  Center(
+                    child: Text(message, style: Theme.of(context).textTheme.bodyMedium,),
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: kPadding * 2,
+                    ),
+                    child: Center(
+                      child: CircularProgressBuilder(
+                        builder: (context, action, error) => ElevatedButton(
+                          onPressed: (){
+                            context.router.replace(const LoginRoute());
+                          },
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(kPadding * 1.5),
+                              child: Text(
+                                "Login to your Account",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ));

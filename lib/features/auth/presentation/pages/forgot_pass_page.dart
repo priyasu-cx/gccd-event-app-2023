@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:ccd2023/configurations/constants.dart';
+import 'package:ccd2023/configurations/router/ccd_router.gr.dart';
 import 'package:ccd2023/features/app/app.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +17,10 @@ class ForgotPassPage extends StatefulWidget {
 class _ForgotPassPageState extends State<ForgotPassPage> {
   Future<void> _onSubmit(FormGroup form) async {
     final email = form.control(emailControlName).value as String;
-
     await context.read<AuthCubit>().forgotPassword(
           email: email,
         );
+    context.router.replace(const HomeRoute());
   }
 
   FormGroup _formBuilder() => fb.group(

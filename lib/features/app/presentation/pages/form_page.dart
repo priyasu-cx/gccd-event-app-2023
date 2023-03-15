@@ -53,29 +53,32 @@ class FormWrapper extends StatelessWidget {
                         const SizedBox(height: kPadding * 2.5),
                         ...formContent,
                         const SizedBox(height: kPadding * 2.5),
-                        Center(
-                          child: CircularProgressBuilder(
-                            builder: (context, action, error) => ElevatedButton(
-                              onPressed:
-                                  (ReactiveForm.of(context)?.valid ?? false)
-                                      ? action
-                                      : null,
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(kPadding * 1.5),
-                                  child: Text(
-                                    loginButtonText,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                          color: Colors.white,
-                                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20.0),
+                          child: Center(
+                            child: CircularProgressBuilder(
+                              builder: (context, action, error) => ElevatedButton(
+                                onPressed:
+                                    (ReactiveForm.of(context)?.valid ?? false)
+                                        ? action
+                                        : null,
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(kPadding * 1.5),
+                                    child: Text(
+                                      loginButtonText,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                            color: Colors.white,
+                                          ),
+                                    ),
                                   ),
                                 ),
                               ),
+                              action: (_) => onSubmit(form),
                             ),
-                            action: (_) => onSubmit(form),
                           ),
                         ),
                         // ReactiveFormConsumer(
