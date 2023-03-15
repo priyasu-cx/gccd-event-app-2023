@@ -19,11 +19,17 @@ class _SignUpPageState extends State<SignUpPage> {
     final username = form.control(usernameControlName).value as String;
     final password = form.control(passwordControlName).value as String;
 
+    final signupresponse =
+
     await context.read<AuthCubit>().signUpWithUsernamePassword(
           email: email,
           username: username,
           password: password,
         );
+
+    if (signupresponse == true) {
+      context.router.replace( ActivateEmailRoute(title: "Email Verification", message: "Check Inbox for Email Verification"));
+    }
   }
 
   FormGroup _formBuilder() => fb.group({
