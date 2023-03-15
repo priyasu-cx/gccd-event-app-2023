@@ -1,5 +1,4 @@
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -42,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return FormWrapper(
       appBarTitle: 'Sign in to your account',
       loginButtonText: 'Login',
@@ -82,33 +82,25 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             InkWell(
               onTap: () {
-                if (kDebugMode) {
-                  print("Create an account");
-                }
                 context.router.replace(const SignUpRoute());
               },
-              child: const Text(
+              child: Text(
                 "Create an account",
-                style: TextStyle(
-                  color: Color(0xff4285f4),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w800,
+                style: textTheme.labelMedium?.copyWith(
+                  color: GCCDColor.googleBlue,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             InkWell(
               onTap: () {
-                if (kDebugMode) {
-                  print("Forgot your password?");
-                }
                 context.router.replace(const ForgotPassRoute());
               },
-              child: const Text(
+              child: Text(
                 "Forgot your password?",
-                style: TextStyle(
-                  color: Color(0xff4285f4),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w800,
+                style: textTheme.labelMedium?.copyWith(
+                  color: GCCDColor.googleBlue,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),

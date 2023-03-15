@@ -19,9 +19,18 @@ class AuthenticationRepository {
       'password': password,
     });
 
-    final loginResponse = LoginResponse.fromJson(response.data);
+    if (response.statusCode == 200) {
+      final loginResponse = LoginResponse.fromJson(response.data);
 
-    return loginResponse;
+      return loginResponse;
+    } else {
+      if (response.statusCode == 400) {
+        final errorResponse = response.data['non_field_errors'][0];
+
+        throw Exception(errorResponse);
+      }
+      throw Exception('Failed to login. Please try again.');
+    }
   }
 
   Future signUp({
@@ -38,9 +47,7 @@ class AuthenticationRepository {
 
     final signUpResponse = response.data;
 
-    // print(signUpResponse);
-
-    // return signUpResponse;
+    return signUpResponse;
   }
 
   Future resetPassword({
@@ -50,10 +57,14 @@ class AuthenticationRepository {
       'email': email,
     });
 
-    final resetResponse = response.data;
+    if (response.statusCode == 200) {
+      final resetResponse = response.data;
 
-    // print(signUpResponse);
+      return resetResponse;
+    } else if (response.statusCode == 400) {
+      final resetResponse = response.data;
 
-    // return signUpResponse;
+      throw Exception(resetResponse);
+    }
   }
 }

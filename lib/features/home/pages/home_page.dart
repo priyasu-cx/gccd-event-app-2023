@@ -38,8 +38,7 @@ class HomePage extends StatelessWidget {
                     fit: BoxFit.fitWidth,
                   ),
                 ),
-                Text(eventTitle,
-                    style: Theme.of(context).textTheme.titleLarge),
+                Text(eventTitle, style: Theme.of(context).textTheme.titleLarge),
                 SizedBox(height: screenWidth! * 0.06),
                 RichText(
                   textAlign: TextAlign.justify,
@@ -113,6 +112,7 @@ class HomePage extends StatelessWidget {
                       return DefaultButton(
                         isOutlined: true,
                         text: 'Get Started',
+                        foregroundColor: GCCDColor.white,
                         backgroundColor: GCCDColor.googleBlue,
                         onPressed: () => context.router.push(
                           const LoginRoute(),

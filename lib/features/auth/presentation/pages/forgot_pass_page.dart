@@ -17,43 +17,43 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
     final email = form.control(emailControlName).value as String;
 
     await context.read<AuthCubit>().forgotPassword(
-      email: email,
-    );
+          email: email,
+        );
   }
 
   FormGroup _formBuilder() => fb.group(
-    {
-      emailControlName: FormControl<String>(
-        validators: [
-          Validators.required,
-          Validators.email,
-        ],
-      ),
-    },
-  );
+        {
+          emailControlName: FormControl<String>(
+            validators: [
+              Validators.required,
+              Validators.email,
+            ],
+          ),
+        },
+      );
 
   @override
   Widget build(BuildContext context) {
     return FormWrapper(
-        appBarTitle: "Forgot Password",
-        loginButtonText: "Reset Password",
-        onSubmit: _onSubmit,
-        formBuilder: _formBuilder,
-        formContent: [
-          const Text(
-            "Registered Email",
-            textAlign: TextAlign.start,
-          ),
-          const SizedBox(height: 6),
-          ReactiveTextField(
-            formControlName: emailControlName,
-            autofillHints: const [AutofillHints.email],
-            validationMessages: {
-              ValidationMessage.required: (_) => 'Email cannot be empty',
-              ValidationMessage.email: (_) => 'Email is not valid',
-            },
-          ),
-        ],
+      appBarTitle: "Forgot Password",
+      loginButtonText: "Reset Password",
+      onSubmit: _onSubmit,
+      formBuilder: _formBuilder,
+      formContent: [
+        const Text(
+          "Registered Email",
+          textAlign: TextAlign.start,
+        ),
+        const SizedBox(height: 6),
+        ReactiveTextField(
+          formControlName: emailControlName,
+          autofillHints: const [AutofillHints.email],
+          validationMessages: {
+            ValidationMessage.required: (_) => 'Email cannot be empty',
+            ValidationMessage.email: (_) => 'Email is not valid',
+          },
+        ),
+      ],
     );
   }
 }
