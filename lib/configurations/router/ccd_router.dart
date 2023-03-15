@@ -5,6 +5,7 @@ import 'package:ccd2023/features/auth/presentation/pages/forgot_pass_page.dart';
 import 'package:ccd2023/features/home/pages/home_page.dart';
 import 'package:ccd2023/features/auth/auth.dart';
 import 'package:ccd2023/features/faq/pages/faq_page.dart';
+import 'package:ccd2023/features/coc/pages/coc_page.dart';
 
 export 'package:auto_route/auto_route.dart';
 export 'ccd_router.gr.dart';
@@ -18,6 +19,7 @@ export 'ccd_router.gr.dart';
     AutoRoute(page: ActivateEmailPage, path: "/activate-account"),
     AutoRoute(page: ForgotPassPage, path: "/forgot-pass"),
     AutoRoute(page: FAQPage, path: "/faq"),
+    AutoRoute(page: CoCPage, path: "/coc"),
     AutoRoute(path: '*', page: UnknownPage),
   ],
 )

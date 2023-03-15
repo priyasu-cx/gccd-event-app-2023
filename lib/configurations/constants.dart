@@ -93,8 +93,8 @@ const drawerItemsFooter = [
 
 const drawerItemsFooterPath = [
   '/faq',
-  '/faq',
-  '/faq',
+  '/coc',
+  '/share',
 ];
 
 const drawerItemsFooterIconOutlined = [
@@ -127,9 +127,6 @@ Duration eventDate = DateTime(2023, 5, 7, 0, 0).difference(DateTime.now());
 const String passwordResetResponse = 'Password reset e-mail has been sent.';
 
 // FAQ body
-// const FAQBody =
-//     "For any queries related to sponsorship, please reach out to us at partners@gdgcloud.kolkata.dev. Any question related to participation can be asked at gdgcloudkol@gmail.com";
-
 const FAQDetails = {
   "title": "Frequently Asked Questions",
   "description":
@@ -159,68 +156,22 @@ const FAQAnswers = [
   "No. There is no provision for covering attendee travel/stay. For speakers, we will decide on case-by-case basis.",
 ];
 
-// const FAQPageContent = {
-//   "title": "Frequently Asked Questions",
-//   "description":
-//       "For any queries related to sponsorship, please reach out to us at partners@gdgcloud.kolkata.dev. Any question related to participation can be asked at gdgcloudkol@gmail.com",
-//   "length": 8,
-//   "faq": [
-//     {
-//       "question": "What is CCD 2023 Kolkata?",
-//       "answer":
-//           "CCD 2023 Kolkata is short form of Cloud Community Days 2023 Kolkata which is among the largest Cloud developer conferences in Eastern India."
-//     },
-//     {
-//       "question": "What are GDGs?",
-//       "answer":
-//           "GDGs are focused on community building and learning about Google’s technologies."
-//     },
-//     {
-//       "question": "Who can register for CCD' 2023 Kolkata?",
-//       "answer":
-//           "People of all levels, from beginners to experts, and anyone with a passion for learning and an interest in technology, including enthusiastic programmers, are welcome to register and attend."
-//     },
-//     {
-//       "question": "What is Cloud Community Days?",
-//       "answer":
-//           "GDG Cloud communities across India organize a series of community-led events called Cloud Community Days to assist you in preparing for Google Cloud Certifications and expanding your knowledge of Cloud technologies."
-//     },
-//     {
-//       "question": "Where can I find updates related to CCD 2023 Kolkata?",
-//       "answer":
-//           "~!~All announcements related to the event are posted to the GDG Cloud Kolkata chapter mailing list which you can join by Joining the chapter at - <a style=\"color:#4285f4\" href=\"https://gdg.community.dev/gdg-cloud-kolkata/\">GDG Cloud Kolkata Chapter Page</a>. You can receive the updates by following us on <a style=\"color:#4285f4\" href=\"https://twitter.com/gdgcloudkol\">Twitter (@gdgcloudkol)</a>, <a style=\"color:#4285f4\" href=\"https://facebook.com/gdgcloudkol\">Facebook (@gdgcloudkol)</a>, <a style=\"color:#4285f4\" href=\"https://instagram.com/gdgcloudkol\">Instagram (@gdgcloudkol)</a> or <a style=\"color:#4285f4\" href=\"https://www.linkedin.com/company/gdgcloudkol/\">LinkedIn (@gdgcloudkol)</a>. You can also join our <a style=\"color:#4285f4\" href=\"https://t.me/gdgcloudkol\">Telegram group</a>."
-//     },
-//     {
-//       "question": "How can I attend CCD 2023 Kolkata? How much does it cost?",
-//       "answer":
-//           "CCD 2023 Kolkata is a PAID event. The costs for the ticket to this event are very nominal. You can buy the ticket from \"Buy Ticket\" option on the top. The prices are listed there."
-//     },
-//     {
-//       "question":
-//           "I want to present a talk/workshop at the conference. What should I do?",
-//       "answer":
-//           "~!~You can submit your talk/workshop proposal on our <a style=\"color:#4285f4\" href=\"/ccd2023/#/cfs\">CFP Page</a>. The deadline for submitting CFP for this year’s conference is 7th April '23, however, the earlier you submit, more the chances of us reviewing your submission in depth."
-//     },
-//     {
-//       "question":
-//           "Will I be provided travel/stay accommodation to attend the event?",
-//       "answer":
-//           "No. There is no provision for covering attendee travel/stay. For speakers, we will decide on case-by-case basis."
-//     }
-//   ]
-// };
+// CoC body
+const CoCDetails = {
+  "title": "Google Developers Event Code of Conduct",
+  "description":
+      "Google Developers is dedicated to providing a harassment-free and inclusive event experience for everyone regardless of gender identity and expression, sexual orientation, disabilities, neurodiversity, physical appearance, body size, ethnicity, nationality, race, age, religion, or other protected category. We do not tolerate harassment of event participants in any form. Google Developers takes violations of our policy seriously and will respond appropriately.",
+  "length": 3,
+};
 
-// const FAQItemQuestions = [
-//   "What is CCD 2023 Kolkata?",
-//   "What are GDGs?",
-//   "Who can register for CCD' 2023 Kolkata?",
-//   "What is Cloud Community Days?",
-//   "Where can I find updates related to CCD 2023 Kolkata?",
-//   "How can I attend CCD 2023 Kolkata? How much does it cost?",
-//   "I want to present a talk/workshop at the conference. What should I do?",
-//   "Will I be provided travel/stay accommodation to attend the event?",
-// ];
+const CoCTitle = [
+  "Be excellent to each other",
+  "Speak up if you see or hear something",
+  "Practice saying \"Yes and\" to each other",
+];
 
-// const FAQItemAnswers = [
-//   "CCD 2023 Kolkata is short form of Cloud Community Days 2023 Kolkata which is among the largest Cloud developer conferences in Eastern India."
-// ];
+const CoCAnswers = [
+  "We want the event to be an excellent experience for everyone regardless of gender identity and expression, sexual orientation, disabilities, neurodiversity, physical appearance, body size, ethnicity, nationality, race, age, religion, or other protected category. Treat everyone with respect. Participate while acknowledging that everyone deserves to be here -- and each of us has the right to enjoy our experience without fear of harassment, discrimination, or condescension, whether blatant or via micro-aggressions. Jokes shouldn’t demean others. Consider what you are saying and how it would feel if it were said to or about you.",
+  "Harassment is not tolerated, and you are empowered to politely engage when you or others are disrespected. The person making you feel uncomfortable may not be aware of what they are doing, and politely bringing their behavior to their attention is encouraged. If a participant engages in harassing or uncomfortable behavior, the event organizers may take any action they deem appropriate, including warning or expelling the offender from the event with no refund. If you are being harassed or feel uncomfortable, notice that someone else is being harassed, or have any other concerns, please contact a member of the event staff immediately.",
+  "It’s a theatre improve technique to build on each other’s ideas. We all benefit when we create together.",
+];
