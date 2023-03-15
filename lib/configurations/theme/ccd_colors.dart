@@ -8,6 +8,8 @@ abstract class GCCDColor{
   static const googleRed = Color(0xFFDB4437);
   static const googleGreen = Color(0xFF0F9D58);
   static const googleGrey = Color(0xFF9E9E9E);
+  static const white = Colors.white;
+  static const black = Colors.black;
 
   static const blueTimer = Color(0xFF8AB4F8);
 }
