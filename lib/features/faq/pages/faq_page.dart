@@ -17,44 +17,46 @@ class FAQPage extends StatelessWidget {
             child: const CCDAppBar(),
           ),
           drawer: const CCDDrawer(),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(18.0),
-                child: Text(
-                  FAQPageContent["title"].toString(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge
-                      ?.copyWith(color: GCCDColor.googleBlue, fontSize: 28),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(18.0),
+                  child: Text(
+                    FAQDetails["title"].toString(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(color: GCCDColor.googleBlue, fontSize: 28),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(screenWidth! * 0.08),
-                // child: RichText(text: FAQBody, ),
-                child: Text(
-                  FAQPageContent["description"].toString(),
-                  style: Theme.of(context).textTheme.titleMedium,
+                Padding(
+                  padding: EdgeInsets.all(screenWidth! * 0.08),
+                  // child: RichText(text: FAQBody, ),
+                  child: Text(
+                    FAQDetails["description"].toString(),
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                 ),
-              ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: int.parse(FAQPageContent['length'].toString()),
-                  itemBuilder: (context, index) {
-                    GetSingleFAQWidget(
-                      question: FAQPageContent['faq'][index]['question'],
-                      answer: FAQPageContent['faq'][index]['answer'],
-                    );
-                  }),
-              const GetSingleFAQWidget(
-                question: "What is CCD 2022 Kolkata?",
-                answer:
-                    "CCD 2022 Kolkata is short form of Cloud Community Days 2022"
-                    " Kolkata which is among the largest free Cloud developer"
-                    " conferences in Eastern India.",
-              ),
-            ],
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: int.parse(FAQDetails['length'].toString()),
+                    itemBuilder: (context, index) {
+                      return GetSingleFAQWidget(
+                        question: FAQQuestions[index],
+                        answer: FAQAnswers[index],
+                      );
+                    }),
+                // const GetSingleFAQWidget(
+                //   question: "What is CCD 2022 Kolkata?",
+                //   answer:
+                //       "CCD 2022 Kolkata is short form of Cloud Community Days 2022"
+                //       " Kolkata which is among the largest free Cloud developer"
+                //       " conferences in Eastern India.",
+                // ),
+              ],
+            ),
           )),
     );
   }
