@@ -149,14 +149,14 @@ const FAQQuestions = [
 ];
 
 const FAQAnswers = [
-  "CCD 2023 Kolkata is short form of Cloud Community Days 2023 Kolkata which is among the largest Cloud developer conferences in Eastern India."
-      "GDGs are focused on community building and learning about Google’s technologies."
-      "People of all levels, from beginners to experts, and anyone with a passion for learning and an interest in technology, including enthusiastic programmers, are welcome to register and attend."
-      "GDG Cloud communities across India organize a series of community-led events called Cloud Community Days to assist you in preparing for Google Cloud Certifications and expanding your knowledge of Cloud technologies."
-      "~!~All announcements related to the event are posted to the GDG Cloud Kolkata chapter mailing list which you can join by Joining the chapter at - <a style=\"color:#4285f4\" href=\"https://gdg.community.dev/gdg-cloud-kolkata/\">GDG Cloud Kolkata Chapter Page</a>. You can receive the updates by following us on <a style=\"color:#4285f4\" href=\"https://twitter.com/gdgcloudkol\">Twitter (@gdgcloudkol)</a>, <a style=\"color:#4285f4\" href=\"https://facebook.com/gdgcloudkol\">Facebook (@gdgcloudkol)</a>, <a style=\"color:#4285f4\" href=\"https://instagram.com/gdgcloudkol\">Instagram (@gdgcloudkol)</a> or <a style=\"color:#4285f4\" href=\"https://www.linkedin.com/company/gdgcloudkol/\">LinkedIn (@gdgcloudkol)</a>. You can also join our <a style=\"color:#4285f4\" href=\"https://t.me/gdgcloudkol\">Telegram group</a>."
-      "CCD 2023 Kolkata is a PAID event. The costs for the ticket to this event are very nominal. You can buy the ticket from \"Buy Ticket\" option on the top. The prices are listed there."
-      "~!~You can submit your talk/workshop proposal on our <a style=\"color:#4285f4\" href=\"/ccd2023/#/cfs\">CFP Page</a>. The deadline for submitting CFP for this year’s conference is 7th April '23, however, the earlier you submit, more the chances of us reviewing your submission in depth."
-      "No. There is no provision for covering attendee travel/stay. For speakers, we will decide on case-by-case basis."
+  "CCD 2023 Kolkata is short form of Cloud Community Days 2023 Kolkata which is among the largest Cloud developer conferences in Eastern India.",
+  "GDGs are focused on community building and learning about Google’s technologies.",
+  "People of all levels, from beginners to experts, and anyone with a passion for learning and an interest in technology, including enthusiastic programmers, are welcome to register and attend.",
+  "GDG Cloud communities across India organize a series of community-led events called Cloud Community Days to assist you in preparing for Google Cloud Certifications and expanding your knowledge of Cloud technologies.",
+  "All announcements related to the event are posted to the GDG Cloud Kolkata chapter mailing list which you can join by Joining the chapter at - GDG Cloud Kolkata Chapter Page. You can receive the updates by following us on Twitter (@gdgcloudkol), Facebook (@gdgcloudkol), Instagram (@gdgcloudkol) or LinkedIn (@gdgcloudkol). You can also join our Telegram group.",
+  "CCD 2023 Kolkata is a PAID event. The costs for the ticket to this event are very nominal. You can buy the ticket from \"Buy Ticket\" option on the top. The prices are listed there.",
+  "You can submit your talk/workshop proposal on our CFP Page. The deadline for submitting CFP for this year’s conference is 7th April '23, however, the earlier you submit, more the chances of us reviewing your submission in depth.",
+  "No. There is no provision for covering attendee travel/stay. For speakers, we will decide on case-by-case basis.",
 ];
 
 // const FAQPageContent = {
