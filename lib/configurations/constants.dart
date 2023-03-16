@@ -52,19 +52,19 @@ const contentEndpoint = 'content';
 const drawerItemsMain = [
   'Home',
   'Buy Tickets',
-  'Schedule',
-  'Speakers',
+  // 'Schedule',
+  // 'Speakers',
   'Profile',
-  'Team',
+  // 'Team',
 ];
 
 const drawerItemsMainPath = [
   '/home',
   '/buy_tickets',
-  '/schedule',
-  '/speakers',
+  // '/schedule',
+  // '/speakers',
   '/profile',
-  '/team',
+  // '/team',
 ];
 
 const drawerItemsMainIconOutlined = [
