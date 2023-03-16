@@ -1,7 +1,9 @@
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/utils/utils.dart';
 import 'package:custom_timer/custom_timer.dart';
+import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EventTimer extends StatefulWidget {
   const EventTimer({Key? key}) : super(key: key);
@@ -36,14 +38,22 @@ class _EventTimerState extends State<EventTimer>
       controller: _controller,
       builder: (state, time) {
         return Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              "Starting In:",
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: GCCDColor.blueTimer,
+            BlocBuilder<AppCubit, AppState>(
+              builder: (context, state) {
+                return Text(
+                  "Starting In:",
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: state.themeMode == ThemeMode.light
+                        ? GCCDColor.white
+                        : GCCDColor.blueTimer,
                   ),
+                );
+              },
             ),
+
             Padding(
               padding: EdgeInsets.only(top: screenWidth! * 0.02),
               child: Row(
@@ -86,24 +96,39 @@ class TimeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: time,
-            style: textTheme.displaySmall?.copyWith(
-              color: GCCDColor.blueTimer,
+    return SizedBox(
+      width: screenWidth! * 0.16,
+      child: BlocBuilder<AppCubit, AppState>(
+        builder: (context, state) {
+          return RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: time,
+                  style: textTheme.displaySmall?.copyWith(
+                    fontSize: screenWidth! * 0.08,
+                    color: state.themeMode == ThemeMode.light
+                        ? GCCDColor.white
+                        : GCCDColor.blueTimer
+                  ),
+                ),
+                TextSpan(
+                  text: placeholder,
+                  style: textTheme.headlineSmall?.copyWith(
+                    fontSize: screenWidth! * 0.05,
+                    color: state.themeMode == ThemeMode.light
+                        ? GCCDColor.white
+                        : GCCDColor.blueTimer
+                  ),
+                ),
+              ],
             ),
-          ),
-          TextSpan(
-            text: placeholder,
-            style: textTheme.headlineSmall?.copyWith(
-              color: GCCDColor.blueTimer,
-            ),
-          ),
-        ],
+          );
+        },
       ),
+
+
     );
   }
 }
