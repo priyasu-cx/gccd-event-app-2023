@@ -32,13 +32,26 @@ class HomePage extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: screenWidth! * 0.05),
-                  child: Image.asset(
-                    GCCDImageAssets.googleCloudLogo,
-                    width: screenWidth! * 0.58,
-                    fit: BoxFit.fitWidth,
+                  child: BlocBuilder<AppCubit, AppState>(
+                    builder: (context, state) {
+                      return Padding(
+                        padding: EdgeInsets.only(top: screenWidth! * 0.05, bottom: screenWidth! * 0.02),
+                        child: ColorFiltered(
+                          colorFilter: state.themeMode == ThemeMode.light
+                              ? const ColorFilter.mode(Colors.transparent, BlendMode.saturation)
+                              : const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                          child: Image.asset(
+                            GCCDImageAssets.googleCloudLogo,
+                            width: screenWidth! * 0.58,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
-                Text(eventTitle, style: Theme.of(context).textTheme.titleLarge),
+                Text(eventTitle, style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontSize: screenWidth! * 0.1,
+                )),
                 SizedBox(height: screenWidth! * 0.06),
                 RichText(
                   textAlign: TextAlign.justify,
@@ -46,17 +59,35 @@ class HomePage extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: eventHashTag,
-                        style: TextStyle(
-                          color: GCCDColor.googleYellow,
-                          fontSize: screenWidth! * 0.04,
-                          fontStyle: FontStyle.normal,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: themeMode == ThemeMode.light
+                              ? GCCDColor.googleBlue
+                              : GCCDColor.googleYellow,
                         ),
                       ),
                       TextSpan(
                         text: eventDescription,
-                        style: Theme.of(context).textTheme.headlineSmall,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
+                  ),
+                ),
+                SizedBox(height: screenWidth! * 0.06),
+                Text(
+                  'Date : $eventDate_copy',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: themeMode == ThemeMode.light
+                        ? GCCDColor.googleBlue
+                        : GCCDColor.googleYellow,
+                  ),
+                ),
+                SizedBox(height: screenWidth! * 0.02),
+                Text(
+                  'Venue : $eventVenue',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: themeMode == ThemeMode.light
+                        ? GCCDColor.googleBlue
+                        : GCCDColor.googleYellow,
                   ),
                 ),
                 Padding(
@@ -73,9 +104,9 @@ class HomePage extends StatelessWidget {
                                 ? GCCDColor.black
                                 : GCCDColor.white)
                             .withOpacity(0.2),
-                        child: const Padding(
-                          padding: EdgeInsets.all(kPadding * 2.5),
-                          child: EventTimer(),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: screenWidth!*0.07, vertical: screenHeight! * 0.045),
+                          child: const EventTimer(),
                         ),
                       ),
                     ],

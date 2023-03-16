@@ -13,10 +13,9 @@ class CCDAppBar extends StatelessWidget {
       title: BlocBuilder<AppCubit, AppState>(
         builder: (context, state) {
           return ColorFiltered(
-            colorFilter: ColorFilter.mode(
-              state.themeMode == ThemeMode.light ? Colors.black : Colors.white,
-              BlendMode.srcIn,
-            ),
+            colorFilter:  state.themeMode == ThemeMode.light
+                  ? const ColorFilter.mode(Colors.transparent, BlendMode.saturation)
+                  : const ColorFilter.mode(Colors.white, BlendMode.srcIn),
             child: Image.asset(
               GCCDImageAssets.gdgCloudKolkataLogo,
               width: screenWidth! * 0.54,

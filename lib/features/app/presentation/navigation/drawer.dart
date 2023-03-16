@@ -15,6 +15,8 @@ class CCDDrawer extends StatelessWidget {
 
     final appCubit = context.read<AppCubit>();
 
+    final themeMode = context.watch<AppCubit>().state.themeMode;
+
     return Drawer(
       child: ListView(
         shrinkWrap: true,
@@ -24,22 +26,49 @@ class CCDDrawer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  GCCDImageAssets.gdgCloudKolkataLogo,
-                  width: screenWidth! * 0.6,
-                ),
+                BlocBuilder<AppCubit, AppState>(builder: (context, state) {
+                  return ColorFiltered(
+                    colorFilter: state.themeMode == ThemeMode.light
+                        ? ColorFilter.mode(
+                            Colors.transparent, BlendMode.saturation)
+                        : ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                    child: Image.asset(
+                      GCCDImageAssets.gdgCloudKolkataLogo,
+                      width: screenWidth! * 0.6,
+                    ),
+                  );
+                }),
+                // ColorFiltered(
+                //   colorFilter: ,
+                //   child: Image.asset(
+                //     GCCDImageAssets.gdgCloudKolkataLogo,
+                //     width: screenWidth! * 0.6,
+                //   ),
+                // ),
+
                 const SizedBox(
-                  height: kPadding * 4,
+                  height: kPadding * 3,
                 ),
                 Row(
                   children: [
                     CircleAvatar(
-                      child: Image.asset('assets/yoda.png'),
+                      radius: screenWidth! * 0.09,
+                      foregroundColor: Colors.blue,
+                      child: CircleAvatar(
+                        radius: screenWidth! * 0.08,
+                        child: Image.asset('assets/yoda.png'),
+                      ),
                     ),
                     const SizedBox(
                       width: kPadding,
                     ),
-                    Text('Hi, ${user?.username ?? 'Anonymous Jedi'}'),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Hi, ${user?.firstName ?? 'Anonymous Jedi'}'),
+                        Text('@ ${user?.username ?? 'Grogu'}'),
+                      ],
+                    ),
                   ],
                 )
               ],
@@ -47,29 +76,34 @@ class CCDDrawer extends StatelessWidget {
           ),
           ListView.builder(
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: drawerItemsMain.length,
             itemBuilder: (context, index) {
               bool isSelected =
                   context.router.currentPath == drawerItemsMainPath[index];
 
-              return Padding(
-                padding: EdgeInsets.all(isSelected ? 8.0 : 0),
-                child: DrawerListTile(
-                  selected: isSelected,
-                  title: drawerItemsMain[index],
-                  icon: isSelected
-                      ? drawerItemsMainIcon[index]
-                      : drawerItemsMainIconOutlined[index],
-                  onTap: () {
-                    context.router.pushNamed(drawerItemsMainPath[index]);
-                  },
-                ),
-              );
+              if (drawerItemsMain[index] == 'Profile' && user == null) {
+                return const SizedBox.shrink();
+              } else {
+                return Padding(
+                  padding: EdgeInsets.all(isSelected ? 8.0 : 0),
+                  child: DrawerListTile(
+                    selected: isSelected,
+                    title: drawerItemsMain[index],
+                    icon: isSelected
+                        ? drawerItemsMainIcon[index]
+                        : drawerItemsMainIconOutlined[index],
+                    onTap: () {
+                      context.router.pushNamed(drawerItemsMainPath[index]);
+                    },
+                  ),
+                );
+              }
             },
           ),
           DrawerListTile(
             title: 'Sign ${user == null ? 'In' : 'Out'}',
-            icon: Icons.logout,
+            icon: user == null ? Icons.login : Icons.logout,
             onTap: () {
               if (user != null) {
                 AuthCubit.instance.logout();
