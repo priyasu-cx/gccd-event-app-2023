@@ -15,7 +15,7 @@ class CCDDrawer extends StatelessWidget {
 
     final appCubit = context.read<AppCubit>();
 
-    final themeMode = context.watch<AppCubit>().state.themeMode;
+    print(user?.profile.firstName);
 
     return Drawer(
       child: ListView(
@@ -38,35 +38,34 @@ class CCDDrawer extends StatelessWidget {
                     ),
                   );
                 }),
-                // ColorFiltered(
-                //   colorFilter: ,
-                //   child: Image.asset(
-                //     GCCDImageAssets.gdgCloudKolkataLogo,
-                //     width: screenWidth! * 0.6,
-                //   ),
-                // ),
 
                 const SizedBox(
                   height: kPadding * 3,
                 ),
                 Row(
                   children: [
-                    CircleAvatar(
-                      radius: screenWidth! * 0.09,
-                      foregroundColor: Colors.blue,
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: GCCDColor.googleYellow ,
+                          width: 3,
+                        )
+                      ),
+                      width: screenWidth! * 0.2,
                       child: CircleAvatar(
-                        radius: screenWidth! * 0.08,
-                        child: Image.asset('assets/yoda.png'),
+                        radius: screenWidth! * 0.1,
+                        child: Image.asset(GCCDImageAssets.yoda),
                       ),
                     ),
                     const SizedBox(
-                      width: kPadding,
+                      width: kPadding*2,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Hi, ${user?.firstName ?? 'Anonymous Jedi'}'),
-                        Text('@ ${user?.username ?? 'Grogu'}'),
+                        Text('Hi, ${user?.profile.firstName ?? 'Anonymous Jedi'}', style: Theme.of(context).textTheme.titleLarge),
+                        Text('@ ${user?.username ?? 'Grogu'}', style: Theme.of(context).textTheme.titleMedium),
                       ],
                     ),
                   ],
@@ -133,6 +132,7 @@ class CCDDrawer extends StatelessWidget {
           ),
           Divider(),
           ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: drawerItemsFooter.length,
             itemBuilder: (context, index) {
@@ -148,7 +148,7 @@ class CCDDrawer extends StatelessWidget {
                       ? drawerItemsFooterIcon[index]
                       : drawerItemsFooterIconOutlined[index],
                   onTap: () {
-                    context.router.pushNamed(drawerItemsFooterPath[index]);
+                    context.router.replaceNamed(drawerItemsFooterPath[index]);
                   },
                 ),
               );
