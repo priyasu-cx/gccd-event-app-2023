@@ -34,6 +34,7 @@ class AppTheme {
     drawerTheme: const DrawerThemeData(
       backgroundColor: GCCDColor.white,
     ),
+    dividerColor: Colors.black54,
     scaffoldBackgroundColor: GCCDColor.white,
     textTheme: AppTextStyle.textTheme.apply(
       bodyColor: GCCDColor.black,
@@ -101,6 +102,7 @@ class AppTheme {
     drawerTheme: const DrawerThemeData(
       backgroundColor: GCCDColor.black,
     ),
+    dividerColor: Colors.white54,
     scaffoldBackgroundColor: GCCDColor.black,
     textTheme: AppTextStyle.textTheme.apply(
       bodyColor: GCCDColor.white,

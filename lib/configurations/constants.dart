@@ -52,37 +52,37 @@ const contentEndpoint = 'content';
 const drawerItemsMain = [
   'Home',
   'Buy Tickets',
-  'Schedule',
-  'Speakers',
+  // 'Schedule',
+  // 'Speakers',
   'Profile',
-  'Team',
+  // 'Team',
 ];
 
 const drawerItemsMainPath = [
   '/home',
   '/buy_tickets',
-  '/schedule',
-  '/speakers',
+  // '/schedule',
+  // '/speakers',
   '/profile',
-  '/team',
+  // '/team',
 ];
 
 const drawerItemsMainIconOutlined = [
   Icons.home_outlined,
   Icons.local_activity_outlined,
-  Icons.calendar_month_outlined,
-  Icons.campaign_outlined,
+  // Icons.calendar_month_outlined,
+  // Icons.campaign_outlined,
   Icons.person_outlined,
-  Icons.group_outlined,
+  // Icons.group_outlined,
 ];
 
 const drawerItemsMainIcon = [
   Icons.home,
   Icons.local_activity,
-  Icons.calendar_month,
-  Icons.campaign,
+  // Icons.calendar_month,
+  // Icons.campaign,
   Icons.person,
-  Icons.group,
+  // Icons.group,
 ];
 
 const drawerItemsFooter = [
@@ -114,17 +114,45 @@ const passwordControlName = 'password';
 const confirmPasswordControlName = 'confirm-password';
 const usernameControlName = 'username';
 const emailControlName = 'email';
+const phoneControlName = 'phone';
+const collegeControlName = 'college';
+const courseControlName = 'course';
+const yearControlName = 'year';
+const companyControlName = 'company';
+const designationControlName = 'designation';
+const foodPreferenceControlName = 'food-preference';
+const tshirtSizeControlName = 'tshirt-size';
+const countryControlName = 'country';
 
-const String eventTitle = 'Community Days India, 2023';
+const String eventTitle = 'Community Days Kolkata, 2023';
 const String eventHashTag = '#GoogleCloudCommunityDays';
 const String eventDescription =
     ' - is series of community-leds events organised by GDG Cloud communities across India to help you prepare for Google Cloud Certifications and learn more about Cloud technologies.';
+const String eventDate_copy = '7th May 2023';
+const String eventTime = '9:00 AM - 5:00 PM';
+const String eventVenue = 'Biswa Bangla Convention Centre, Kolkata';
 const String aboutGCCD =
     'GDG Cloud Kolkata is bringing to you the largest Google Cloud developer event in Eastern India. Cloud Community Days Kolkata is the flagship event of GDG Cloud Kolkata, held annually, recollecting the best of the year and setting the stone for the upcoming year. Join us as we bring the best of speakers and help you to put your career on a runway to Google Cloud.';
 
 Duration eventDate = DateTime(2023, 5, 7, 0, 0).difference(DateTime.now());
 
 const String passwordResetResponse = 'Password reset e-mail has been sent.';
+
+// Profile
+List<String> country = [
+  "Afghanistan",
+  "Albania",
+  "Algeria",
+  "IN",
+];
+
+List<String> tshirtSize = [
+  "S",
+  "M",
+  "L",
+  "XL",
+  "XXL",
+];
 
 // FAQ body
 const FAQDetails = {

@@ -16,6 +16,7 @@ class CCDDrawer extends StatelessWidget {
     final appCubit = context.read<AppCubit>();
 
     return Drawer(
+      width: screenWidth! * 0.7,
       child: ListView(
         shrinkWrap: true,
         padding: EdgeInsets.zero,
@@ -24,22 +25,63 @@ class CCDDrawer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  GCCDImageAssets.gdgCloudKolkataLogo,
-                  width: screenWidth! * 0.6,
+                BlocBuilder<AppCubit, AppState>(
+                  builder: (context, state) {
+                    return ColorFiltered(
+                      colorFilter: state.themeMode == ThemeMode.light
+                          ? const ColorFilter.mode(
+                              Colors.transparent,
+                              BlendMode.saturation,
+                            )
+                          : const ColorFilter.mode(
+                              Colors.white,
+                              BlendMode.srcIn,
+                            ),
+                      child: Image.asset(
+                        GCCDImageAssets.gdgCloudKolkataLogo,
+                        width: screenWidth! * 0.6,
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(
-                  height: kPadding * 4,
+                  height: kPadding * 3,
                 ),
                 Row(
                   children: [
-                    CircleAvatar(
-                      child: Image.asset('assets/yoda.png'),
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: GCCDColor.googleYellow,
+                          width: 3,
+                        ),
+                      ),
+                      child: CircleAvatar(
+                        radius: kPadding * 4,
+                        child: Image.asset(GCCDImageAssets.yoda),
+                      ),
                     ),
                     const SizedBox(
-                      width: kPadding,
+                      width: kPadding * 2,
                     ),
-                    Text('Hi, ${user?.username ?? 'Anonymous Jedi'}'),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Hi, ${user?.profile.firstName ?? 'Anonymous Jedi'}',
+                            style: Theme.of(context).textTheme.titleMedium,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            '@${user?.username ?? 'Grogu'}',
+                            style: Theme.of(context).textTheme.titleSmall,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 )
               ],
@@ -47,29 +89,34 @@ class CCDDrawer extends StatelessWidget {
           ),
           ListView.builder(
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: drawerItemsMain.length,
             itemBuilder: (context, index) {
               bool isSelected =
                   context.router.currentPath == drawerItemsMainPath[index];
 
-              return Padding(
-                padding: EdgeInsets.all(isSelected ? 8.0 : 0),
-                child: DrawerListTile(
-                  selected: isSelected,
-                  title: drawerItemsMain[index],
-                  icon: isSelected
-                      ? drawerItemsMainIcon[index]
-                      : drawerItemsMainIconOutlined[index],
-                  onTap: () {
-                    context.router.pushNamed(drawerItemsMainPath[index]);
-                  },
-                ),
-              );
+              if (drawerItemsMain[index] == 'Profile' && user == null) {
+                return const Offstage();
+              } else {
+                return Padding(
+                  padding: EdgeInsets.all(isSelected ? 8.0 : 0),
+                  child: DrawerListTile(
+                    selected: isSelected,
+                    title: drawerItemsMain[index],
+                    icon: isSelected
+                        ? drawerItemsMainIcon[index]
+                        : drawerItemsMainIconOutlined[index],
+                    onTap: () {
+                      context.router.pushNamed(drawerItemsMainPath[index]);
+                    },
+                  ),
+                );
+              }
             },
           ),
           DrawerListTile(
             title: 'Sign ${user == null ? 'In' : 'Out'}',
-            icon: Icons.logout,
+            icon: user == null ? Icons.login : Icons.logout,
             onTap: () {
               if (user != null) {
                 AuthCubit.instance.logout();
@@ -78,27 +125,29 @@ class CCDDrawer extends StatelessWidget {
               }
             },
           ),
-          BlocBuilder<AppCubit, AppState>(
-            builder: (context, state) {
-              return SwitchListTile.adaptive(
-                value: state.themeMode != ThemeMode.light,
-                onChanged: (value) {
-                  if (!value) {
-                    appCubit.updateThemeMode(ThemeMode.light);
-                  } else {
-                    appCubit.updateThemeMode(ThemeMode.dark);
-                  }
-                },
-                title: Text(
-                  state.themeMode == ThemeMode.light
-                      ? "Light theme"
-                      : "Dark Theme",
-                ),
-              );
-            },
-          ),
-          Divider(),
+          // Hidden for now
+          // BlocBuilder<AppCubit, AppState>(
+          //   builder: (context, state) {
+          //     return SwitchListTile.adaptive(
+          //       value: state.themeMode != ThemeMode.light,
+          //       onChanged: (value) {
+          //         if (!value) {
+          //           appCubit.updateThemeMode(ThemeMode.light);
+          //         } else {
+          //           appCubit.updateThemeMode(ThemeMode.dark);
+          //         }
+          //       },
+          //       title: Text(
+          //         state.themeMode == ThemeMode.light
+          //             ? "Light theme"
+          //             : "Dark Theme",
+          //       ),
+          //     );
+          //   },
+          // ),
+          const Divider(),
           ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: drawerItemsFooter.length,
             itemBuilder: (context, index) {
@@ -114,7 +163,7 @@ class CCDDrawer extends StatelessWidget {
                       ? drawerItemsFooterIcon[index]
                       : drawerItemsFooterIconOutlined[index],
                   onTap: () {
-                    context.router.pushNamed(drawerItemsFooterPath[index]);
+                    context.router.replaceNamed(drawerItemsFooterPath[index]);
                   },
                 ),
               );

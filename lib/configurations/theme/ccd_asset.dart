@@ -1,4 +1,6 @@
 abstract class GCCDImageAssets {
+  static const String yoda = 'assets/yoda.png';
+
   // AppBar
   static const String gdgCloudKolkataLogo = 'assets/GDG_Cloud_Kol_Logo.png';
 
