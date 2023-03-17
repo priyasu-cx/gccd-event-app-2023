@@ -1,10 +1,8 @@
 import 'package:ccd2023/configurations/theme/ccd_asset.dart';
 import 'package:ccd2023/configurations/theme/ccd_colors.dart';
 import 'package:ccd2023/features/app/app.dart';
-import 'package:ccd2023/features/app/presentation/navigation/appbar.dart';
-import 'package:ccd2023/features/app/presentation/navigation/drawer.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
-import 'package:ccd2023/features/home/default_button_widget.dart';
+import 'package:ccd2023/features/home/home.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
