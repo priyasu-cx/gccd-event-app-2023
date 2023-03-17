@@ -70,19 +70,19 @@ const drawerItemsMainPath = [
 const drawerItemsMainIconOutlined = [
   Icons.home_outlined,
   Icons.local_activity_outlined,
-  Icons.calendar_month_outlined,
-  Icons.campaign_outlined,
+  // Icons.calendar_month_outlined,
+  // Icons.campaign_outlined,
   Icons.person_outlined,
-  Icons.group_outlined,
+  // Icons.group_outlined,
 ];
 
 const drawerItemsMainIcon = [
   Icons.home,
   Icons.local_activity,
-  Icons.calendar_month,
-  Icons.campaign,
+  // Icons.calendar_month,
+  // Icons.campaign,
   Icons.person,
-  Icons.group,
+  // Icons.group,
 ];
 
 const drawerItemsFooter = [
