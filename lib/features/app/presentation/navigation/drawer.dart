@@ -15,9 +15,8 @@ class CCDDrawer extends StatelessWidget {
 
     final appCubit = context.read<AppCubit>();
 
-    print(user?.profile.firstName);
-
     return Drawer(
+      width: screenWidth! * 0.7,
       child: ListView(
         shrinkWrap: true,
         padding: EdgeInsets.zero,
@@ -26,19 +25,25 @@ class CCDDrawer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BlocBuilder<AppCubit, AppState>(builder: (context, state) {
-                  return ColorFiltered(
-                    colorFilter: state.themeMode == ThemeMode.light
-                        ? ColorFilter.mode(
-                            Colors.transparent, BlendMode.saturation)
-                        : ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                    child: Image.asset(
-                      GCCDImageAssets.gdgCloudKolkataLogo,
-                      width: screenWidth! * 0.6,
-                    ),
-                  );
-                }),
-
+                BlocBuilder<AppCubit, AppState>(
+                  builder: (context, state) {
+                    return ColorFiltered(
+                      colorFilter: state.themeMode == ThemeMode.light
+                          ? const ColorFilter.mode(
+                              Colors.transparent,
+                              BlendMode.saturation,
+                            )
+                          : const ColorFilter.mode(
+                              Colors.white,
+                              BlendMode.srcIn,
+                            ),
+                      child: Image.asset(
+                        GCCDImageAssets.gdgCloudKolkataLogo,
+                        width: screenWidth! * 0.6,
+                      ),
+                    );
+                  },
+                ),
                 const SizedBox(
                   height: kPadding * 3,
                 ),
@@ -48,25 +53,34 @@ class CCDDrawer extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: GCCDColor.googleYellow ,
+                          color: GCCDColor.googleYellow,
                           width: 3,
-                        )
+                        ),
                       ),
-                      width: screenWidth! * 0.2,
                       child: CircleAvatar(
-                        radius: screenWidth! * 0.1,
+                        radius: kPadding * 4,
                         child: Image.asset(GCCDImageAssets.yoda),
                       ),
                     ),
                     const SizedBox(
-                      width: kPadding*2,
+                      width: kPadding * 2,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Hi, ${user?.profile.firstName ?? 'Anonymous Jedi'}', style: Theme.of(context).textTheme.titleLarge),
-                        Text('@ ${user?.username ?? 'Grogu'}', style: Theme.of(context).textTheme.titleMedium),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Hi, ${user?.profile.firstName ?? 'Anonymous Jedi'}',
+                            style: Theme.of(context).textTheme.titleMedium,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            '@${user?.username ?? 'Grogu'}',
+                            style: Theme.of(context).textTheme.titleSmall,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 )
@@ -82,7 +96,7 @@ class CCDDrawer extends StatelessWidget {
                   context.router.currentPath == drawerItemsMainPath[index];
 
               if (drawerItemsMain[index] == 'Profile' && user == null) {
-                return const SizedBox.shrink();
+                return const Offstage();
               } else {
                 return Padding(
                   padding: EdgeInsets.all(isSelected ? 8.0 : 0),
@@ -111,26 +125,27 @@ class CCDDrawer extends StatelessWidget {
               }
             },
           ),
-          BlocBuilder<AppCubit, AppState>(
-            builder: (context, state) {
-              return SwitchListTile.adaptive(
-                value: state.themeMode != ThemeMode.light,
-                onChanged: (value) {
-                  if (!value) {
-                    appCubit.updateThemeMode(ThemeMode.light);
-                  } else {
-                    appCubit.updateThemeMode(ThemeMode.dark);
-                  }
-                },
-                title: Text(
-                  state.themeMode == ThemeMode.light
-                      ? "Light theme"
-                      : "Dark Theme",
-                ),
-              );
-            },
-          ),
-          Divider(),
+          // Hidden for now
+          // BlocBuilder<AppCubit, AppState>(
+          //   builder: (context, state) {
+          //     return SwitchListTile.adaptive(
+          //       value: state.themeMode != ThemeMode.light,
+          //       onChanged: (value) {
+          //         if (!value) {
+          //           appCubit.updateThemeMode(ThemeMode.light);
+          //         } else {
+          //           appCubit.updateThemeMode(ThemeMode.dark);
+          //         }
+          //       },
+          //       title: Text(
+          //         state.themeMode == ThemeMode.light
+          //             ? "Light theme"
+          //             : "Dark Theme",
+          //       ),
+          //     );
+          //   },
+          // ),
+          const Divider(),
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,

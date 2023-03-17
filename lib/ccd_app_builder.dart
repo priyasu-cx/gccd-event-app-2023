@@ -16,7 +16,9 @@ class CCDAppBuilder extends AppBuilder {
     required AppRouter appRouter,
     final String? initialDeepLink,
   }) : super(
-          onInitState: (context) {},
+          onInitState: (context) {
+            AppCubit.instance.updateThemeMode(ThemeMode.dark);
+          },
           repositoryProviders: [
             ///Add repositories that are required globally here
             RepositoryProvider<DioApiClient>(
@@ -69,7 +71,6 @@ class CCDAppBuilder extends AppBuilder {
                       context
                           .read<SizeRepository>()
                           .init(constraints, orientation);
-                      // SizeConfig().init(constraints, orientation);
                       return MaterialApp.router(
                         debugShowCheckedModeBanner: false,
                         scaffoldMessengerKey:
@@ -77,7 +78,8 @@ class CCDAppBuilder extends AppBuilder {
                         title: appTitle,
                         theme: AppTheme.light,
                         darkTheme: AppTheme.dark,
-                        themeMode: appState.themeMode,
+                        themeMode: ThemeMode.dark,
+                        //appState.themeMode, (TODO : uncomment once we get instruction to enable)
                         locale: Locale(appState.locale, ''),
                         supportedLocales: const [
                           Locale('en', ''),
