@@ -9,6 +9,10 @@ const ccdLogo =
 //Base endpoints
 const baseURI = 'https://api2.gdgcloud.kolkata.dev/';
 
+//Ticketing endpoints
+const eventCode='google-cloud-community-days-kolkata-2023';
+const baseBuyTicketURI = 'https://www.townscript.com/v2/e/$eventCode/booking?';
+
 const authEndpoint = 'auth/';
 
 const speakerEndpoint = 'speakers/';
