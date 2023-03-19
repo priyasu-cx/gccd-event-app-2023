@@ -18,6 +18,13 @@ class AppTheme {
       borderRadius: BorderRadius.circular(8),
     ),
   );
+  static SwitchThemeData switchThemeData = SwitchThemeData(
+    thumbColor: MaterialStateProperty.all(GCCDColor.white),
+    trackColor: MaterialStateProperty.resolveWith(
+      (states) =>
+          states.contains(MaterialState.selected) ? GCCDColor.googleBlue : null,
+    ),
+  );
 
   static ThemeData light = ThemeData.light().copyWith(
     appBarTheme: AppBarTheme(
@@ -45,15 +52,17 @@ class AppTheme {
       selectedTileColor: GCCDColor.black,
       selectedColor: GCCDColor.white,
     ),
-    inputDecorationTheme: const InputDecorationTheme(
+    switchTheme: switchThemeData,
+    inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
-        borderSide: BorderSide(
-          color: Color(0xFFF9F9F9),
+        borderSide: const BorderSide(
+          color: GCCDColor.googleBlue,
         ),
+        borderRadius: BorderRadius.circular(kPadding * 2),
       ),
       fillColor: GCCDColor.white,
       filled: true,
-      labelStyle: TextStyle(
+      labelStyle: const TextStyle(
         color: Color(0xFFF1F1F1),
       ),
     ),
@@ -113,15 +122,16 @@ class AppTheme {
       selectedTileColor: GCCDColor.white,
       selectedColor: GCCDColor.black,
     ),
-    inputDecorationTheme: const InputDecorationTheme(
+    inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
-        borderSide: BorderSide(
-          color: Color(0xFF1F1E1E),
+        borderSide: const BorderSide(
+          color: GCCDColor.googleBlue,
         ),
+        borderRadius: BorderRadius.circular(kPadding * 2),
       ),
       fillColor: GCCDColor.black,
       filled: true,
-      labelStyle: TextStyle(
+      labelStyle: const TextStyle(
         color: Color(0xFF1F1E1E),
       ),
     ),
@@ -150,5 +160,6 @@ class AppTheme {
         ),
       ),
     ),
+    switchTheme: switchThemeData,
   );
 }

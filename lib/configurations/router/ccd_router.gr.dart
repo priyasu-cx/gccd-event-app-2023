@@ -11,46 +11,53 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i8;
-import 'package:ccd2023/features/app/app.dart' as _i7;
-import 'package:ccd2023/features/auth/auth.dart' as _i2;
-import 'package:ccd2023/features/but_tickets/pages/buy_ticket_page.dart' as _i3;
-import 'package:ccd2023/features/coc/pages/coc_page.dart' as _i6;
-import 'package:ccd2023/features/faq/pages/faq_page.dart' as _i5;
-import 'package:ccd2023/features/home/pages/home_page.dart' as _i1;
-import 'package:ccd2023/features/profile/pages/profile_page.dart' as _i4;
-import 'package:flutter/foundation.dart' as _i10;
-import 'package:flutter/material.dart' as _i9;
+import 'package:auto_route/auto_route.dart' as _i9;
+import 'package:ccd2023/features/app/app.dart' as _i8;
+import 'package:ccd2023/features/auth/auth.dart' as _i3;
+import 'package:ccd2023/features/buy_tickets/pages/buy_ticket_page.dart' as _i4;
+import 'package:ccd2023/features/coc/pages/coc_page.dart' as _i7;
+import 'package:ccd2023/features/faq/pages/faq_page.dart' as _i6;
+import 'package:ccd2023/features/home/home.dart' as _i1;
+import 'package:ccd2023/features/profile/pages/profile_page.dart' as _i5;
+import 'package:ccd2023/features/speaker/presentation/pages/cfs_page.dart'
+    as _i2;
+import 'package:flutter/material.dart' as _i10;
 
-class AppRouter extends _i8.RootStackRouter {
-  AppRouter([_i9.GlobalKey<_i9.NavigatorState>? navigatorKey])
+class AppRouter extends _i9.RootStackRouter {
+  AppRouter([_i10.GlobalKey<_i10.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i8.PageFactory> pagesMap = {
+  final Map<String, _i9.PageFactory> pagesMap = {
     HomeRoute.name: (routeData) {
-      return _i8.AdaptivePage<dynamic>(
+      return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.HomePage(),
       );
     },
-    LoginRoute.name: (routeData) {
-      return _i8.AdaptivePage<dynamic>(
+    CFSRoute.name: (routeData) {
+      return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i2.LoginPage(),
+        child: const _i2.CFSPage(),
+      );
+    },
+    LoginRoute.name: (routeData) {
+      return _i9.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const _i3.LoginPage(),
       );
     },
     SignUpRoute.name: (routeData) {
-      return _i8.AdaptivePage<dynamic>(
+      return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i2.SignUpPage(),
+        child: const _i3.SignUpPage(),
       );
     },
     ActivateEmailRoute.name: (routeData) {
       final args = routeData.argsAs<ActivateEmailRouteArgs>();
-      return _i8.AdaptivePage<dynamic>(
+      return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i2.ActivateEmailPage(
+        child: _i3.ActivateEmailPage(
           key: args.key,
           title: args.title,
           message: args.message,
@@ -58,88 +65,92 @@ class AppRouter extends _i8.RootStackRouter {
       );
     },
     ForgotPassRoute.name: (routeData) {
-      return _i8.AdaptivePage<dynamic>(
+      return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i2.ForgotPassPage(),
+        child: const _i3.ForgotPassPage(),
       );
     },
     BuyTicketRoute.name: (routeData) {
-      return _i8.AdaptivePage<dynamic>(
+      return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i3.BuyTicketPage(),
+        child: const _i4.BuyTicketPage(),
       );
     },
     ProfileRoute.name: (routeData) {
-      return _i8.AdaptivePage<dynamic>(
+      return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i4.ProfilePage(),
+        child: const _i5.ProfilePage(),
       );
     },
     FAQRoute.name: (routeData) {
-      return _i8.AdaptivePage<dynamic>(
+      return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i5.FAQPage(),
+        child: const _i6.FAQPage(),
       );
     },
     CoCRoute.name: (routeData) {
-      return _i8.AdaptivePage<dynamic>(
+      return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.CoCPage(),
+        child: const _i7.CoCPage(),
       );
     },
     UnknownRoute.name: (routeData) {
-      return _i8.AdaptivePage<dynamic>(
+      return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i7.UnknownPage(),
+        child: const _i8.UnknownPage(),
       );
     },
   };
 
   @override
-  List<_i8.RouteConfig> get routes => [
-        _i8.RouteConfig(
+  List<_i9.RouteConfig> get routes => [
+        _i9.RouteConfig(
           '/#redirect',
           path: '/',
           redirectTo: '/home',
           fullMatch: true,
         ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           HomeRoute.name,
           path: '/home',
         ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
+          CFSRoute.name,
+          path: '/cfs',
+        ),
+        _i9.RouteConfig(
           LoginRoute.name,
           path: '/login',
         ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           SignUpRoute.name,
           path: '/signup',
         ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           ActivateEmailRoute.name,
           path: '/activate-account',
         ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           ForgotPassRoute.name,
           path: '/forgot-pass',
         ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           BuyTicketRoute.name,
           path: '/buy-tickets',
         ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           ProfileRoute.name,
           path: '/profile',
         ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           FAQRoute.name,
           path: '/faq',
         ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           CoCRoute.name,
           path: '/coc',
         ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           UnknownRoute.name,
           path: '*',
         ),
@@ -148,7 +159,7 @@ class AppRouter extends _i8.RootStackRouter {
 
 /// generated route for
 /// [_i1.HomePage]
-class HomeRoute extends _i8.PageRouteInfo<void> {
+class HomeRoute extends _i9.PageRouteInfo<void> {
   const HomeRoute()
       : super(
           HomeRoute.name,
@@ -159,8 +170,20 @@ class HomeRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.LoginPage]
-class LoginRoute extends _i8.PageRouteInfo<void> {
+/// [_i2.CFSPage]
+class CFSRoute extends _i9.PageRouteInfo<void> {
+  const CFSRoute()
+      : super(
+          CFSRoute.name,
+          path: '/cfs',
+        );
+
+  static const String name = 'CFSRoute';
+}
+
+/// generated route for
+/// [_i3.LoginPage]
+class LoginRoute extends _i9.PageRouteInfo<void> {
   const LoginRoute()
       : super(
           LoginRoute.name,
@@ -171,8 +194,8 @@ class LoginRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.SignUpPage]
-class SignUpRoute extends _i8.PageRouteInfo<void> {
+/// [_i3.SignUpPage]
+class SignUpRoute extends _i9.PageRouteInfo<void> {
   const SignUpRoute()
       : super(
           SignUpRoute.name,
@@ -183,8 +206,8 @@ class SignUpRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.ActivateEmailPage]
-class ActivateEmailRoute extends _i8.PageRouteInfo<ActivateEmailRouteArgs> {
+/// [_i3.ActivateEmailPage]
+class ActivateEmailRoute extends _i9.PageRouteInfo<ActivateEmailRouteArgs> {
   ActivateEmailRoute({
     _i10.Key? key,
     required String title,
@@ -222,8 +245,8 @@ class ActivateEmailRouteArgs {
 }
 
 /// generated route for
-/// [_i2.ForgotPassPage]
-class ForgotPassRoute extends _i8.PageRouteInfo<void> {
+/// [_i3.ForgotPassPage]
+class ForgotPassRoute extends _i9.PageRouteInfo<void> {
   const ForgotPassRoute()
       : super(
           ForgotPassRoute.name,
@@ -234,8 +257,8 @@ class ForgotPassRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.BuyTicketPage]
-class BuyTicketRoute extends _i8.PageRouteInfo<void> {
+/// [_i4.BuyTicketPage]
+class BuyTicketRoute extends _i9.PageRouteInfo<void> {
   const BuyTicketRoute()
       : super(
           BuyTicketRoute.name,
@@ -246,8 +269,8 @@ class BuyTicketRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.ProfilePage]
-class ProfileRoute extends _i8.PageRouteInfo<void> {
+/// [_i5.ProfilePage]
+class ProfileRoute extends _i9.PageRouteInfo<void> {
   const ProfileRoute()
       : super(
           ProfileRoute.name,
@@ -258,8 +281,8 @@ class ProfileRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.FAQPage]
-class FAQRoute extends _i8.PageRouteInfo<void> {
+/// [_i6.FAQPage]
+class FAQRoute extends _i9.PageRouteInfo<void> {
   const FAQRoute()
       : super(
           FAQRoute.name,
@@ -270,8 +293,8 @@ class FAQRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.CoCPage]
-class CoCRoute extends _i8.PageRouteInfo<void> {
+/// [_i7.CoCPage]
+class CoCRoute extends _i9.PageRouteInfo<void> {
   const CoCRoute()
       : super(
           CoCRoute.name,
@@ -282,8 +305,8 @@ class CoCRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.UnknownPage]
-class UnknownRoute extends _i8.PageRouteInfo<void> {
+/// [_i8.UnknownPage]
+class UnknownRoute extends _i9.PageRouteInfo<void> {
   const UnknownRoute()
       : super(
           UnknownRoute.name,

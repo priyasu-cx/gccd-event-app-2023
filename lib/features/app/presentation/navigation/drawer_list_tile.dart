@@ -9,7 +9,10 @@ class DrawerListTile extends ListTile {
     super.onTap,
     super.selected,
   }) : super(
-          leading: icon != null ? Icon(icon, size: kPadding * 4.5) : null,
+          leading: icon != null ? Icon(icon, size: kPadding * 4) : null,
+          contentPadding: selected
+              ? const EdgeInsets.symmetric(horizontal: kPadding * 1.8)
+              : null,
           title: Text(title),
         );
 }

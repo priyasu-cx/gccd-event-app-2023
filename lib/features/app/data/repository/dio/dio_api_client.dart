@@ -5,8 +5,10 @@ class DioApiClient extends BaseApiClient<Response, Dio> {
   DioApiClient({required super.baseUrl, required super.client});
 
   @override
-  Future<Response> getData(
-      String endPoint, Map<String, dynamic> dataPayload) async {
+  Future<Response> getData({
+    required String endPoint,
+    Map<String, dynamic>? dataPayload,
+  }) async {
     try {
       return await client.get(
         baseUrl + endPoint,
@@ -19,7 +21,8 @@ class DioApiClient extends BaseApiClient<Response, Dio> {
 
   @override
   Future<Response> postData(
-      String endPoint, Map<String, dynamic> dataPayload) async {
+      {required String endPoint,
+      required Map<String, dynamic> dataPayload}) async {
     try {
       return await client.post(
         baseUrl + endPoint,

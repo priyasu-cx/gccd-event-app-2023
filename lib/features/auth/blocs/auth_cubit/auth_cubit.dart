@@ -104,7 +104,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
     }
   }
 
-  Future<bool> signUpWithUsernamePassword({
+  Future<void> signUpWithUsernamePassword({
     required String email,
     required String password,
     required String username,
@@ -122,7 +122,6 @@ class AuthCubit extends HydratedCubit<AuthState> {
         DjangoflowAppSnackbar.showInfo(
           'Sign up successful! Please verify email and login.',
         );
-        return true;
       }
     } on DioError catch (e) {
       if (e.response != null) {
@@ -146,7 +145,6 @@ class AuthCubit extends HydratedCubit<AuthState> {
     } on Exception catch (e) {
       DjangoflowAppSnackbar.showError(e.toString());
     }
-    return false;
   }
 
   Future<void> forgotPassword({
