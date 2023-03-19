@@ -8,7 +8,7 @@ class EditStateBLoc extends Cubit<EditStateBLocState> {
 
   EditStateBLoc() : super(MyInitialState());
 
-  void toggleEditing() {
+  Future<void> toggleEditing() async {
     isEditing = !isEditing;
     emit(MyUpdatedState());
   }

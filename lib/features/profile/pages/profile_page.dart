@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/configurations/constants.dart';
 import 'package:ccd2023/configurations/theme/ccd_asset.dart';
 import 'package:ccd2023/configurations/theme/ccd_colors.dart';
@@ -37,6 +39,14 @@ class _ProfilePageState extends State<ProfilePage> {
     /// TODO: Fix use with edit form reactive form state changes from disabled to enabled not changing
     if (kDebugMode) {
       print(isEditing);
+    }
+
+    Future<void> _onSubmit(FormGroup form) async {
+      if (form.valid) {
+        /// TODO: Add update user profile logic
+        context.read<EditStateBLoc>().toggleEditing();
+        context.router.popAndPush(const ProfileRoute());
+      }
     }
 
     FormGroup _formBuilder() => fb.group(
@@ -163,6 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               isOutlined: true,
                               onPressed: () {
                                 context.read<EditStateBLoc>().toggleEditing();
+                                context.router.popAndPush(const ProfileRoute());
                                 // state = ValueNotifier(context.read<EditStateBLoc>().isEditing);
                                 // print("state: $state");
                                 // setState(() {
@@ -191,12 +202,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         headerText: "Personal Details",
                         headerDesc: "Please fill in your details to complete your profile.",
                         isEditing: context.watch<EditStateBLoc>().isEditing,
-                        onSubmit: (form) {
-                          if (kDebugMode) {
-                            print(form.value);
-                          }
-                          throw UnimplementedError();
-                        },
+                        onSubmit: _onSubmit,
                         editButtonText: "Save Changes",
                         formBuilder: _formBuilder,
                         formContent: [

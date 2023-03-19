@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/configurations/theme/ccd_colors.dart';
 import 'package:ccd2023/features/app/presentation/navigation/appbar.dart';
@@ -29,6 +31,13 @@ class BuyTicketPage extends StatelessWidget {
       print(isEditing);
     }
 
+    Future<void> _onSubmit(FormGroup form) async {
+      if (form.valid) {
+        /// TODO: Add update user profile logic
+        context.read<EditStateBLoc>().toggleEditing();
+        context.router.popAndPush(const BuyTicketRoute());
+      }
+    }
 
     FormGroup _formBuilder() => fb.group(
       {
@@ -96,12 +105,7 @@ class BuyTicketPage extends StatelessWidget {
                 ),
                 EditProfileWrapper(
                     isEditing: context.watch<EditStateBLoc>().isEditing,
-                    onSubmit: (form) {
-                      if (kDebugMode) {
-                        print(form.value);
-                      }
-                      throw UnimplementedError();
-                    },
+                    onSubmit: _onSubmit,
                     formBuilder: _formBuilder,
                     formContent: [
 
@@ -197,8 +201,10 @@ class BuyTicketPage extends StatelessWidget {
                               withIcon: true,
                               icon: isEditing ? Icons.cancel_outlined :Icons.edit_note_outlined,
                               isOutlined: true,
-                              onPressed: () {
-                                context.read<EditStateBLoc>().toggleEditing();
+                              onPressed: () async {
+                                await context.read<EditStateBLoc>().toggleEditing();
+                                // sleep(const Duration(milliseconds: 100));
+                                context.router.popAndPush(const BuyTicketRoute());
                               })),
                     ],
                   ),
