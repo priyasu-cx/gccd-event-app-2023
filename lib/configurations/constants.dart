@@ -144,6 +144,9 @@ const String eventTime = '9:00 AM - 5:00 PM';
 const String eventVenue = 'Biswa Bangla Convention Centre, Kolkata';
 const String aboutGCCD =
     'GDG Cloud Kolkata is bringing to you the largest Google Cloud developer event in Eastern India. Cloud Community Days Kolkata is the flagship event of GDG Cloud Kolkata, held annually, recollecting the best of the year and setting the stone for the upcoming year. Join us as we bring the best of speakers and help you to put your career on a runway to Google Cloud.';
+const String cfpDesc = 'Each Google Cloud Community Days event brings you an opportunity to lead and present to the crown your excellent views. Join us as a Speaker to showcase your awesomeness';
+const String sponsorDesc = "We're thankful to all our sponsors who are making CCD 2023 Kolkata amazing.";
+
 
 Duration eventDate = DateTime(2023, 5, 7, 0, 0).difference(DateTime.now());
 
@@ -163,6 +166,15 @@ List<String> tshirtSize = [
   "L",
   "XL",
   "XXL",
+];
+
+// Sponsor
+const List<Map<String, dynamic>> titleSponsor = [
+  {
+    "name": "Google Developers",
+    "logo": "https://gdgcloud.kolkata.dev/ccd2023/images/sponsors/GoogleDevelopers.svg",
+    "link": "https://developers.google.com/",
+  },
 ];
 
 // FAQ body
