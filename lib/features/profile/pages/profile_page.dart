@@ -2,10 +2,9 @@ import 'package:ccd2023/configurations/constants.dart';
 import 'package:ccd2023/configurations/theme/ccd_asset.dart';
 import 'package:ccd2023/configurations/theme/ccd_colors.dart';
 import 'package:ccd2023/features/app/app.dart';
-import 'package:ccd2023/features/app/presentation/navigation/appbar.dart';
-import 'package:ccd2023/features/app/presentation/navigation/drawer.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/features/home/default_button_widget.dart';
+import 'package:ccd2023/features/profile/bloc/edit_state.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -23,14 +22,27 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  /// TODO: Fix use with edit form reactive form state changes from disabled to enabled not changing
+  /// dynamically. Need to refresh tha page to see changes.
+
+
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthCubit>().state.user;
+    bool isEditing = context.read<EditStateBLoc>().isEditing;
+    // ValueNotifier<bool> state = ValueNotifier(isEditing);
+    // bool isEditing = true;
 
-    // set initial values for reactive form
+    /// TODO: Fix use with edit form reactive form state changes from disabled to enabled not changing
+    if (kDebugMode) {
+      print(isEditing);
+    }
 
-    FormGroup _formBuilder() => fb.group({
+    FormGroup _formBuilder() => fb.group(
+        {
           phoneControlName: FormControl<String>(
+            disabled: !context.watch<EditStateBLoc>().isEditing,
             validators: [
               Validators.number,
               Validators.minLength(10),
@@ -39,12 +51,15 @@ class _ProfilePageState extends State<ProfilePage> {
             value: user?.profile.phone ?? '',
           ),
           collegeControlName: FormControl<String>(
+            disabled: !isEditing,
             value: user?.profile.college ?? '',
           ),
           courseControlName: FormControl<String>(
+            disabled: !isEditing,
             value: user?.profile.course ?? '',
           ),
           yearControlName: FormControl<String>(
+            disabled: !isEditing,
             validators: [
               Validators.number,
               Validators.minLength(4),
@@ -53,23 +68,27 @@ class _ProfilePageState extends State<ProfilePage> {
             value: user?.profile.graduationYear.toString() ?? '',
           ),
           companyControlName: FormControl<String>(
+            disabled: !isEditing,
             value: user?.profile.company ?? '',
           ),
           designationControlName: FormControl<String>(
+            disabled: !isEditing,
             value: user?.profile.role ?? '',
           ),
           foodPreferenceControlName: FormControl<String>(
+            disabled: !isEditing,
             value: user?.profile.foodChoice ?? '',
           ),
           tshirtSizeControlName: FormControl<String>(
+            disabled: !isEditing,
             value: user?.profile.tSize ?? '',
           ),
           countryControlName: FormControl<String>(
+            disabled: !isEditing,
             value: user?.profile.countryCode ?? '',
           )
-        });
-
-    print(user?.profile);
+        }, [
+    ]);
 
     return SafeArea(
       top: true,
@@ -105,15 +124,20 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     SizedBox(width: screenWidth! * 0.05),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            'Hi, ${user?.profile.firstName ?? 'Anonymous'} ${user?.profile.lastName ?? 'Jedi'}',
-                            style: Theme.of(context).textTheme.titleLarge),
-                        Text('@ ${user?.username ?? 'Grogu'}',
-                            style: Theme.of(context).textTheme.titleMedium),
-                      ],
+                    SizedBox(
+                      width: screenWidth! * 0.5,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              'Hi, ${user?.profile.firstName ?? 'Anonymous'} ${user?.profile.lastName ?? 'Jedi'}',
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.titleLarge),
+                          Text('@ ${user?.username ?? 'Grogu'}',
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.titleMedium),
+                        ],
+                      ),
                     ),
                   ]),
                   SizedBox(height: screenWidth! * 0.06),
@@ -132,12 +156,21 @@ class _ProfilePageState extends State<ProfilePage> {
                       SizedBox(
                           width: screenWidth! * 0.4,
                           child: DefaultButton(
-                              text: 'Edit Profile',
-                              backgroundColor: GCCDColor.googleBlue,
+                              text: isEditing ? 'Cancel' : 'Edit Profile',
+                              backgroundColor: isEditing ? Colors.black12 : GCCDColor.googleBlue,
                               withIcon: true,
-                              icon: Icons.edit_note_outlined,
+                              icon: isEditing ? Icons.cancel_outlined :Icons.edit_note_outlined,
                               isOutlined: true,
-                              onPressed: () {})),
+                              onPressed: () {
+                                context.read<EditStateBLoc>().toggleEditing();
+                                // state = ValueNotifier(context.read<EditStateBLoc>().isEditing);
+                                // print("state: $state");
+                                // setState(() {
+                                //   context.read<EditStateBLoc>().toggleEditing();
+                                //   isEditing = context.read<EditStateBLoc>().isEditing;
+                                //   // print(isEditing);
+                                // });
+                              })),
                     ],
                   ),
                   SizedBox(height: screenWidth! * 0.03),
@@ -151,177 +184,151 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: Theme.of(context).textTheme.bodySmall),
                   ),
                   SizedBox(height: screenWidth! * 0.06),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: Container(
-                      padding: EdgeInsets.all(screenWidth! * 0.03),
-                      // height: screenWidth! * 0.3,
-                      width: screenWidth!,
-                      decoration: const BoxDecoration(
-                        // borderRadius: BorderRadius.circular(10),
-                        border: Border(
-                          top: BorderSide(
-                            color: GCCDColor.googleRed,
-                            width: 2,
+                  Column(
+                    children: [
+
+                      EditProfileWrapper(
+                        headerText: "Personal Details",
+                        isEditing: context.watch<EditStateBLoc>().isEditing,
+                        onSubmit: (form) {
+                          if (kDebugMode) {
+                            print(form.value);
+                          }
+                          throw UnimplementedError();
+                        },
+                        editButtonText: "Save Changes",
+                        formBuilder: _formBuilder,
+                        formContent: [
+                          /// Phone Number
+                          const Text(
+                            "Phone Number",
+                            textAlign: TextAlign.start,
                           ),
-                          bottom: BorderSide(
-                            color: GCCDColor.googleYellow,
-                            width: 2,
-                          ),
-                          left: BorderSide(
-                            color: GCCDColor.googleGreen,
-                            width: 2,
-                          ),
-                          right: BorderSide(
-                            color: GCCDColor.googleBlue,
-                            width: 2,
-                          ),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          EditProfileWrapper(
-                            onSubmit: (form) {
-                              if (kDebugMode) {
-                                print(form.value);
-                              }
-                              throw UnimplementedError();
-                            },
-                            editButtonText: "Save Changes",
-                            formBuilder: _formBuilder,
-                            formContent: [
-                              /// Phone Number
-                              const Text(
-                                "Phone Number",
-                                textAlign: TextAlign.start,
-                              ),
-                              const SizedBox(height: 6),
-                              ReactiveTextField(
-                                formControlName: phoneControlName,
-                                autofillHints: const [
-                                  AutofillHints.telephoneNumber
-                                ],
-                                validationMessages: {
-                                  ValidationMessage.minLength: (_) =>
-                                      'Enter a valid phone number',
-                                  ValidationMessage.maxLength: (_) =>
-                                      'Enter a valid phone number',
-                                  ValidationMessage.number: (_) =>
-                                      'Enter a valid phone number',
-                                },
-                              ),
-                              const SizedBox(height: 20),
-
-                              /// College
-                              const Text(
-                                "College",
-                                textAlign: TextAlign.start,
-                              ),
-                              const SizedBox(height: 6),
-                              ReactiveTextField(
-                                autofillHints: const [
-                                  AutofillHints.organizationName
-                                ],
-                                formControlName: collegeControlName,
-                              ),
-                              const SizedBox(height: 20),
-
-                              /// Course
-                              const Text(
-                                "Course",
-                                textAlign: TextAlign.start,
-                              ),
-                              const SizedBox(height: 6),
-                              ReactiveTextField(
-                                formControlName: courseControlName,
-                              ),
-                              const SizedBox(height: 20),
-
-                              /// Year
-                              const Text(
-                                "Graduation Year",
-                                textAlign: TextAlign.start,
-                              ),
-                              const SizedBox(height: 6),
-                              ReactiveTextField(
-                                formControlName: yearControlName,
-                                validationMessages: {
-                                  ValidationMessage.number: (_) =>
-                                      'Enter a valid year',
-                                  ValidationMessage.minLength: (_) =>
-                                      'Enter a valid year',
-                                  ValidationMessage.maxLength: (_) =>
-                                      'Enter a valid year',
-                                },
-                              ),
-                              const SizedBox(height: 20),
-
-                              /// Company
-                              const Text(
-                                "Company",
-                                textAlign: TextAlign.start,
-                              ),
-                              const SizedBox(height: 6),
-                              ReactiveTextField(
-                                formControlName: companyControlName,
-                              ),
-                              const SizedBox(height: 20),
-
-                              /// Designation
-                              const Text(
-                                "Designation",
-                                textAlign: TextAlign.start,
-                              ),
-                              const SizedBox(height: 6),
-                              ReactiveTextField(
-                                formControlName: designationControlName,
-                              ),
-                              const SizedBox(height: 20),
-
-                              /// Food Preference
-                              const Text(
-                                "Food Preference",
-                                textAlign: TextAlign.start,
-                              ),
-                              const SizedBox(height: 6),
-                              ReactiveDropdownField(items: const [
-                                DropdownMenuItem(
-                                  value: "VEG",
-                                  child: Text("VEG"),
-                                ),
-                                DropdownMenuItem(
-                                  value: "NON-VEG",
-                                  child: Text("NON-VEG"),
-                                ),
-                              ], formControlName: foodPreferenceControlName),
-                              const SizedBox(height: 20),
-
-                              /// T-Shirt Size
-                              const Text(
-                                "T-Shirt Size",
-                                textAlign: TextAlign.start,
-                              ),
-                              const SizedBox(height: 6),
-                              ReactiveDropdownField(
-                                  items: getTshirtSizeDropdownItems(),
-                                  formControlName: tshirtSizeControlName),
-                              const SizedBox(height: 20),
-
-                              /// Country
-                              const Text(
-                                "Country",
-                                textAlign: TextAlign.start,
-                              ),
-                              const SizedBox(height: 6),
-                              ReactiveDropdownField(
-                                  items: getCountryDropdownItems(),
-                                  formControlName: countryControlName),
-                              const SizedBox(height: 20),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            formControlName: phoneControlName,
+                            autofillHints: const [
+                              AutofillHints.telephoneNumber
                             ],
+                            validationMessages: {
+                              ValidationMessage.minLength: (_) =>
+                                  'Enter a valid phone number',
+                              ValidationMessage.maxLength: (_) =>
+                                  'Enter a valid phone number',
+                              ValidationMessage.number: (_) =>
+                                  'Enter a valid phone number',
+                            },
                           ),
+                          const SizedBox(height: 20),
+
+                          /// College
+                          const Text(
+                            "College",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            autofillHints: const [
+                              AutofillHints.organizationName
+                            ],
+                            formControlName: collegeControlName,
+                          ),
+                          const SizedBox(height: 20),
+
+                          /// Course
+                          const Text(
+                            "Course",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            formControlName: courseControlName,
+                          ),
+                          const SizedBox(height: 20),
+
+                          /// Year
+                          const Text(
+                            "Graduation Year",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            formControlName: yearControlName,
+                            validationMessages: {
+                              ValidationMessage.number: (_) =>
+                                  'Enter a valid year',
+                              ValidationMessage.minLength: (_) =>
+                                  'Enter a valid year',
+                              ValidationMessage.maxLength: (_) =>
+                                  'Enter a valid year',
+                            },
+                          ),
+                          const SizedBox(height: 20),
+
+                          /// Company
+                          const Text(
+                            "Company",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            formControlName: companyControlName,
+                          ),
+                          const SizedBox(height: 20),
+
+                          /// Designation
+                          const Text(
+                            "Designation",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            formControlName: designationControlName,
+                          ),
+                          const SizedBox(height: 20),
+
+                          /// Food Preference
+                          const Text(
+                            "Food Preference",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveDropdownField(items: const [
+                            DropdownMenuItem(
+                              value: "VEG",
+                              child: Text("VEG"),
+                            ),
+                            DropdownMenuItem(
+                              value: "NON-VEG",
+                              child: Text("NON-VEG"),
+                            ),
+                          ], formControlName: foodPreferenceControlName),
+                          const SizedBox(height: 20),
+
+                          /// T-Shirt Size
+                          const Text(
+                            "T-Shirt Size",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveDropdownField(
+                              items: getTshirtSizeDropdownItems(),
+                              formControlName: tshirtSizeControlName),
+                          const SizedBox(height: 20),
+
+                          /// Country
+                          const Text(
+                            "Country",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveDropdownField(
+                              items: getCountryDropdownItems(),
+                              formControlName: countryControlName),
+                          const SizedBox(height: 20),
                         ],
                       ),
-                    ),
+                    ],
                   ),
                   // SizedBox(height: screenWidth! * 0.06),
                   Padding(
