@@ -1,4 +1,5 @@
 import 'package:ccd2023/features/auth/auth.dart';
+import 'package:ccd2023/features/home/community_links_widget.dart';
 import 'package:ccd2023/features/home/home.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -35,11 +36,15 @@ class HomePage extends StatelessWidget {
                   child: BlocBuilder<AppCubit, AppState>(
                     builder: (context, state) {
                       return Padding(
-                        padding: EdgeInsets.only(top: screenWidth! * 0.05, bottom: screenWidth! * 0.02),
+                        padding: EdgeInsets.only(
+                            top: screenWidth! * 0.05,
+                            bottom: screenWidth! * 0.02),
                         child: ColorFiltered(
                           colorFilter: state.themeMode == ThemeMode.light
-                              ? const ColorFilter.mode(Colors.transparent, BlendMode.saturation)
-                              : const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                              ? const ColorFilter.mode(
+                                  Colors.transparent, BlendMode.saturation)
+                              : const ColorFilter.mode(
+                                  Colors.white, BlendMode.srcIn),
                           child: Image.asset(
                             GCCDImageAssets.googleCloudLogo,
                             width: screenWidth! * 0.58,
@@ -49,9 +54,10 @@ class HomePage extends StatelessWidget {
                     },
                   ),
                 ),
-                Text(eventTitle, style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontSize: screenWidth! * 0.1,
-                )),
+                Text(eventTitle,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontSize: screenWidth! * 0.1,
+                        )),
                 SizedBox(height: screenWidth! * 0.06),
                 RichText(
                   textAlign: TextAlign.justify,
@@ -60,10 +66,10 @@ class HomePage extends StatelessWidget {
                       TextSpan(
                         text: eventHashTag,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: themeMode == ThemeMode.light
-                              ? GCCDColor.googleBlue
-                              : GCCDColor.googleYellow,
-                        ),
+                              color: themeMode == ThemeMode.light
+                                  ? GCCDColor.googleBlue
+                                  : GCCDColor.googleYellow,
+                            ),
                       ),
                       TextSpan(
                         text: eventDescription,
@@ -76,19 +82,19 @@ class HomePage extends StatelessWidget {
                 Text(
                   'Date : $eventDate_copy',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: themeMode == ThemeMode.light
-                        ? GCCDColor.googleBlue
-                        : GCCDColor.googleYellow,
-                  ),
+                        color: themeMode == ThemeMode.light
+                            ? GCCDColor.googleBlue
+                            : GCCDColor.googleYellow,
+                      ),
                 ),
                 SizedBox(height: screenWidth! * 0.02),
                 Text(
                   'Venue : $eventVenue',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: themeMode == ThemeMode.light
-                        ? GCCDColor.googleBlue
-                        : GCCDColor.googleYellow,
-                  ),
+                        color: themeMode == ThemeMode.light
+                            ? GCCDColor.googleBlue
+                            : GCCDColor.googleYellow,
+                      ),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.05),
@@ -105,7 +111,9 @@ class HomePage extends StatelessWidget {
                                 : GCCDColor.white)
                             .withOpacity(0.2),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: screenWidth!*0.07, vertical: screenHeight! * 0.045),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth! * 0.07,
+                              vertical: screenHeight! * 0.045),
                           child: const EventTimer(),
                         ),
                       ),
@@ -154,6 +162,11 @@ class HomePage extends StatelessWidget {
                   padding: EdgeInsets.only(top: screenWidth! * 0.06),
                   child: const AboutSection(),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(top: screenWidth! * 0.04),
+                  child: CommunityLinks(),
+                ),
+                SizedBox(height: screenWidth! * 0.06),
               ],
             ),
           ),

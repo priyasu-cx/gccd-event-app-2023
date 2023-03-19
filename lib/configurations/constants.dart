@@ -114,6 +114,15 @@ const passwordControlName = 'password';
 const confirmPasswordControlName = 'confirm-password';
 const usernameControlName = 'username';
 const emailControlName = 'email';
+const phoneControlName = 'phone';
+const collegeControlName = 'college';
+const courseControlName = 'course';
+const yearControlName = 'year';
+const companyControlName = 'company';
+const designationControlName = 'designation';
+const foodPreferenceControlName = 'food-preference';
+const tshirtSizeControlName = 'tshirt-size';
+const countryControlName = 'country';
 
 const previousTalkControlName = 'previous_talk';
 const travelSupportControlName = 'travel_support';
@@ -133,6 +142,22 @@ const String aboutGCCD =
 Duration eventDate = DateTime(2023, 5, 7, 0, 0).difference(DateTime.now());
 
 const String passwordResetResponse = 'Password reset e-mail has been sent.';
+
+// Profile
+List<String> country = [
+  "Afghanistan",
+  "Albania",
+  "Algeria",
+  "IN",
+];
+
+List<String> tshirtSize = [
+  "S",
+  "M",
+  "L",
+  "XL",
+  "XXL",
+];
 
 // FAQ body
 const FAQDetails = {
