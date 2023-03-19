@@ -11,13 +11,13 @@ import '../bloc/edit_profile_cubit.dart';
 class EditSocialWrapper extends StatefulWidget {
   const EditSocialWrapper({
     super.key,
+    required this.social_icon,
     required this.onSubmit,
     required this.formBuilder,
     required this.formContent,
-    required this.editButtonText,
   });
 
-  final String editButtonText;
+  final IconData social_icon;
   final Future<void> Function(FormGroup) onSubmit;
   final FormGroup Function() formBuilder;
   final List<Widget> formContent;
@@ -27,6 +27,7 @@ class EditSocialWrapper extends StatefulWidget {
 }
 
 class _EditSocialWrapperState extends State<EditSocialWrapper> {
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -42,53 +43,44 @@ class _EditSocialWrapperState extends State<EditSocialWrapper> {
               form.markAsDisabled();
             }
             return AutofillGroup(
-              child: SizedBox(
-                width: screenWidth! * 0.8,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    // const SizedBox(height: kPadding * 2),
-                    // widget.headerText != null
-                    //     ? Text(widget.headerText!,
-                    //     style: Theme.of(context).textTheme.bodyLarge)
-                    //     : const Offstage(),
-                    // const SizedBox(height: kPadding * 2.5),
-                    ...widget.formContent,
-                    // const SizedBox(height: kPadding * 2.5),
-                    // context.watch<EditProfileCubit>().state.isEditing
-                    //     ? SizedBox(
-                    //   width: screenWidth! * 0.2,
-                    //       child: CircularProgressBuilder(
-                    //         builder: (context, action, error) => SizedBox(
-                    //           width: screenWidth! * 0.2,
-                    //           child: ElevatedButton(
-                    //             onPressed:
-                    //                 (ReactiveForm.of(context)?.valid ?? false)
-                    //                     ? action
-                    //                     : null,
-                    //             child: Center(
-                    //               child: Padding(
-                    //                 padding:
-                    //                     const EdgeInsets.all(kPadding * 1.5),
-                    //                 child: Text(
-                    //                   widget.editButtonText,
-                    //                   style: Theme.of(context)
-                    //                       .textTheme
-                    //                       .bodyLarge
-                    //                       ?.copyWith(
-                    //                         color: Colors.white,
-                    //                       ),
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //         action: (_) => widget.onSubmit(form),
-                    //       ),
-                    //     )
-                    //     : const Offstage(),
-                  ],
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  // const SizedBox(height: kPadding * 2),
+                  // widget.headerText != null
+                  //     ? Text(widget.headerText!,
+                  //     style: Theme.of(context).textTheme.bodyLarge)
+                  //     : const Offstage(),
+                  // const SizedBox(height: kPadding * 2.5),
+                  Icon(widget.social_icon, color: Colors.white),
+                  ...widget.formContent,
+                  context.watch<EditProfileCubit>().state.isEditing
+                      ? Center(
+                          // width: screenWidth! * 0.5,
+                          child: CircularProgressBuilder(
+                            builder: (context, action, error) => SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: GCCDColor.googleGreen,
+                                  shape: const CircleBorder(),
+                                ),
+                                onPressed:
+                                    (ReactiveForm.of(context)?.valid ?? false)
+                                        ? action
+                                        : null,
+                                child: const Center(
+                                  child: Icon(Icons.add,
+                                      color: Colors.white, size: 20),
+                                ),
+                              ),
+                            ),
+                            action: (_) => widget.onSubmit(form),
+                          ),
+                        )
+                      : const Offstage(),
+                ],
               ),
             );
           },

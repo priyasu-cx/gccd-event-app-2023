@@ -17,6 +17,14 @@ import 'edit_profile_page.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
+  Future<void> _onSubmit(FormGroup form) async {
+
+  }
+
+  Future<void> _onSocialSubmit(FormGroup form) async {
+
+  }
+
   FormGroup _formBuilder() {
     final user = AuthCubit.instance.state.user;
 
@@ -190,12 +198,6 @@ class ProfilePage extends StatelessWidget {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              // IconButton(
-                              //   icon: const Icon(FontAwesome5.linkedin),
-                              //   onPressed: () {
-                              //     throw UnimplementedError();
-                              //   },
-                              // ),
                               InkWell(
                                     onTap: () {
                                     },
@@ -228,10 +230,10 @@ class ProfilePage extends StatelessWidget {
                         }
                       },
                     ),
+
+
                 BlocBuilder<EditProfileCubit, EditState>(
                   builder: (context, state){
-
-
                     return state.isEditing
                       ? Container(
                         margin: EdgeInsets.only(top: screenWidth! * 0.03),
@@ -239,66 +241,33 @@ class ProfilePage extends StatelessWidget {
                             vertical: screenWidth! * 0.02,
                             horizontal: screenWidth! * 0.02),
                         decoration: BoxDecoration(
+                          border: Border.all(
+                            color: GCCDColor.googleGrey,
+                            width: 1,
+                          ),
                           color: GCCDColor.googleGrey.withOpacity(0.4),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Row(
-                          children: [
-                            // SizedBox(
-                            //   width: screenWidth! * 0.6,
-                            //   child: EditSocialWrapper(
-                            //     onSubmit: (form) {
-                            //       if (kDebugMode) {
-                            //         print(form.value);
-                            //       }
-                            //       throw UnimplementedError();
-                            //     },
-                            //     formBuilder: _formBuilder,
-                            //     formContent: [
-                            //       ReactiveTextField(
-                            //         formControlName: socialLinkControlName,
-                            //         decoration: InputDecoration(
-                            //           labelText: 'Social Name',
-                            //           border: OutlineInputBorder(
-                            //             borderRadius: BorderRadius.circular(10),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ], editButtonText: 'ADD',
-                            //   )
-                            // ),
-                            Expanded(child: TextField(
-                              decoration: InputDecoration(
-                                hintText: 'Social Name',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),),
-                            SizedBox(width: screenWidth! * 0.02),
+                        child: EditSocialWrapper(
+                          onSubmit: (form) {
+                            if (kDebugMode) {
+                              print(form.value);
+                            }
+                            throw UnimplementedError();
+                          },
+                          formBuilder: _formBuilder,
+                          social_icon:
+                          Icons.facebook,
+                          formContent: [
                             SizedBox(
-                              width: screenWidth! * 0.15,
-                              height: 62,
-                              child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(15),
-                                  ),
-                                  side: const BorderSide(
-                                    color: GCCDColor.googleGrey,
-                                    width: 1,
-                                  ),
+                              width: screenWidth! * 0.56,
+                              child: ReactiveTextField(
+                                decoration: const InputDecoration(
+                                  hintText: "Social Link",
                                 ),
-                                onPressed: () {
-                                  throw UnimplementedError();
-                                },
-                                child: const Icon(
-                                  Icons.add_circle_sharp,
-                                  color: GCCDColor.googleGrey,
-                                ),
+                                formControlName: socialLinkControlName,
                               ),
-                            )
+                            ),
                           ],
                         )
                       // : const Offstage(),
