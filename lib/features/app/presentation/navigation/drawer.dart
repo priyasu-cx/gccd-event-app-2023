@@ -99,7 +99,7 @@ class CCDDrawer extends StatelessWidget {
                 return const Offstage();
               } else {
                 return Padding(
-                  padding: EdgeInsets.all(isSelected ? 8.0 : 0),
+                  padding: EdgeInsets.all(isSelected ? kPadding / 2 : 0),
                   child: DrawerListTile(
                     selected: isSelected,
                     title: drawerItemsMain[index],

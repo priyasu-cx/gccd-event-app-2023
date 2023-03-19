@@ -13,11 +13,14 @@ class AuthenticationRepository {
     required String email,
     required String password,
   }) async {
-    Response response = await _dioApiClient.postData(loginEndpoint, {
-      'username': username,
-      'email': email,
-      'password': password,
-    });
+    Response response = await _dioApiClient.postData(
+      endPoint: loginEndpoint,
+      dataPayload: {
+        'username': username,
+        'email': email,
+        'password': password,
+      },
+    );
 
     if (response.statusCode == 200) {
       final loginResponse = LoginResponse.fromJson(response.data);
@@ -38,12 +41,15 @@ class AuthenticationRepository {
     required String email,
     required String password,
   }) async {
-    Response response = await _dioApiClient.postData(registrationEndpoint, {
-      'username': username,
-      'email': email,
-      'password1': password,
-      'password2': password,
-    });
+    Response response = await _dioApiClient.postData(
+      endPoint: registrationEndpoint,
+      dataPayload: {
+        'username': username,
+        'email': email,
+        'password1': password,
+        'password2': password,
+      },
+    );
 
     final signUpResponse = response.data;
 
@@ -53,9 +59,12 @@ class AuthenticationRepository {
   Future resetPassword({
     required String email,
   }) async {
-    Response response = await _dioApiClient.postData(passwordResetEndpoint, {
-      'email': email,
-    });
+    Response response = await _dioApiClient.postData(
+      endPoint: passwordResetEndpoint,
+      dataPayload: {
+        'email': email,
+      },
+    );
 
     if (response.statusCode == 200) {
       final resetResponse = response.data;

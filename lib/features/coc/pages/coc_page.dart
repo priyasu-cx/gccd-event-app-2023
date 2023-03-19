@@ -10,8 +10,6 @@ class CoCPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = CoCTitle[0];
-    final body = CoCAnswers[0];
     return SafeArea(
       top: true,
       child: Scaffold(
@@ -86,7 +84,7 @@ class GetSingleCoCWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 title,
                 style: Theme.of(context).textTheme.bodyLarge,
