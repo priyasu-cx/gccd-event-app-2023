@@ -117,6 +117,7 @@ const drawerItemsFooterIcon = [
 const passwordControlName = 'password';
 const confirmPasswordControlName = 'confirm-password';
 const usernameControlName = 'username';
+const socialLinkControlName = 'social-link';
 const firstNameControlName = 'first-name';
 const lastNameControlName = 'last-name';
 const emailControlName = 'email';
@@ -129,6 +130,7 @@ const designationControlName = 'designation';
 const foodPreferenceControlName = 'food-preference';
 const tshirtSizeControlName = 'tshirt-size';
 const countryControlName = 'country';
+
 
 const previousTalkControlName = 'previous_talk';
 const travelSupportControlName = 'travel_support';
