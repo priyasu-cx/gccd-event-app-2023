@@ -115,6 +115,11 @@ const confirmPasswordControlName = 'confirm-password';
 const usernameControlName = 'username';
 const emailControlName = 'email';
 
+const previousTalkControlName = 'previous_talk';
+const travelSupportControlName = 'travel_support';
+const topicOfExpertiseControlName = 'topic_of_expertise';
+const previouslyTalkedControlName = 'previously_talked';
+
 const String eventTitle = 'Community Days Kolkata, 2023';
 const String eventHashTag = '#GoogleCloudCommunityDays';
 const String eventDescription =

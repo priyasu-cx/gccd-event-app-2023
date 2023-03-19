@@ -1,4 +1,4 @@
-abstract class BaseApiClient<T,Client> {
+abstract class BaseApiClient<T, Client> {
   String baseUrl;
 
   final Client client;
@@ -7,7 +7,9 @@ abstract class BaseApiClient<T,Client> {
 
   void configure();
 
-  Future<T> getData(String endPoint,Map<String,dynamic> dataPayload);
+  Future<T> getData(
+      {required String endPoint, Map<String, dynamic>? dataPayload});
 
-  Future<T> postData(String endPoint,Map<String,dynamic> dataPayload);
+  Future<T> postData(
+      {required String endPoint, required Map<String, dynamic> dataPayload});
 }

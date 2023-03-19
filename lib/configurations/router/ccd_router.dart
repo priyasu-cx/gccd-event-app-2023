@@ -5,6 +5,7 @@ import 'package:ccd2023/features/auth/auth.dart';
 import 'package:ccd2023/features/faq/pages/faq_page.dart';
 import 'package:ccd2023/features/coc/pages/coc_page.dart';
 import 'package:ccd2023/features/profile/pages/profile_page.dart';
+import 'package:ccd2023/features/speaker/presentation/pages/cfs_page.dart';
 
 export 'package:auto_route/auto_route.dart';
 export 'ccd_router.gr.dart';
@@ -13,6 +14,7 @@ export 'ccd_router.gr.dart';
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
     AutoRoute(page: HomePage, initial: true, path: "/home"),
+    AutoRoute(page: CFSPage, path: "/cfs"),
     AutoRoute(page: LoginPage, path: "/login"),
     AutoRoute(page: SignUpPage, path: "/signup"),
     AutoRoute(page: ActivateEmailPage, path: "/activate-account"),

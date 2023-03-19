@@ -132,9 +132,7 @@ class HomePage extends StatelessWidget {
                               text: "Call for Speakers",
                               backgroundColor: GCCDColor.googleRed,
                               foregroundColor: GCCDColor.white,
-                              onPressed: () => DjangoflowAppSnackbar.showInfo(
-                                'Coming Soon',
-                              ),
+                              onPressed: () => context.router.push(CFSRoute()),
                             ),
                           ],
                         ),

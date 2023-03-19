@@ -1,11 +1,8 @@
 import 'package:ccd2023/configurations/configurations.dart';
-import 'package:ccd2023/configurations/constants.dart';
-import 'package:ccd2023/configurations/theme/ccd_asset.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:progress_builder/progress_builder.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 
 class ActivateEmailPage extends StatelessWidget {
   final String title;
@@ -37,7 +34,10 @@ class ActivateEmailPage extends StatelessWidget {
                   ),
                   SizedBox(height: screenHeight! * 0.08),
                   Center(
-                    child: Text(message, style: Theme.of(context).textTheme.bodyMedium,),
+                    child: Text(
+                      message,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Padding(
@@ -47,7 +47,7 @@ class ActivateEmailPage extends StatelessWidget {
                     child: Center(
                       child: CircularProgressBuilder(
                         builder: (context, action, error) => ElevatedButton(
-                          onPressed: (){
+                          onPressed: () {
                             context.router.replace(const LoginRoute());
                           },
                           child: Center(
@@ -59,8 +59,8 @@ class ActivateEmailPage extends StatelessWidget {
                                     .textTheme
                                     .bodyLarge
                                     ?.copyWith(
-                                  color: Colors.white,
-                                ),
+                                      color: Colors.white,
+                                    ),
                               ),
                             ),
                           ),

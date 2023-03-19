@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
         },
       );
 
-  Future<void> _onSubmit(FormGroup form) async {
+  Future<void> _onSubmit(FormGroup form, BuildContext context) async {
     final username = form.control(usernameControlName).value as String;
     final password = form.control(passwordControlName).value as String;
 
@@ -44,9 +44,9 @@ class _LoginPageState extends State<LoginPage> {
     final textTheme = Theme.of(context).textTheme;
     return FormWrapper(
       appBarTitle: 'Sign in to your account',
-      loginButtonText: 'Login',
+      submitButtonText: 'Login',
       formBuilder: _formBuilder,
-      onSubmit: _onSubmit,
+      onSubmit: (form) async => _onSubmit(form, context),
       formContent: [
         const Text(
           "Username",
