@@ -65,7 +65,8 @@ class BuyTicketPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.08),
+                    padding:
+                        EdgeInsets.symmetric(vertical: screenWidth! * 0.08),
                     child: Text(
                       'Buy Tickets 🎫',
                       style: TextStyle(
@@ -100,8 +101,7 @@ class BuyTicketPage extends StatelessWidget {
                         validationMessages: {
                           ValidationMessage.required: (_) =>
                               'Email cannot be empty',
-                          ValidationMessage.email: (_) =>
-                              'Email is not valid',
+                          ValidationMessage.email: (_) => 'Email is not valid',
                         },
                       ),
                       const SizedBox(height: 20),
@@ -159,7 +159,8 @@ class BuyTicketPage extends StatelessWidget {
                     editButtonText: "Save",
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.08),
+                    padding:
+                        EdgeInsets.symmetric(vertical: screenWidth! * 0.08),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -196,7 +197,8 @@ class BuyTicketPage extends StatelessWidget {
                           child: BlocBuilder<EditProfileCubit, EditState>(
                             builder: (context, state) {
                               return DefaultButton(
-                                text: state.isEditing ? 'Cancel' : 'Edit Profile',
+                                text:
+                                    state.isEditing ? 'Cancel' : 'Edit Profile',
                                 backgroundColor: state.isEditing
                                     ? Colors.black12
                                     : GCCDColor.googleBlue,
