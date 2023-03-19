@@ -9,6 +9,7 @@ class EditProfileWrapper extends StatefulWidget {
   const EditProfileWrapper({
     super.key,
     this.headerText,
+    this.headerDesc,
     required this.onSubmit,
     required this.formBuilder,
     required this.formContent,
@@ -17,6 +18,7 @@ class EditProfileWrapper extends StatefulWidget {
   });
 
   final String? headerText;
+  final String? headerDesc;
   final String editButtonText;
   final Future<void> Function(FormGroup) onSubmit;
   final FormGroup Function() formBuilder;
@@ -75,6 +77,17 @@ class _EditProfileWrapperState extends State<EditProfileWrapper> {
                     Text(widget.headerText!,
                         style: Theme.of(context).textTheme.bodyLarge)
                     : const SizedBox.shrink(),
+
+                    widget.headerDesc != null ?
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Text(widget.headerDesc!,
+                          // textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Colors.grey,
+                          )),
+                    )
+                        : const SizedBox.shrink(),
 
                     const SizedBox(height: kPadding * 2.5),
                     ...widget.formContent,

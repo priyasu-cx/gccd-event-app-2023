@@ -71,7 +71,7 @@ class BuyTicketPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.08),
+                  padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.05),
                   child: Text(
                     'Buy Tickets 🎫',
                     style: TextStyle(
@@ -83,6 +83,15 @@ class BuyTicketPage extends StatelessWidget {
                             ? Colors.black
                             : Colors.white,
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: Text("Please edit the fields if not accurate or incomplete and update profile from profile section",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.grey,
+                      )
                   ),
                 ),
                 EditProfileWrapper(

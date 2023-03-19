@@ -189,6 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                       EditProfileWrapper(
                         headerText: "Personal Details",
+                        headerDesc: "Please fill in your details to complete your profile.",
                         isEditing: context.watch<EditStateBLoc>().isEditing,
                         onSubmit: (form) {
                           if (kDebugMode) {
