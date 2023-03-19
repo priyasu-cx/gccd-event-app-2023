@@ -13,15 +13,14 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i9;
 import 'package:ccd2023/features/app/app.dart' as _i8;
-import 'package:ccd2023/features/auth/auth.dart' as _i2;
-import 'package:ccd2023/features/auth/presentation/pages/activate_email_page.dart'
-    as _i3;
-import 'package:ccd2023/features/auth/presentation/pages/forgot_pass_page.dart'
-    as _i4;
+import 'package:ccd2023/features/auth/auth.dart' as _i3;
+import 'package:ccd2023/features/buy_tickets/pages/buy_ticket_page.dart' as _i4;
 import 'package:ccd2023/features/coc/pages/coc_page.dart' as _i7;
 import 'package:ccd2023/features/faq/pages/faq_page.dart' as _i6;
-import 'package:ccd2023/features/home/pages/home_page.dart' as _i1;
+import 'package:ccd2023/features/home/home.dart' as _i1;
 import 'package:ccd2023/features/profile/pages/profile_page.dart' as _i5;
+import 'package:ccd2023/features/speaker/presentation/pages/cfs_page.dart'
+    as _i2;
 import 'package:flutter/material.dart' as _i10;
 
 class AppRouter extends _i9.RootStackRouter {
@@ -36,16 +35,22 @@ class AppRouter extends _i9.RootStackRouter {
         child: const _i1.HomePage(),
       );
     },
+    CFSRoute.name: (routeData) {
+      return _i9.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const _i2.CFSPage(),
+      );
+    },
     LoginRoute.name: (routeData) {
       return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i2.LoginPage(),
+        child: const _i3.LoginPage(),
       );
     },
     SignUpRoute.name: (routeData) {
       return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i2.SignUpPage(),
+        child: const _i3.SignUpPage(),
       );
     },
     ActivateEmailRoute.name: (routeData) {
@@ -62,7 +67,13 @@ class AppRouter extends _i9.RootStackRouter {
     ForgotPassRoute.name: (routeData) {
       return _i9.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i4.ForgotPassPage(),
+        child: const _i3.ForgotPassPage(),
+      );
+    },
+    BuyTicketRoute.name: (routeData) {
+      return _i9.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const _i4.BuyTicketPage(),
       );
     },
     ProfileRoute.name: (routeData) {
@@ -104,6 +115,10 @@ class AppRouter extends _i9.RootStackRouter {
           path: '/home',
         ),
         _i9.RouteConfig(
+          CFSRoute.name,
+          path: '/cfs',
+        ),
+        _i9.RouteConfig(
           LoginRoute.name,
           path: '/login',
         ),
@@ -118,6 +133,10 @@ class AppRouter extends _i9.RootStackRouter {
         _i9.RouteConfig(
           ForgotPassRoute.name,
           path: '/forgot-pass',
+        ),
+        _i9.RouteConfig(
+          BuyTicketRoute.name,
+          path: '/buy-tickets',
         ),
         _i9.RouteConfig(
           ProfileRoute.name,
@@ -151,7 +170,19 @@ class HomeRoute extends _i9.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.LoginPage]
+/// [_i2.CFSPage]
+class CFSRoute extends _i9.PageRouteInfo<void> {
+  const CFSRoute()
+      : super(
+          CFSRoute.name,
+          path: '/cfs',
+        );
+
+  static const String name = 'CFSRoute';
+}
+
+/// generated route for
+/// [_i3.LoginPage]
 class LoginRoute extends _i9.PageRouteInfo<void> {
   const LoginRoute()
       : super(
@@ -163,7 +194,7 @@ class LoginRoute extends _i9.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.SignUpPage]
+/// [_i3.SignUpPage]
 class SignUpRoute extends _i9.PageRouteInfo<void> {
   const SignUpRoute()
       : super(
@@ -214,7 +245,7 @@ class ActivateEmailRouteArgs {
 }
 
 /// generated route for
-/// [_i4.ForgotPassPage]
+/// [_i3.ForgotPassPage]
 class ForgotPassRoute extends _i9.PageRouteInfo<void> {
   const ForgotPassRoute()
       : super(
@@ -223,6 +254,18 @@ class ForgotPassRoute extends _i9.PageRouteInfo<void> {
         );
 
   static const String name = 'ForgotPassRoute';
+}
+
+/// generated route for
+/// [_i4.BuyTicketPage]
+class BuyTicketRoute extends _i9.PageRouteInfo<void> {
+  const BuyTicketRoute()
+      : super(
+          BuyTicketRoute.name,
+          path: '/buy-tickets',
+        );
+
+  static const String name = 'BuyTicketRoute';
 }
 
 /// generated route for

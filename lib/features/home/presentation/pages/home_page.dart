@@ -37,14 +37,19 @@ class HomePage extends StatelessWidget {
                     builder: (context, state) {
                       return Padding(
                         padding: EdgeInsets.only(
-                            top: screenWidth! * 0.05,
-                            bottom: screenWidth! * 0.02),
+                          top: screenWidth! * 0.05,
+                          bottom: screenWidth! * 0.02,
+                        ),
                         child: ColorFiltered(
                           colorFilter: state.themeMode == ThemeMode.light
                               ? const ColorFilter.mode(
-                                  Colors.transparent, BlendMode.saturation)
+                                  Colors.transparent,
+                                  BlendMode.saturation,
+                                )
                               : const ColorFilter.mode(
-                                  Colors.white, BlendMode.srcIn),
+                                  Colors.white,
+                                  BlendMode.srcIn,
+                                ),
                           child: Image.asset(
                             GCCDImageAssets.googleCloudLogo,
                             width: screenWidth! * 0.58,
@@ -54,10 +59,12 @@ class HomePage extends StatelessWidget {
                     },
                   ),
                 ),
-                Text(eventTitle,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontSize: screenWidth! * 0.1,
-                        )),
+                Text(
+                  eventTitle,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontSize: screenWidth! * 0.1,
+                      ),
+                ),
                 SizedBox(height: screenWidth! * 0.06),
                 RichText(
                   textAlign: TextAlign.justify,
@@ -164,7 +171,7 @@ class HomePage extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: screenWidth! * 0.04),
-                  child: CommunityLinks(),
+                  child: const CommunityLinks(),
                 ),
                 SizedBox(height: screenWidth! * 0.06),
               ],
