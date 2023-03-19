@@ -1,5 +1,6 @@
 import 'package:ccd2023/features/app/data/repository/dio/dio_api_client.dart';
 import 'package:ccd2023/features/auth/auth.dart';
+import 'package:ccd2023/features/profile/bloc/edit_state.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:dio/dio.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -17,6 +18,7 @@ class CCDAppBuilder extends AppBuilder {
     final String? initialDeepLink,
   }) : super(
           onInitState: (context) {
+
             AppCubit.instance.updateThemeMode(ThemeMode.dark);
           },
           repositoryProviders: [
@@ -46,6 +48,10 @@ class CCDAppBuilder extends AppBuilder {
                   context.read<AuthenticationRepository>(),
                 ),
             ),
+            BlocProvider<EditStateBLoc>(
+              create: (context) => EditStateBLoc(),
+            ),
+            // EditStateBLoc()
           ],
           builder: (context) => LoginListener(
             onLogin: (context, authState) {
