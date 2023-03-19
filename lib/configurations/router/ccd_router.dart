@@ -1,7 +1,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:ccd2023/features/app/app.dart';
-import 'package:ccd2023/features/auth/presentation/pages/activate_email_page.dart';
-import 'package:ccd2023/features/auth/presentation/pages/forgot_pass_page.dart';
+import 'package:ccd2023/features/but_tickets/pages/buy_ticket_page.dart';
 import 'package:ccd2023/features/home/pages/home_page.dart';
 import 'package:ccd2023/features/auth/auth.dart';
 import 'package:ccd2023/features/faq/pages/faq_page.dart';
@@ -19,6 +18,7 @@ export 'ccd_router.gr.dart';
     AutoRoute(page: SignUpPage, path: "/signup"),
     AutoRoute(page: ActivateEmailPage, path: "/activate-account"),
     AutoRoute(page: ForgotPassPage, path: "/forgot-pass"),
+    AutoRoute(page: BuyTicketPage, path: "/buy-tickets"),
     AutoRoute(page: ProfilePage, path: "/profile"),
     AutoRoute(page: FAQPage, path: "/faq"),
     AutoRoute(page: CoCPage, path: "/coc"),

@@ -60,7 +60,7 @@ const drawerItemsMain = [
 
 const drawerItemsMainPath = [
   '/home',
-  '/buy_tickets',
+  '/buy-tickets',
   // '/schedule',
   // '/speakers',
   '/profile',
@@ -113,6 +113,8 @@ const drawerItemsFooterIcon = [
 const passwordControlName = 'password';
 const confirmPasswordControlName = 'confirm-password';
 const usernameControlName = 'username';
+const firstNameControlName = 'first-name';
+const lastNameControlName = 'last-name';
 const emailControlName = 'email';
 const phoneControlName = 'phone';
 const collegeControlName = 'college';
