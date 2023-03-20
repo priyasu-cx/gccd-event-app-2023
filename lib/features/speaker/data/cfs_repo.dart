@@ -14,17 +14,29 @@ class CFSRepository {
     SpeakerPayload payload,
     String authToken,
   ) async {
-    try {
-      Response response = await _dioApiClient.postData(
-        endPoint: speakerEndpoint,
-        dataPayload: payload.toJson(),
-        headers: buildAuthHeader(
-          authToken,
-        ),
-      );
-      return response.data;
-    } on DioError catch (e) {
-      print(e.message);
+    Response response = await _dioApiClient.postData(
+      endPoint: speakerEndpoint,
+      dataPayload: payload.toJson(),
+      headers: buildAuthHeader(
+        authToken,
+      ),
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to submit your profile');
     }
+    return response.data;
+  }
+
+  Future<List<dynamic>> getSpeakerList(
+    String authToken,
+  ) async {
+    Response response = await _dioApiClient.getData(
+      endPoint: speakerEndpoint,
+      headers: buildAuthHeader(
+        authToken,
+      ),
+    );
+    print(response.data);
+    return response.data;
   }
 }
