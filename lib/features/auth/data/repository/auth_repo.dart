@@ -3,6 +3,8 @@ import 'package:ccd2023/features/app/data/repository/dio/dio_api_client.dart';
 import 'package:ccd2023/features/auth/auth.dart';
 import 'package:dio/dio.dart';
 
+import '../../../../utils/build_auth_header.dart';
+
 class AuthenticationRepository {
   final DioApiClient _dioApiClient;
 
@@ -77,27 +79,34 @@ class AuthenticationRepository {
     }
   }
 
-  // Future updateProfile({
-  //   required String firstName,
-  //   required String lastName,
-  //   required String email,
-  //   required String username,
-  // }) async {
-  //   Response response = await _dioApiClient.putData(profileEndpoint, {
-  //     'first_name': firstName,
-  //     'last_name': lastName,
-  //     'email': email,
-  //     'username': username,
-  //   });
-  //
-  //   if (response.statusCode == 200) {
-  //     final updateResponse = response.data;
-  //
-  //     return updateResponse;
-  //   } else if (response.statusCode == 400) {
-  //     final updateResponse = response.data;
-  //
-  //     throw Exception(updateResponse);
-  //   }
-  // }
+  Future updateProfile({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String username,
+    required String authToken,
+  }) async {
+    Response response = await _dioApiClient.postData(
+      endPoint: usersUpdateEndpoint,
+      dataPayload: {
+        'first_name': firstName,
+        'last_name': lastName,
+        'email': email,
+        'username': username,
+      },
+      headers: buildAuthHeader(
+        authToken,
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      final updateResponse = response.data;
+
+      return updateResponse;
+    } else if (response.statusCode == 400) {
+      final updateResponse = response.data;
+
+      throw Exception(updateResponse);
+    }
+  }
 }

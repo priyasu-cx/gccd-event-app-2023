@@ -2,7 +2,6 @@ import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/app.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/features/home/home.dart';
-import 'package:ccd2023/features/profile/bloc/add_social_cubit.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,13 +16,7 @@ import 'edit_profile_page.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
-  Future<void> _onSubmit(FormGroup form) async {
-
-  }
-
-  Future<void> _onSocialSubmit(FormGroup form) async {
-
-  }
+  Future<void> _onSocialSubmit(FormGroup form) async {}
 
   FormGroup _formBuilder() {
     final user = AuthCubit.instance.state.user;
@@ -39,9 +32,15 @@ class ProfilePage extends StatelessWidget {
       ),
       collegeControlName: FormControl<String>(
         value: user?.profile.college ?? '',
+        validators: [
+          Validators.required,
+        ],
       ),
       courseControlName: FormControl<String>(
         value: user?.profile.course ?? '',
+        validators: [
+          Validators.required,
+        ],
       ),
       yearControlName: FormControl<String>(
         validators: [
@@ -66,13 +65,22 @@ class ProfilePage extends StatelessWidget {
       countryControlName: FormControl<String>(
         value: user?.profile.countryCode ?? '',
       ),
-      socialLinkControlName: FormControl<String>(
-        validators: [
-          Validators.pattern(
-            r'^((http|https)://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]+.[a-zA-Z0-9]+',
-          ),
-        ]
-      ),
+      socialLinkControlName: FormControl<String>(validators: [
+        Validators.pattern(
+          r'^((http|https)://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]+.[a-zA-Z0-9]+',
+        ),
+      ]),
+    });
+  }
+
+  FormGroup _socialFormBuilder() {
+    return fb.group({
+      socialLinkControlName: FormControl<String>(validators: [
+        Validators.required,
+        Validators.pattern(
+          r'((https?:www\.)|(https?:\/\/)|(www\.))[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?',
+        )
+      ]),
     });
   }
 
@@ -117,20 +125,22 @@ class ProfilePage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: screenWidth! * 0.05),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Hi, ${user?.profile.firstName ?? 'Anonymous'} ${user?.profile.lastName ?? 'Jedi'}',
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            Text(
-                              '@ ${user?.username ?? 'Grogu'}',
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                          ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Hi, ${user?.profile.firstName ?? 'Anonymous'} ${user?.profile.lastName ?? 'Jedi'}',
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                              Text(
+                                '@${user?.username ?? 'Grogu'}',
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -195,92 +205,61 @@ class ProfilePage extends StatelessWidget {
                                 )),
                           );
                         } else {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                    onTap: () {
-                                    },
-                                    child: Container(
-                                        padding:
-                                        EdgeInsets.all(screenWidth! * 0.02),
-                                        decoration: BoxDecoration(
-                                          color:
-                                          GCCDColor.googleGrey.withOpacity(0.4),
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "Add social",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                            const Icon(
-                                              Icons.add,
-                                              size: 16,
-                                            )
-                                          ],
-                                        )),
-                                  ),
-
-                            ],
-                          );
+                          return const Offstage();
                         }
                       },
                     ),
 
-
-                BlocBuilder<EditProfileCubit, EditState>(
-                  builder: (context, state){
-                    return state.isEditing
-                      ? Container(
-                        margin: EdgeInsets.only(top: screenWidth! * 0.03),
-                        padding: EdgeInsets.symmetric(
-                            vertical: screenWidth! * 0.02,
-                            horizontal: screenWidth! * 0.02),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: GCCDColor.googleGrey,
-                            width: 1,
-                          ),
-                          color: GCCDColor.googleGrey.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: EditSocialWrapper(
-                          onSubmit: (form) {
-                            if (kDebugMode) {
-                              print(form.value);
-                            }
-                            throw UnimplementedError();
-                          },
-                          formBuilder: _formBuilder,
-                          social_icon:
-                          Icons.facebook,
-                          formContent: [
-                            SizedBox(
-                              width: screenWidth! * 0.56,
-                              child: ReactiveTextField(
-                                decoration: const InputDecoration(
-                                  hintText: "Social Link",
+                    BlocBuilder<EditProfileCubit, EditState>(
+                      builder: (context, state) {
+                        return state.isEditing
+                            ? Container(
+                                margin:
+                                    EdgeInsets.only(top: screenWidth! * 0.03),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: screenWidth! * 0.02,
+                                    horizontal: screenWidth! * 0.02),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: GCCDColor.googleGrey,
+                                    width: 1,
+                                  ),
+                                  color: GCCDColor.googleGrey.withOpacity(0.4),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                formControlName: socialLinkControlName,
-                              ),
-                            ),
-                          ],
-                        )
-                      // : const Offstage(),
-                    ): const Offstage();
-                  },
-                ),
-
+                                child: EditSocialWrapper(
+                                  onSubmit: (form) async {
+                                    await _onSocialSubmit(form);
+                                  },
+                                  formBuilder: _socialFormBuilder,
+                                  formContent: [
+                                    SizedBox(
+                                      width: screenWidth! * 0.56,
+                                      child: ReactiveTextField(
+                                        decoration: const InputDecoration(
+                                          hintText: "Social Link",
+                                        ),
+                                        formControlName: socialLinkControlName,
+                                        validationMessages: {
+                                          ValidationMessage.required: (_) =>
+                                              'Cannot be empty',
+                                          ValidationMessage.pattern: (_) =>
+                                              'Enter a valid link',
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : const Offstage();
+                      },
+                    ),
 
                     SizedBox(height: screenWidth! * 0.06),
                     Column(
                       children: [
                         EditProfileWrapper(
-                          headerText: "Personal Details",
+                          headerText: "Profile Details",
                           onSubmit: (form) {
                             if (kDebugMode) {
                               print(form.value);
@@ -322,6 +301,10 @@ class ProfilePage extends StatelessWidget {
                               autofillHints: const [
                                 AutofillHints.organizationName
                               ],
+                              validationMessages: {
+                                ValidationMessage.required: (_) =>
+                                    'Organization name is required',
+                              },
                               formControlName: collegeControlName,
                             ),
                             const SizedBox(height: 20),
@@ -334,6 +317,10 @@ class ProfilePage extends StatelessWidget {
                             const SizedBox(height: 6),
                             ReactiveTextField(
                               formControlName: courseControlName,
+                              validationMessages: {
+                                ValidationMessage.required: (_) =>
+                                    'Course is required',
+                              },
                             ),
                             const SizedBox(height: 20),
 

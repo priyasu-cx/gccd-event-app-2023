@@ -31,6 +31,7 @@ class FormWrapper extends StatelessWidget {
         title: Text(appBarTitle),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

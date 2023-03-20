@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../speaker.dart';
@@ -23,7 +24,15 @@ class TechnologyCubit extends Cubit<TechnologyState> {
 
   Future<void> getTechnologies() async {
     emit(const TechnologyState.loading());
-    final technologies = await _technologyRepository.getTechnologies();
-    emit(TechnologyState.loaded(technologies));
+    try {
+      final technologies = await _technologyRepository.getTechnologies();
+      emit(TechnologyState.loaded(technologies));
+    } on DioError catch (e) {
+      emit(
+        TechnologyState.error(e.message ?? 'Unknown Error Occurred'),
+      );
+    } on Exception catch (e) {
+      emit(TechnologyState.error(e.toString()));
+    }
   }
 }
