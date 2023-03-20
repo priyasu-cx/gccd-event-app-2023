@@ -15,6 +15,7 @@ class EditProfileWrapper extends StatefulWidget {
     required this.formBuilder,
     required this.formContent,
     required this.editButtonText,
+    required this.onSuccess,
   });
 
   final String? headerText;
@@ -22,6 +23,7 @@ class EditProfileWrapper extends StatefulWidget {
   final Future<void> Function(FormGroup) onSubmit;
   final FormGroup Function() formBuilder;
   final List<Widget> formContent;
+  final void Function()? onSuccess;
 
   @override
   State<EditProfileWrapper> createState() => _EditProfileWrapperState();

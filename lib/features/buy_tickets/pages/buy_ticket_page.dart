@@ -81,6 +81,12 @@ class BuyTicketPage extends StatelessWidget {
                     ),
                   ),
                   EditProfileWrapper(
+                    onSuccess: () {
+                      DjangoflowAppSnackbar.showInfo(
+                        'Profile updated successfully.',
+                      );
+                      context.read<EditProfileCubit>().toggleEditing();
+                    },
                     onSubmit: (form) {
                       if (kDebugMode) {
                         print(form.value);

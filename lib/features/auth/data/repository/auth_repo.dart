@@ -79,21 +79,13 @@ class AuthenticationRepository {
     }
   }
 
-  Future updateProfile({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String username,
+  Future<Profile> updateProfile({
+    required Profile profile,
     required String authToken,
   }) async {
     Response response = await _dioApiClient.postData(
       endPoint: usersUpdateEndpoint,
-      dataPayload: {
-        'first_name': firstName,
-        'last_name': lastName,
-        'email': email,
-        'username': username,
-      },
+      dataPayload: profile.toJson(),
       headers: buildAuthHeader(
         authToken,
       ),
@@ -102,11 +94,10 @@ class AuthenticationRepository {
     if (response.statusCode == 200) {
       final updateResponse = response.data;
 
-      return updateResponse;
-    } else if (response.statusCode == 400) {
-      final updateResponse = response.data;
-
-      throw Exception(updateResponse);
+      print(updateResponse);
+      return Profile.fromJson(updateResponse);
+    } else {
+      throw Exception('Error updating profile. Please try again.');
     }
   }
 }
