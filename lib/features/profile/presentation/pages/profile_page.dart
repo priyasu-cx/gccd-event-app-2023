@@ -2,14 +2,16 @@ import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/app.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/features/home/home.dart';
+import 'package:ccd2023/features/profile/bloc/edit_profile_cubit.dart';
+import 'package:ccd2023/features/profile/presentation/pages/profile_header_buttons.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 
-import '../bloc/edit_profile_cubit.dart';
 import 'add_social.dart';
 import 'edit_profile_page.dart';
 
@@ -17,6 +19,8 @@ class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   Future<void> _onSocialSubmit(FormGroup form) async {}
+
+  Future<void> _onSubmit(FormGroup form) async {}
 
   FormGroup _formBuilder() {
     final user = AuthCubit.instance.state.user;
@@ -65,11 +69,12 @@ class ProfilePage extends StatelessWidget {
       countryControlName: FormControl<String>(
         value: user?.profile.countryCode ?? '',
       ),
-      socialLinkControlName: FormControl<String>(validators: [
-        Validators.pattern(
-          r'^((http|https)://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]+.[a-zA-Z0-9]+',
-        ),
-      ]),
+      // socialLinkControlName: FormControl<String>(
+      //     validators: [
+      //   Validators.pattern(
+      //     r'^((http|https)://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]+.[a-zA-Z0-9]+',
+      //   ),
+      // ]),
     });
   }
 
@@ -87,6 +92,8 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthCubit>().state.user;
+
+    print(user?.profile.socials['linkedin']);
 
     return SafeArea(
       top: true,
@@ -145,49 +152,49 @@ class ProfilePage extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: screenWidth! * 0.06),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: screenWidth! * 0.4,
-                          child: DefaultButton(
-                            text: 'Buy Tickets',
-                            backgroundColor: GCCDColor.googleGreen,
-                            withIcon: true,
-                            icon: Icons.local_activity_outlined,
-                            isOutlined: true,
-                            onPressed: () {
-                              context.router.push(const BuyTicketRoute());
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          width: screenWidth! * 0.4,
-                          child: BlocBuilder<EditProfileCubit, EditState>(
-                            builder: (context, state) {
-                              return DefaultButton(
-                                text:
-                                    state.isEditing ? 'Cancel' : 'Edit Profile',
-                                backgroundColor: state.isEditing
-                                    ? Colors.black12
-                                    : GCCDColor.googleBlue,
-                                withIcon: true,
-                                icon: state.isEditing
-                                    ? Icons.cancel_outlined
-                                    : Icons.edit_note_outlined,
-                                isOutlined: true,
-                                onPressed: () {
-                                  context
-                                      .read<EditProfileCubit>()
-                                      .toggleEditing();
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: screenWidth! * 0.03),
+                    const HeaderButtons(),
+                    // SizedBox(height: screenWidth! * 0.03),
+                    user?.profile.socials.isNotEmpty ?? false
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              user?.profile.socials['linkedin'] != null
+                                  ? const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        FontAwesome5.linkedin,
+                                      ),
+                                    )
+                                  : const Offstage(),
+                              user?.profile.socials['github'] != null
+                                  ? const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        FontAwesome5.github,
+                                      ),
+                                    )
+                                  : const Offstage(),
+                              user?.profile.socials['facebook'] != null
+                                  ? const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        FontAwesome5.facebook,
+                                      ),
+                                    )
+                                  : const Offstage(),
+                              user?.profile.socials['website'] != null
+                                  ? const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        FontAwesome5.globe,
+                                      ),
+                                    )
+                                  : const Offstage()
+                            ],
+                          )
+                        : const Offstage(),
+                    // SizedBox(height: screenWidth! * 0.03),
+                    user?.profile.socials.isEmpty ?? true ?
                     BlocBuilder<EditProfileCubit, EditState>(
                       builder: (context, state) {
                         if (!state.isEditing) {
@@ -208,14 +215,14 @@ class ProfilePage extends StatelessWidget {
                           return const Offstage();
                         }
                       },
-                    ),
+                    ): const Offstage(),
 
                     BlocBuilder<EditProfileCubit, EditState>(
                       builder: (context, state) {
                         return state.isEditing
                             ? Container(
                                 margin:
-                                    EdgeInsets.only(top: screenWidth! * 0.03),
+                                    EdgeInsets.only(top: screenWidth! * 0.03, bottom: screenWidth! * 0.03),
                                 padding: EdgeInsets.symmetric(
                                     vertical: screenWidth! * 0.02,
                                     horizontal: screenWidth! * 0.02),
@@ -255,7 +262,7 @@ class ProfilePage extends StatelessWidget {
                       },
                     ),
 
-                    SizedBox(height: screenWidth! * 0.06),
+                    SizedBox(height: screenWidth! * 0.03),
                     Column(
                       children: [
                         EditProfileWrapper(

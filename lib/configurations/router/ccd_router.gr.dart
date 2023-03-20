@@ -18,7 +18,8 @@ import 'package:ccd2023/features/buy_tickets/pages/buy_ticket_page.dart' as _i4;
 import 'package:ccd2023/features/coc/pages/coc_page.dart' as _i7;
 import 'package:ccd2023/features/faq/pages/faq_page.dart' as _i6;
 import 'package:ccd2023/features/home/presentation/pages/home_page.dart' as _i1;
-import 'package:ccd2023/features/profile/pages/profile_page.dart' as _i5;
+import 'package:ccd2023/features/profile/presentation/pages/profile_page.dart'
+    as _i5;
 import 'package:ccd2023/features/speaker/presentation/pages/cfs_page.dart'
     as _i2;
 import 'package:flutter/material.dart' as _i10;

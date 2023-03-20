@@ -4,7 +4,7 @@ import 'package:ccd2023/features/auth/auth.dart';
 import 'package:ccd2023/features/faq/pages/faq_page.dart';
 import 'package:ccd2023/features/coc/pages/coc_page.dart';
 import 'package:ccd2023/features/home/presentation/pages/home_page.dart';
-import 'package:ccd2023/features/profile/pages/profile_page.dart';
+import 'package:ccd2023/features/profile/presentation/pages/profile_page.dart';
 import 'package:ccd2023/features/speaker/presentation/pages/cfs_page.dart';
 
 import '../../features/buy_tickets/pages/buy_ticket_page.dart';

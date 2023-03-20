@@ -1,11 +1,10 @@
 import 'package:ccd2023/configurations/constants.dart';
 import 'package:ccd2023/configurations/theme/ccd_colors.dart';
+import 'package:ccd2023/features/profile/bloc/edit_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:progress_builder/progress_builder.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-
-import '../bloc/edit_profile_cubit.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 
 class EditSocialWrapper extends StatefulWidget {
