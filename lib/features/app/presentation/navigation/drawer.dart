@@ -94,7 +94,7 @@ class CCDDrawer extends StatelessWidget {
               bool isSelected =
                   context.router.currentPath == drawerItemsMainPath[index];
 
-              if (drawerItemsMain[index] == 'Profile' && user == null) {
+              if (drawerItemsMain[index] == 'Profile' && user == null || drawerItemsMain[index] == 'Buy Tickets' && user == null) {
                 return const Offstage();
               } else {
                 return Padding(
