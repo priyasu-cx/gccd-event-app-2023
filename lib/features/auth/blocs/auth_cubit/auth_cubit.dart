@@ -15,7 +15,6 @@ class AuthState with _$AuthState {
     User? user,
     String? accessToken,
     String? refreshToken,
-    Profile? profile,
   }) = _AuthState;
 
   factory AuthState.fromJson(Map<String, dynamic> json) =>
@@ -41,14 +40,12 @@ class AuthCubit extends HydratedCubit<AuthState> {
     User user,
     String accessToken,
     String refreshToken,
-    Profile profile,
   ) =>
       emit(
         state.copyWith(
           user: user,
           accessToken: accessToken,
           refreshToken: refreshToken,
-          profile: profile,
         ),
       );
 
@@ -58,7 +55,6 @@ class AuthCubit extends HydratedCubit<AuthState> {
         user: null,
         accessToken: null,
         refreshToken: null,
-        profile: null,
       ),
     );
   }
@@ -81,7 +77,6 @@ class AuthCubit extends HydratedCubit<AuthState> {
           loginResponse.user,
           loginResponse.accessToken,
           loginResponse.refreshToken,
-          loginResponse.user.profile,
         );
       }
     } on DioError catch (e) {
@@ -172,42 +167,109 @@ class AuthCubit extends HydratedCubit<AuthState> {
     }
   }
 
-  // Future<void> updateProfile({
-  //   required String firstName,
-  //   required String lastName,
-  //   required String email,
-  // }) async {
-  //   try {
-  //     if (_authenticationRepository == null) {
-  //       throw Exception('AuthCubit not initialized');
-  //     }
-  //     final updateProfileResponse =
-  //         await _authenticationRepository?.updateProfile(
-  //       firstName: firstName,
-  //       lastName: lastName,
-  //       email: email,
-  //     );
-  //     if (updateProfileResponse != null) {
-  //       _login(
-  //         updateProfileResponse.user,
-  //         state.accessToken!,
-  //         state.refreshToken!,
-  //         updateProfileResponse.user.profile,
-  //       );
-  //       DjangoflowAppSnackbar.showInfo(
-  //         'Profile updated!',
-  //       );
-  //     }
-  //   } on DioError catch (e) {
-  //     DjangoflowAppSnackbar.showError(e.message ?? 'Error occurred');
-  //   } on Exception catch (e) {
-  //     DjangoflowAppSnackbar.showError(e.toString());
-  //   }
-  // }
+  Future<void> updateProfile({
+    required String firstName,
+    required String lastName,
+    required String phone,
+    required String course,
+    required String college,
+    required int graduationYear,
+    required String company,
+    required String country,
+    required String tSize,
+    required String role,
+    required String foodChoice,
+  }) async {
+    try {
+      if (_authenticationRepository == null) {
+        throw Exception('AuthCubit not initialized');
+      }
+      final updateProfileResponse =
+          await _authenticationRepository?.updateProfile(
+        authToken: state.accessToken!,
+        profile: state.user!.profile.copyWith(
+          firstName: firstName,
+          lastName: lastName,
+          phone: phone,
+          course: course,
+          graduationYear: graduationYear,
+          college: college,
+          company: company,
+          countryCode: country,
+          tSize: tSize,
+          settings: {},
+          role: role,
+          foodChoice: foodChoice,
+          socials: state.user?.profile.socials ?? {},
+        ),
+      );
+      if (updateProfileResponse != null) {
+        emit(
+          state.copyWith(
+            user: state.user?.copyWith(profile: updateProfileResponse),
+          ),
+        );
+        DjangoflowAppSnackbar.showInfo(
+          'Profile updated!',
+        );
+      }
+    } on DioError catch (e) {
+      DjangoflowAppSnackbar.showError(e.message ?? 'Error occurred');
+    } on Exception catch (e) {
+      DjangoflowAppSnackbar.showError(e.toString());
+    }
+  }
 
   @override
   Map<String, dynamic>? toJson(AuthState state) => state.toJson();
 
   @override
   AuthState? fromJson(Map<String, dynamic> json) => AuthState.fromJson(json);
+
+  void updateSocialLink(String url) {
+    final socialLinkMap = buildSocialLinkMap(
+      url: url,
+      existingLinks: state.user?.profile.socials ?? {},
+    );
+
+    emit(
+      state.copyWith(
+        user: state.user?.copyWith(
+          profile: state.user!.profile.copyWith(
+            socials: socialLinkMap,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Map<String, dynamic> buildSocialLinkMap(
+      {required String url, required Map<String, dynamic> existingLinks}) {
+    if (url.contains('facebook')) {
+      return {
+        ...existingLinks,
+        'facebook': url,
+      };
+    } else if (url.contains('github')) {
+      return {
+        ...existingLinks,
+        'github': url,
+      };
+    } else if (url.contains('instagram')) {
+      return {
+        ...existingLinks,
+        'instagram': url,
+      };
+    } else if (url.contains('linkedin')) {
+      return {
+        ...existingLinks,
+        'linkedin': url,
+      };
+    } else {
+      return {
+        ...existingLinks,
+        'website': url,
+      };
+    }
+  }
 }

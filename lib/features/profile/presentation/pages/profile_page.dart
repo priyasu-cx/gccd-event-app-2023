@@ -6,23 +6,43 @@ import 'package:ccd2023/features/profile/bloc/edit_profile_cubit.dart';
 import 'package:ccd2023/features/profile/presentation/pages/profile_header_buttons.dart';
 import 'package:ccd2023/features/profile/presentation/pages/social_icons.dart';
 import 'package:ccd2023/utils/size_util.dart';
+import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:fluttericon/font_awesome5_icons.dart';
 
 import 'add_social.dart';
-import 'edit_name.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
-  Future<void> _onSocialSubmit(FormGroup form) async {}
+  Future<void> _onSocialSubmit(
+    FormGroup form,
+  ) async {
+    final socialControl = form.control(socialLinkControlName);
+    final url = socialControl.value as String;
+    AuthCubit.instance.updateSocialLink(url);
+    socialControl.value = '';
+  }
 
-  Future<void> _onSubmit(FormGroup form) async {}
+  Future<void> _onSubmit(FormGroup form) async {
+    await AuthCubit.instance.updateProfile(
+      firstName: form.control(firstNameControlName).value as String,
+      lastName: form.control(lastNameControlName).value as String,
+      phone: form.control(phoneControlName).value as String,
+      college: form.control(collegeControlName).value as String,
+      course: form.control(courseControlName).value as String,
+      graduationYear: form.control(yearControlName).value as int,
+      company: form.control(companyControlName).value as String,
+      role: form.control(designationControlName).value as String,
+      foodChoice: form.control(foodPreferenceControlName).value as String,
+      tSize: form.control(tshirtSizeControlName).value as String,
+      country: form.control(countryControlName).value as String,
+    );
+  }
 
   FormGroup _formBuilder() {
     final user = AuthCubit.instance.state.user;
@@ -40,7 +60,6 @@ class ProfilePage extends StatelessWidget {
           Validators.required,
         ],
       ),
-
       phoneControlName: FormControl<String>(
         validators: [
           Validators.number,
@@ -61,13 +80,11 @@ class ProfilePage extends StatelessWidget {
           Validators.required,
         ],
       ),
-      yearControlName: FormControl<String>(
+      yearControlName: FormControl<int>(
         validators: [
           Validators.number,
-          Validators.minLength(4),
-          Validators.maxLength(4),
         ],
-        value: user?.profile.graduationYear.toString() ?? '',
+        value: user?.profile.graduationYear,
       ),
       companyControlName: FormControl<String>(
         value: user?.profile.company ?? '',
@@ -84,12 +101,6 @@ class ProfilePage extends StatelessWidget {
       countryControlName: FormControl<String>(
         value: user?.profile.countryCode ?? '',
       ),
-      // socialLinkControlName: FormControl<String>(
-      //     validators: [
-      //   Validators.pattern(
-      //     r'^((http|https)://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]+.[a-zA-Z0-9]+',
-      //   ),
-      // ]),
     });
   }
 
@@ -107,8 +118,6 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthCubit>().state.user;
-
-    print(user?.profile.socials['linkedin']);
 
     return SafeArea(
       top: true,
@@ -128,23 +137,24 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     Stack(
                       children: [
+                        SvgPicture.asset(
+                          GCCDImageAssets.victoriaSVGImage,
+                          width: screenWidth!,
+                        ),
                         Positioned(
                           // bottom: 0,
                           right: 0,
                           child: SizedBox(
                             width: screenWidth! * 0.4,
                             child: DefaultButton(
-                                isOutlined: true,
-                                backgroundColor: Colors.transparent,
-                                text: "Speaker Profile",
-                                onPressed: () {
-                                  /// TODO: Navigate to speaker profile page
-                                }),
+                              isOutlined: true,
+                              backgroundColor: Colors.transparent,
+                              text: "Speaker Profile",
+                              onPressed: () {
+                                context.router.push(const CFSRoute());
+                              },
+                            ),
                           ),
-                        ),
-                        SvgPicture.asset(
-                          GCCDImageAssets.victoriaSVGImage,
-                          width: screenWidth!,
                         ),
                       ],
                     ),
@@ -172,45 +182,11 @@ class ProfilePage extends StatelessWidget {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                !state.isEditing ?
                                 Text(
                                   'Hi, ${user?.profile.firstName ?? 'Anonymous'} ${user?.profile.lastName ?? 'Jedi'}',
                                   overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context).textTheme.titleLarge,
-                                ): Text("Hi, ", style: Theme.of(context).textTheme.titleLarge,),
-                                state.isEditing
-                                    ? Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10),
-                                        child: EditNameWrapper(
-                                          formContent: [
-                                            SizedBox(
-                                              width: 100,
-                                              child: ReactiveTextField(
-                                                formControlName:
-                                                    firstNameControlName,
-                                                validationMessages: {
-                                                  ValidationMessage.required:
-                                                      (_) => 'Cannot be empty',
-                                                },
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Expanded(
-                                              child: ReactiveTextField(
-                                                formControlName:
-                                                    lastNameControlName,
-                                                validationMessages: {
-                                                  ValidationMessage.required:
-                                                      (_) => 'Cannot be empty',
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                          formBuilder: _formBuilder,
-                                        ),
-                                      )
-                                    : const Offstage(),
+                                ),
                                 Text(
                                   '@${user?.username ?? 'Grogu'}',
                                   overflow: TextOverflow.ellipsis,
@@ -262,7 +238,6 @@ class ProfilePage extends StatelessWidget {
                             },
                           )
                         : const Offstage(),
-
                     BlocBuilder<EditProfileCubit, EditState>(
                       builder: (context, state) {
                         return state.isEditing
@@ -308,21 +283,50 @@ class ProfilePage extends StatelessWidget {
                             : const Offstage();
                       },
                     ),
-
                     SizedBox(height: screenWidth! * 0.03),
                     Column(
                       children: [
                         EditProfileWrapper(
                           headerText: "Profile Details",
-                          onSubmit: (form) {
-                            if (kDebugMode) {
-                              print(form.value);
-                            }
-                            throw UnimplementedError();
+                          onSubmit: (form) async {
+                            await _onSubmit(form);
+                          },
+                          onSuccess: () {
+                            DjangoflowAppSnackbar.showInfo(
+                              'Profile updated successfully.',
+                            );
+                            context.read<EditProfileCubit>().toggleEditing();
                           },
                           editButtonText: "Save Changes",
                           formBuilder: _formBuilder,
                           formContent: [
+                            const Text(
+                              "First Name",
+                              textAlign: TextAlign.start,
+                            ),
+                            const SizedBox(height: 6),
+                            ReactiveTextField(
+                              formControlName: firstNameControlName,
+                              validationMessages: {
+                                ValidationMessage.required: (_) =>
+                                    'First name cannot be empty',
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            const Text(
+                              "Last Name",
+                              textAlign: TextAlign.start,
+                            ),
+                            const SizedBox(height: 6),
+                            ReactiveTextField(
+                              formControlName: lastNameControlName,
+                              validationMessages: {
+                                ValidationMessage.required: (_) =>
+                                    'Last name cannot be empty',
+                              },
+                            ),
+                            const SizedBox(height: 20),
+
                             /// Phone Number
                             const Text(
                               "Phone Number",
@@ -386,12 +390,9 @@ class ProfilePage extends StatelessWidget {
                             const SizedBox(height: 6),
                             ReactiveTextField(
                               formControlName: yearControlName,
+                              keyboardType: TextInputType.number,
                               validationMessages: {
                                 ValidationMessage.number: (_) =>
-                                    'Enter a valid year',
-                                ValidationMessage.minLength: (_) =>
-                                    'Enter a valid year',
-                                ValidationMessage.maxLength: (_) =>
                                     'Enter a valid year',
                               },
                             ),
