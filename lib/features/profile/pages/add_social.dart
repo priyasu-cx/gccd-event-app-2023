@@ -1,23 +1,21 @@
 import 'package:ccd2023/configurations/constants.dart';
 import 'package:ccd2023/configurations/theme/ccd_colors.dart';
-import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:progress_builder/progress_builder.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../bloc/edit_profile_cubit.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 
 class EditSocialWrapper extends StatefulWidget {
   const EditSocialWrapper({
     super.key,
-    required this.social_icon,
     required this.onSubmit,
     required this.formBuilder,
     required this.formContent,
   });
 
-  final IconData social_icon;
   final Future<void> Function(FormGroup) onSubmit;
   final FormGroup Function() formBuilder;
   final List<Widget> formContent;
@@ -27,7 +25,6 @@ class EditSocialWrapper extends StatefulWidget {
 }
 
 class _EditSocialWrapperState extends State<EditSocialWrapper> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,7 +49,13 @@ class _EditSocialWrapperState extends State<EditSocialWrapper> {
                   //     style: Theme.of(context).textTheme.bodyLarge)
                   //     : const Offstage(),
                   // const SizedBox(height: kPadding * 2.5),
-                  Icon(widget.social_icon, color: Colors.white),
+                  ReactiveValueListenableBuilder<String>(
+                    formControlName: socialLinkControlName,
+                    builder: (context, value, child) => Icon(
+                      getIcon(value.value),
+                      color: Colors.white,
+                    ),
+                  ),
                   ...widget.formContent,
                   context.watch<EditProfileCubit>().state.isEditing
                       ? Center(
@@ -87,5 +90,23 @@ class _EditSocialWrapperState extends State<EditSocialWrapper> {
         ),
       ],
     );
+  }
+
+  IconData getIcon(String? url) {
+    if (url == null) {
+      return Icons.public;
+    }
+
+    if (url.contains('facebook')) {
+      return Icons.facebook;
+    } else if (url.contains('github')) {
+      return FontAwesome5.github;
+    } else if (url.contains('instagram')) {
+      return FontAwesome5.instagram;
+    } else if (url.contains('linkedin')) {
+      return FontAwesome5.linkedin;
+    } else {
+      return FontAwesome5.globe_asia;
+    }
   }
 }
