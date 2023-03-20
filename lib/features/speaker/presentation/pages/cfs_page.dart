@@ -285,7 +285,7 @@ class CFSPage extends StatelessWidget {
                             selectedItemBuilder: (context) => items
                                 .map(
                                   (e) => SizedBox(
-                                    width: screenWidth! * 0.7,
+                                    width: screenWidth! * 0.65,
                                     child: Text(
                                       e.title,
                                       overflow: TextOverflow.ellipsis,

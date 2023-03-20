@@ -1,4 +1,5 @@
 import 'package:ccd2023/configurations/configurations.dart';
+import 'package:ccd2023/features/home/home.dart';
 import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -20,6 +21,7 @@ class Sponsors extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: screenWidth! * 0.06),
           Text(
             'SPONSORS',
             style: Theme.of(context).textTheme.displayLarge?.copyWith(
@@ -60,6 +62,16 @@ class Sponsors extends StatelessWidget {
                     ))
                 .toList(),
           ),
+          SizedBox(height: screenWidth! * 0.04),
+          SizedBox(
+            width: screenWidth! * 0.5,
+            child: DefaultButton(
+              onPressed: () {},
+              backgroundColor: Colors.transparent,
+              isOutlined: true,
+                text: "Become a Sponsor",
+            ),
+          )
         ],
       ),
     );

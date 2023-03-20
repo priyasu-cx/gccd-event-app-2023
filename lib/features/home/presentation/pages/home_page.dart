@@ -1,4 +1,5 @@
 import 'package:ccd2023/features/auth/auth.dart';
+import 'package:ccd2023/features/home/community_partners.dart';
 import 'package:ccd2023/features/home/home.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -179,6 +180,7 @@ class HomePage extends StatelessWidget {
                         padding: EdgeInsets.only(top: screenWidth! * 0.04),
                         child: const CommunityLinks(),
                       ),
+                      SizedBox(height: screenWidth! * 0.06),
                     ]),
               ),
               Padding(
@@ -188,6 +190,13 @@ class HomePage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: screenWidth! * 0.04),
                 child: const Sponsors(),
+              ),
+              SizedBox(height: screenWidth! * 0.1),
+              const Divider(),
+              // SizedBox(height: screenWidth! * 0.06),
+              Padding(
+                padding: EdgeInsets.only(top: screenWidth! * 0.04),
+                child: const CommunityPartners(),
               ),
               SizedBox(height: screenWidth! * 0.06),
             ],
