@@ -4,6 +4,7 @@ import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/features/home/home.dart';
 import 'package:ccd2023/features/profile/bloc/edit_profile_cubit.dart';
 import 'package:ccd2023/features/profile/presentation/pages/profile_header_buttons.dart';
+import 'package:ccd2023/features/profile/presentation/pages/social_icons.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -154,75 +155,46 @@ class ProfilePage extends StatelessWidget {
                     SizedBox(height: screenWidth! * 0.06),
                     const HeaderButtons(),
                     // SizedBox(height: screenWidth! * 0.03),
-                    user?.profile.socials.isNotEmpty ?? false
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              user?.profile.socials['linkedin'] != null
-                                  ? const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        FontAwesome5.linkedin,
-                                      ),
-                                    )
-                                  : const Offstage(),
-                              user?.profile.socials['github'] != null
-                                  ? const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        FontAwesome5.github,
-                                      ),
-                                    )
-                                  : const Offstage(),
-                              user?.profile.socials['facebook'] != null
-                                  ? const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        FontAwesome5.facebook,
-                                      ),
-                                    )
-                                  : const Offstage(),
-                              user?.profile.socials['website'] != null
-                                  ? const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        FontAwesome5.globe,
-                                      ),
-                                    )
-                                  : const Offstage()
-                            ],
+                    const SocialIcons(),
+                    // SizedBox(height: screenWidth! * 0.03),
+                    user?.profile.socials.isEmpty ?? true
+                        ? BlocBuilder<EditProfileCubit, EditState>(
+                            builder: (context, state) {
+                              if (!state.isEditing) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.03),
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Container(
+                                        padding:
+                                            EdgeInsets.all(screenWidth! * 0.02),
+                                        decoration: BoxDecoration(
+                                          color: GCCDColor.googleGrey
+                                              .withOpacity(0.4),
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: Text(
+                                          "Add socials by editing your profile.",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        )),
+                                  ),
+                                );
+                              } else {
+                                return const Offstage();
+                              }
+                            },
                           )
                         : const Offstage(),
-                    // SizedBox(height: screenWidth! * 0.03),
-                    user?.profile.socials.isEmpty ?? true ?
-                    BlocBuilder<EditProfileCubit, EditState>(
-                      builder: (context, state) {
-                        if (!state.isEditing) {
-                          return Align(
-                            alignment: Alignment.topRight,
-                            child: Container(
-                                padding: EdgeInsets.all(screenWidth! * 0.02),
-                                decoration: BoxDecoration(
-                                  color: GCCDColor.googleGrey.withOpacity(0.4),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(
-                                  "Add socials by editing your profile.",
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                )),
-                          );
-                        } else {
-                          return const Offstage();
-                        }
-                      },
-                    ): const Offstage(),
 
                     BlocBuilder<EditProfileCubit, EditState>(
                       builder: (context, state) {
                         return state.isEditing
                             ? Container(
-                                margin:
-                                    EdgeInsets.only(top: screenWidth! * 0.03, bottom: screenWidth! * 0.03),
+                                margin: EdgeInsets.only(
+                                    top: screenWidth! * 0.03,
+                                    bottom: screenWidth! * 0.03),
                                 padding: EdgeInsets.symmetric(
                                     vertical: screenWidth! * 0.02,
                                     horizontal: screenWidth! * 0.02),
