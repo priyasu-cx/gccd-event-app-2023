@@ -1,9 +1,5 @@
 import 'package:ccd2023/features/auth/auth.dart';
-import 'package:ccd2023/features/home/community_links_widget.dart';
 import 'package:ccd2023/features/home/home.dart';
-import 'package:ccd2023/features/home/presentation/about_section_widget.dart';
-import 'package:ccd2023/features/home/presentation/default_button_widget.dart';
-import 'package:ccd2023/features/home/presentation/timer_widget.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/material.dart';
@@ -146,9 +142,8 @@ class HomePage extends StatelessWidget {
                                 children: [
                                   DefaultButton(
                                     isOutlined: true,
-                                    onPressed: () =>
-                                        DjangoflowAppSnackbar.showInfo(
-                                      'Coming Soon',
+                                    onPressed: () => context.router.push(
+                                      const BuyTicketRoute(),
                                     ),
                                     text: 'Buy tickets',
                                   ),
@@ -158,7 +153,7 @@ class HomePage extends StatelessWidget {
                                     backgroundColor: GCCDColor.googleRed,
                                     foregroundColor: GCCDColor.white,
                                     onPressed: () =>
-                                        context.router.push(CFSRoute()),
+                                        context.router.push(const CFSRoute()),
                                   ),
                                 ],
                               ),
@@ -186,7 +181,6 @@ class HomePage extends StatelessWidget {
                       ),
                     ]),
               ),
-
               Padding(
                 padding: EdgeInsets.only(top: screenWidth! * 0.04),
                 child: const CFPSection(),

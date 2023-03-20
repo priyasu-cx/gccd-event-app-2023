@@ -2,7 +2,7 @@ import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/app.dart';
 import 'package:dio/dio.dart';
 
-import '../speaker.dart';
+import '../../speaker.dart';
 
 class TechnologyRepository {
   final DioApiClient _dioApiClient;

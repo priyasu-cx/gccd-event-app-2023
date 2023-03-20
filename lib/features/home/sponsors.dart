@@ -4,7 +4,6 @@ import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Sponsors extends StatelessWidget {
@@ -16,22 +15,22 @@ class Sponsors extends StatelessWidget {
 
     return Container(
       width: screenWidth,
-      padding: EdgeInsets.symmetric(horizontal:screenWidth! * 0.08),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth! * 0.08),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             'SPONSORS',
-            style: TextStyle(
-              fontSize: screenWidth! * 0.14,
-              foreground: Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 1
-                ..color = themeMode == ThemeMode.light ?
-                Colors.black : Colors.white,
-              // fontWeight: FontWeight.w600,
-            ),
+            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 1
+                    ..color = themeMode == ThemeMode.light
+                        ? Colors.black
+                        : Colors.white,
+                  // fontWeight: FontWeight.w600,
+                ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.04),
@@ -41,7 +40,7 @@ class Sponsors extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          Divider(),
+          const Divider(),
           Padding(
             padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.02),
             child: Text(
@@ -50,15 +49,16 @@ class Sponsors extends StatelessWidget {
             ),
           ),
           Column(
-            children: titleSponsor.map(
-              (Map<String, dynamic> sponsor) => Padding(
-                padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.02),
-                child: SponsorCard(
-                  imageUrl: sponsor['logo'],
-                  url: sponsor['link'],
-                ),
-              )
-            ).toList(),
+            children: titleSponsor
+                .map((Map<String, dynamic> sponsor) => Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: screenWidth! * 0.02),
+                      child: SponsorCard(
+                        imageUrl: sponsor['logo'],
+                        url: sponsor['link'],
+                      ),
+                    ))
+                .toList(),
           ),
         ],
       ),
@@ -67,11 +67,8 @@ class Sponsors extends StatelessWidget {
 }
 
 class SponsorCard extends StatelessWidget {
-  const SponsorCard({
-    required this.imageUrl,
-    required this.url,
-    Key? key
-  }) : super(key: key);
+  const SponsorCard({required this.imageUrl, required this.url, Key? key})
+      : super(key: key);
 
   final String imageUrl;
   final String url;
@@ -83,8 +80,7 @@ class SponsorCard extends StatelessWidget {
         launchExternalUrl(url);
       },
       child: Container(
-        width: screenWidth! * 0.8,
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(kPadding * 2),
         // color: Colors.white,
         decoration: const BoxDecoration(
           // borderRadius: BorderRadius.circular(10),
@@ -116,4 +112,3 @@ class SponsorCard extends StatelessWidget {
     );
   }
 }
-

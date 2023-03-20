@@ -137,6 +137,12 @@ const travelSupportControlName = 'travel_support';
 const topicOfExpertiseControlName = 'topic_of_expertise';
 const previouslyTalkedControlName = 'previously_talked';
 
+const talkTitleControlName = 'talk_title';
+const talkDescriptionControlName = 'talk_description';
+const talkOverviewControlName = 'talk_overview';
+const talkEventControlName = 'talk_event';
+const talkTypeControlName = 'talk_type';
+
 const String eventTitle = 'Community Days Kolkata, 2023';
 const String eventHashTag = '#GoogleCloudCommunityDays';
 const String eventDescription =
