@@ -228,7 +228,7 @@ class ProfilePage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: EditSocialWrapper(
-                                  onSubmit: (form) async{
+                                  onSubmit: (form) async {
                                     await _onSocialSubmit(form);
                                   },
                                   formBuilder: _socialFormBuilder,
@@ -249,9 +249,8 @@ class ProfilePage extends StatelessWidget {
                                       ),
                                     ),
                                   ],
-                                )
-                                // : const Offstage(),
-                                )
+                                ),
+                              )
                             : const Offstage();
                       },
                     ),
