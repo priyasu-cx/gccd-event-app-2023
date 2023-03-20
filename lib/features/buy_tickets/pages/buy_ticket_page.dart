@@ -3,7 +3,7 @@ import 'package:ccd2023/features/app/presentation/navigation/appbar.dart';
 import 'package:ccd2023/features/app/presentation/navigation/drawer.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/features/profile/bloc/edit_profile_cubit.dart';
-import 'package:ccd2023/features/profile/pages/edit_profile_page.dart';
+import 'package:ccd2023/features/profile/presentation/pages/edit_profile_page.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/foundation.dart';

@@ -2,15 +2,19 @@ import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/app.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/features/home/home.dart';
+import 'package:ccd2023/features/profile/bloc/edit_profile_cubit.dart';
+import 'package:ccd2023/features/profile/presentation/pages/profile_header_buttons.dart';
+import 'package:ccd2023/features/profile/presentation/pages/social_icons.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 
-import '../bloc/edit_profile_cubit.dart';
 import 'add_social.dart';
+import 'edit_name.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -18,10 +22,25 @@ class ProfilePage extends StatelessWidget {
 
   Future<void> _onSocialSubmit(FormGroup form) async {}
 
+  Future<void> _onSubmit(FormGroup form) async {}
+
   FormGroup _formBuilder() {
     final user = AuthCubit.instance.state.user;
 
     return fb.group({
+      firstNameControlName: FormControl<String>(
+        value: user?.profile.firstName ?? '',
+        validators: [
+          Validators.required,
+        ],
+      ),
+      lastNameControlName: FormControl<String>(
+        value: user?.profile.lastName ?? '',
+        validators: [
+          Validators.required,
+        ],
+      ),
+
       phoneControlName: FormControl<String>(
         validators: [
           Validators.number,
@@ -65,11 +84,12 @@ class ProfilePage extends StatelessWidget {
       countryControlName: FormControl<String>(
         value: user?.profile.countryCode ?? '',
       ),
-      socialLinkControlName: FormControl<String>(validators: [
-        Validators.pattern(
-          r'^((http|https)://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]+.[a-zA-Z0-9]+',
-        ),
-      ]),
+      // socialLinkControlName: FormControl<String>(
+      //     validators: [
+      //   Validators.pattern(
+      //     r'^((http|https)://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]+.[a-zA-Z0-9]+',
+      //   ),
+      // ]),
     });
   }
 
@@ -88,6 +108,8 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.watch<AuthCubit>().state.user;
 
+    print(user?.profile.socials['linkedin']);
+
     return SafeArea(
       top: true,
       child: Scaffold(
@@ -104,12 +126,31 @@ class ProfilePage extends StatelessWidget {
                 create: (context) => EditProfileCubit(),
                 child: Column(
                   children: [
-                    SvgPicture.asset(
-                      GCCDImageAssets.victoriaSVGImage,
-                      width: screenWidth!,
+                    Stack(
+                      children: [
+                        Positioned(
+                          // bottom: 0,
+                          right: 0,
+                          child: SizedBox(
+                            width: screenWidth! * 0.4,
+                            child: DefaultButton(
+                                isOutlined: true,
+                                backgroundColor: Colors.transparent,
+                                text: "Speaker Profile",
+                                onPressed: () {
+                                  /// TODO: Navigate to speaker profile page
+                                }),
+                          ),
+                        ),
+                        SvgPicture.asset(
+                          GCCDImageAssets.victoriaSVGImage,
+                          width: screenWidth!,
+                        ),
+                      ],
                     ),
                     // SizedBox(height: screenWidth! * 0.06),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
                           decoration: BoxDecoration(
@@ -126,96 +167,109 @@ class ProfilePage extends StatelessWidget {
                         ),
                         SizedBox(width: screenWidth! * 0.05),
                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Hi, ${user?.profile.firstName ?? 'Anonymous'} ${user?.profile.lastName ?? 'Jedi'}',
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                              Text(
-                                '@${user?.username ?? 'Grogu'}',
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: screenWidth! * 0.06),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: screenWidth! * 0.4,
-                          child: DefaultButton(
-                            text: 'Buy Tickets',
-                            backgroundColor: GCCDColor.googleGreen,
-                            withIcon: true,
-                            icon: Icons.local_activity_outlined,
-                            isOutlined: true,
-                            onPressed: () {
-                              context.router.push(const BuyTicketRoute());
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          width: screenWidth! * 0.4,
                           child: BlocBuilder<EditProfileCubit, EditState>(
-                            builder: (context, state) {
-                              return DefaultButton(
-                                text:
-                                    state.isEditing ? 'Cancel' : 'Edit Profile',
-                                backgroundColor: state.isEditing
-                                    ? Colors.black12
-                                    : GCCDColor.googleBlue,
-                                withIcon: true,
-                                icon: state.isEditing
-                                    ? Icons.cancel_outlined
-                                    : Icons.edit_note_outlined,
-                                isOutlined: true,
-                                onPressed: () {
-                                  context
-                                      .read<EditProfileCubit>()
-                                      .toggleEditing();
-                                },
-                              );
-                            },
-                          ),
-                        ),
+                              builder: (context, state) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                !state.isEditing ?
+                                Text(
+                                  'Hi, ${user?.profile.firstName ?? 'Anonymous'} ${user?.profile.lastName ?? 'Jedi'}',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ): Text("Hi, ", style: Theme.of(context).textTheme.titleLarge,),
+                                state.isEditing
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10),
+                                        child: EditNameWrapper(
+                                          formContent: [
+                                            SizedBox(
+                                              width: 100,
+                                              child: ReactiveTextField(
+                                                formControlName:
+                                                    firstNameControlName,
+                                                validationMessages: {
+                                                  ValidationMessage.required:
+                                                      (_) => 'Cannot be empty',
+                                                },
+                                              ),
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: ReactiveTextField(
+                                                formControlName:
+                                                    lastNameControlName,
+                                                validationMessages: {
+                                                  ValidationMessage.required:
+                                                      (_) => 'Cannot be empty',
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                          formBuilder: _formBuilder,
+                                        ),
+                                      )
+                                    : const Offstage(),
+                                Text(
+                                  '@${user?.username ?? 'Grogu'}',
+                                  overflow: TextOverflow.ellipsis,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                              ],
+                            );
+                          }),
+                        )
                       ],
                     ),
-                    SizedBox(height: screenWidth! * 0.03),
-                    BlocBuilder<EditProfileCubit, EditState>(
-                      builder: (context, state) {
-                        if (!state.isEditing) {
-                          return Align(
-                            alignment: Alignment.topRight,
-                            child: Container(
-                                padding: EdgeInsets.all(screenWidth! * 0.02),
-                                decoration: BoxDecoration(
-                                  color: GCCDColor.googleGrey.withOpacity(0.4),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(
-                                  "Add socials by editing your profile.",
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                )),
-                          );
-                        } else {
-                          return const Offstage();
-                        }
-                      },
-                    ),
+                    // SizedBox(height: screenWidth! * 0.06),
+                    const Divider(),
+
+                    const HeaderButtons(),
+                    // SizedBox(height: screenWidth! * 0.03),
+                    const SocialIcons(),
+                    // SizedBox(height: screenWidth! * 0.03),
+                    user?.profile.socials.isEmpty ?? true
+                        ? BlocBuilder<EditProfileCubit, EditState>(
+                            builder: (context, state) {
+                              if (!state.isEditing) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: screenWidth! * 0.03),
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Container(
+                                        padding:
+                                            EdgeInsets.all(screenWidth! * 0.02),
+                                        decoration: BoxDecoration(
+                                          color: GCCDColor.googleGrey
+                                              .withOpacity(0.4),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Text(
+                                          "Add socials by editing your profile.",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        )),
+                                  ),
+                                );
+                              } else {
+                                return const Offstage();
+                              }
+                            },
+                          )
+                        : const Offstage(),
 
                     BlocBuilder<EditProfileCubit, EditState>(
                       builder: (context, state) {
                         return state.isEditing
                             ? Container(
-                                margin:
-                                    EdgeInsets.only(top: screenWidth! * 0.03),
+                                margin: EdgeInsets.only(
+                                    top: screenWidth! * 0.03,
+                                    bottom: screenWidth! * 0.03),
                                 padding: EdgeInsets.symmetric(
                                     vertical: screenWidth! * 0.02,
                                     horizontal: screenWidth! * 0.02),
@@ -255,7 +309,7 @@ class ProfilePage extends StatelessWidget {
                       },
                     ),
 
-                    SizedBox(height: screenWidth! * 0.06),
+                    SizedBox(height: screenWidth! * 0.03),
                     Column(
                       children: [
                         EditProfileWrapper(
