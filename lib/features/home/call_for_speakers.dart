@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:ccd2023/configurations/constants.dart';
+import 'package:ccd2023/configurations/router/ccd_router.gr.dart';
 import 'package:ccd2023/configurations/theme/ccd_asset.dart';
 import 'package:ccd2023/configurations/theme/ccd_colors.dart';
 import 'package:ccd2023/features/home/presentation/default_button_widget.dart';
@@ -72,9 +74,7 @@ class CFPSection extends StatelessWidget {
                       text: "Apply to be a Speaker",
                       backgroundColor: GCCDColor.googleRed,
                       foregroundColor: GCCDColor.white,
-                      onPressed: () => DjangoflowAppSnackbar.showInfo(
-                        'Coming Soon',
-                      ),
+                      onPressed: () => context.router.push(const CFSRoute()),
                     ),
                   ),
                 ],

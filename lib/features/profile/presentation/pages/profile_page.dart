@@ -128,6 +128,11 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     Stack(
                       children: [
+
+                        SvgPicture.asset(
+                          GCCDImageAssets.victoriaSVGImage,
+                          width: screenWidth!,
+                        ),
                         Positioned(
                           // bottom: 0,
                           right: 0,
@@ -139,12 +144,10 @@ class ProfilePage extends StatelessWidget {
                                 text: "Speaker Profile",
                                 onPressed: () {
                                   /// TODO: Navigate to speaker profile page
+                                  print("Speaker Profile");
+                                  context.router.push(CFSRoute());
                                 }),
                           ),
-                        ),
-                        SvgPicture.asset(
-                          GCCDImageAssets.victoriaSVGImage,
-                          width: screenWidth!,
                         ),
                       ],
                     ),
