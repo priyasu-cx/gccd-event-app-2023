@@ -124,7 +124,7 @@ class HomePage extends StatelessWidget {
                                   .withOpacity(0.2),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: screenWidth! * 0.07,
+                                    horizontal: screenWidth! * 0.03,
                                     vertical: screenHeight! * 0.045),
                                 child: const EventTimer(),
                               ),

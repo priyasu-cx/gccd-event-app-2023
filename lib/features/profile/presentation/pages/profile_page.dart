@@ -14,6 +14,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 
 import 'add_social.dart';
+import 'edit_name.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -27,6 +28,19 @@ class ProfilePage extends StatelessWidget {
     final user = AuthCubit.instance.state.user;
 
     return fb.group({
+      firstNameControlName: FormControl<String>(
+        value: user?.profile.firstName ?? '',
+        validators: [
+          Validators.required,
+        ],
+      ),
+      lastNameControlName: FormControl<String>(
+        value: user?.profile.lastName ?? '',
+        validators: [
+          Validators.required,
+        ],
+      ),
+
       phoneControlName: FormControl<String>(
         validators: [
           Validators.number,
@@ -112,12 +126,31 @@ class ProfilePage extends StatelessWidget {
                 create: (context) => EditProfileCubit(),
                 child: Column(
                   children: [
-                    SvgPicture.asset(
-                      GCCDImageAssets.victoriaSVGImage,
-                      width: screenWidth!,
+                    Stack(
+                      children: [
+                        Positioned(
+                          // bottom: 0,
+                          right: 0,
+                          child: SizedBox(
+                            width: screenWidth! * 0.4,
+                            child: DefaultButton(
+                                isOutlined: true,
+                                backgroundColor: Colors.transparent,
+                                text: "Speaker Profile",
+                                onPressed: () {
+                                  /// TODO: Navigate to speaker profile page
+                                }),
+                          ),
+                        ),
+                        SvgPicture.asset(
+                          GCCDImageAssets.victoriaSVGImage,
+                          width: screenWidth!,
+                        ),
+                      ],
                     ),
                     // SizedBox(height: screenWidth! * 0.06),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
                           decoration: BoxDecoration(
@@ -134,25 +167,65 @@ class ProfilePage extends StatelessWidget {
                         ),
                         SizedBox(width: screenWidth! * 0.05),
                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Hi, ${user?.profile.firstName ?? 'Anonymous'} ${user?.profile.lastName ?? 'Jedi'}',
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                              Text(
-                                '@${user?.username ?? 'Grogu'}',
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                            ],
-                          ),
-                        ),
+                          child: BlocBuilder<EditProfileCubit, EditState>(
+                              builder: (context, state) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                !state.isEditing ?
+                                Text(
+                                  'Hi, ${user?.profile.firstName ?? 'Anonymous'} ${user?.profile.lastName ?? 'Jedi'}',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ): Text("Hi, ", style: Theme.of(context).textTheme.titleLarge,),
+                                state.isEditing
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10),
+                                        child: EditNameWrapper(
+                                          formContent: [
+                                            SizedBox(
+                                              width: 100,
+                                              child: ReactiveTextField(
+                                                formControlName:
+                                                    firstNameControlName,
+                                                validationMessages: {
+                                                  ValidationMessage.required:
+                                                      (_) => 'Cannot be empty',
+                                                },
+                                              ),
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: ReactiveTextField(
+                                                formControlName:
+                                                    lastNameControlName,
+                                                validationMessages: {
+                                                  ValidationMessage.required:
+                                                      (_) => 'Cannot be empty',
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                          formBuilder: _formBuilder,
+                                        ),
+                                      )
+                                    : const Offstage(),
+                                Text(
+                                  '@${user?.username ?? 'Grogu'}',
+                                  overflow: TextOverflow.ellipsis,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                              ],
+                            );
+                          }),
+                        )
                       ],
                     ),
-                    SizedBox(height: screenWidth! * 0.06),
+                    // SizedBox(height: screenWidth! * 0.06),
+                    const Divider(),
+
                     const HeaderButtons(),
                     // SizedBox(height: screenWidth! * 0.03),
                     const SocialIcons(),
@@ -162,7 +235,8 @@ class ProfilePage extends StatelessWidget {
                             builder: (context, state) {
                               if (!state.isEditing) {
                                 return Padding(
-                                  padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.03),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: screenWidth! * 0.03),
                                   child: Align(
                                     alignment: Alignment.topRight,
                                     child: Container(
@@ -171,7 +245,8 @@ class ProfilePage extends StatelessWidget {
                                         decoration: BoxDecoration(
                                           color: GCCDColor.googleGrey
                                               .withOpacity(0.4),
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                         child: Text(
                                           "Add socials by editing your profile.",

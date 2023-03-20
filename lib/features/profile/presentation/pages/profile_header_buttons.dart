@@ -12,47 +12,50 @@ class HeaderButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SizedBox(
-          width: screenWidth! * 0.4,
-          child: DefaultButton(
-            text: 'Buy Tickets',
-            backgroundColor: GCCDColor.googleGreen,
-            withIcon: true,
-            icon: Icons.local_activity_outlined,
-            isOutlined: true,
-            onPressed: () {
-              context.router.push(const BuyTicketRoute());
-            },
-          ),
-        ),
-        SizedBox(
-          width: screenWidth! * 0.4,
-          child: BlocBuilder<EditProfileCubit, EditState>(
-            builder: (context, state) {
-              return DefaultButton(
-                text:
-                state.isEditing ? 'Cancel' : 'Edit Profile',
-                backgroundColor: state.isEditing
-                    ? Colors.black12
-                    : GCCDColor.googleBlue,
-                withIcon: true,
-                icon: state.isEditing
-                    ? Icons.cancel_outlined
-                    : Icons.edit_note_outlined,
-                isOutlined: true,
-                onPressed: () {
-                  context
-                      .read<EditProfileCubit>()
-                      .toggleEditing();
-                },
-              );
-            },
-          ),
-        ),
-      ],
+    return BlocBuilder<EditProfileCubit, EditState>(
+      builder: (context, state) {
+        return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: screenWidth! * 0.4,
+                child: state.isEditing
+                    ? DefaultButton(
+                        text: 'Save ',
+                        backgroundColor: GCCDColor.googleGreen,
+                        withIcon: true,
+                        icon: Icons.save_outlined,
+                        isOutlined: true,
+                        onPressed: () {},
+                      )
+                    : DefaultButton(
+                        text: 'Buy Tickets',
+                        backgroundColor: GCCDColor.googleGreen,
+                        withIcon: true,
+                        icon: Icons.local_activity_outlined,
+                        isOutlined: true,
+                        onPressed: () {
+                          context.router.push(const BuyTicketRoute());
+                        },
+                      ),
+              ),
+              SizedBox(
+                  width: screenWidth! * 0.4,
+                  child: DefaultButton(
+                    text: state.isEditing ? 'Cancel' : 'Edit Profile',
+                    backgroundColor:
+                        state.isEditing ? Colors.black12 : GCCDColor.googleBlue,
+                    withIcon: true,
+                    icon: state.isEditing
+                        ? Icons.cancel_outlined
+                        : Icons.edit_note_outlined,
+                    isOutlined: true,
+                    onPressed: () {
+                      context.read<EditProfileCubit>().toggleEditing();
+                    },
+                  ))
+            ]);
+      },
     );
   }
 }
