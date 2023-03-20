@@ -17,3 +17,5 @@ class EditProfileCubit extends Cubit<EditState> {
 class EditState with _$EditState {
   const factory EditState({@Default(false) bool isEditing}) = _EditState;
 }
+
+

@@ -1,9 +1,9 @@
 import 'package:auto_route/annotations.dart';
 import 'package:ccd2023/features/app/app.dart';
-import 'package:ccd2023/features/home/home.dart';
 import 'package:ccd2023/features/auth/auth.dart';
 import 'package:ccd2023/features/faq/pages/faq_page.dart';
 import 'package:ccd2023/features/coc/pages/coc_page.dart';
+import 'package:ccd2023/features/home/presentation/pages/home_page.dart';
 import 'package:ccd2023/features/profile/pages/profile_page.dart';
 import 'package:ccd2023/features/speaker/presentation/pages/cfs_page.dart';
 

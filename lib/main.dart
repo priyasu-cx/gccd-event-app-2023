@@ -9,7 +9,7 @@ Future<void> main() async {
     onException: (exception, stackTrace) {
       debugPrint('Exception Caught -- $exception');
       // Dispatch exception to error reporters
-      // ExeptionFilter.filter(exception); returns: true -> show exception to user or false -> do not show
+      // ExceptionFilter.filter(exception); returns: true -> show exception to user or false -> do not show
       DjangoflowAppSnackbar.showError(
         exception.toString(),
       );

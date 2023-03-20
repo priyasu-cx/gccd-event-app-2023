@@ -1,22 +1,30 @@
+import 'dart:io';
+
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/presentation/navigation/drawer_list_tile.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
+import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class CCDDrawer extends StatelessWidget {
   const CCDDrawer({Key? key}) : super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
+
     final user = context.watch<AuthCubit>().state.user;
+    final themeMode = context.watch<AppCubit>().state.themeMode;
 
     final appCubit = context.read<AppCubit>();
 
     return Drawer(
-      width: screenWidth! * 0.7,
+      width: screenWidth! * 0.75,
       child: ListView(
         shrinkWrap: true,
         padding: EdgeInsets.zero,
@@ -70,7 +78,7 @@ class CCDDrawer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hi, ${user?.profile.firstName ?? 'Anonymous Jedi'}',
+                            'Hi, ${user?.profile.firstName ?? 'Anonymous'} ${user?.profile.lastName ?? 'Jedi'}',
                             style: Theme.of(context).textTheme.titleMedium,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -168,6 +176,52 @@ class CCDDrawer extends StatelessWidget {
                 ),
               );
             },
+          ),
+          const Divider(),
+          // Center(
+          //   child: Text(
+          //     'FOLLOW US FOR UPDATES',
+          //     style: TextStyle(
+          //       fontSize: screenWidth! * 0.04,
+          //       foreground: Paint()
+          //         ..style = PaintingStyle.stroke
+          //         ..strokeWidth = 1
+          //         ..color = themeMode == ThemeMode.light
+          //             ? Colors.black
+          //             : Colors.white,
+          //       // fontWeight: FontWeight.w600,
+          //     ),
+          //   ),
+          // ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: screenHeight! * 0.02),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    launchExternalUrl("https://gdgcloud.kolkata.dev/ccd2023");
+                  },
+                  child: Text(
+                    'Terms & Conditions',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.circle_rounded, size: 7),
+                ),
+                InkWell(
+                  onTap: () async {
+                    launchExternalUrl("https://gdgcloud.kolkata.dev/ccd2023/#/privacy-policy");
+                  },
+                  child: Text(
+                    'Privacy Policy',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
