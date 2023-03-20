@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/presentation/navigation/drawer_list_tile.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
@@ -8,20 +6,13 @@ import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 class CCDDrawer extends StatelessWidget {
   const CCDDrawer({Key? key}) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
-
     final user = context.watch<AuthCubit>().state.user;
-    final themeMode = context.watch<AppCubit>().state.themeMode;
-
-    final appCubit = context.read<AppCubit>();
 
     return Drawer(
       width: screenWidth! * 0.75,
@@ -171,7 +162,7 @@ class CCDDrawer extends StatelessWidget {
                       ? drawerItemsFooterIcon[index]
                       : drawerItemsFooterIconOutlined[index],
                   onTap: () {
-                    context.router.replaceNamed(drawerItemsFooterPath[index]);
+                    context.router.pushNamed(drawerItemsFooterPath[index]);
                   },
                 ),
               );
@@ -213,7 +204,8 @@ class CCDDrawer extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () async {
-                    launchExternalUrl("https://gdgcloud.kolkata.dev/ccd2023/#/privacy-policy");
+                    launchExternalUrl(
+                        "https://gdgcloud.kolkata.dev/ccd2023/#/privacy-policy");
                   },
                   child: Text(
                     'Privacy Policy',
