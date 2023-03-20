@@ -2,6 +2,7 @@ import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/app.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/features/home/home.dart';
+import 'package:ccd2023/features/profile/bloc/add_social_cubit.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../bloc/edit_profile_cubit.dart';
+import 'add_social.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
+
+  Future<void> _onSubmit(FormGroup form) async {
+
+  }
+
+  Future<void> _onSocialSubmit(FormGroup form) async {
+
+  }
 
   FormGroup _formBuilder() {
     final user = AuthCubit.instance.state.user;
@@ -55,7 +65,14 @@ class ProfilePage extends StatelessWidget {
       ),
       countryControlName: FormControl<String>(
         value: user?.profile.countryCode ?? '',
-      )
+      ),
+      socialLinkControlName: FormControl<String>(
+        validators: [
+          Validators.pattern(
+            r'^((http|https)://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]+.[a-zA-Z0-9]+',
+          ),
+        ]
+      ),
     });
   }
 
@@ -161,20 +178,104 @@ class ProfilePage extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: screenWidth! * 0.03),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        padding: EdgeInsets.all(screenWidth! * 0.02),
+                    BlocBuilder<EditProfileCubit, EditState>(
+                      builder: (context, state) {
+                        if (!state.isEditing) {
+                          return Align(
+                            alignment: Alignment.topRight,
+                            child: Container(
+                                padding: EdgeInsets.all(screenWidth! * 0.02),
+                                decoration: BoxDecoration(
+                                  color: GCCDColor.googleGrey.withOpacity(0.4),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(
+                                  "Add socials by editing your profile.",
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                )),
+                          );
+                        } else {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              InkWell(
+                                    onTap: () {
+                                    },
+                                    child: Container(
+                                        padding:
+                                        EdgeInsets.all(screenWidth! * 0.02),
+                                        decoration: BoxDecoration(
+                                          color:
+                                          GCCDColor.googleGrey.withOpacity(0.4),
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Add social",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                            ),
+                                            const Icon(
+                                              Icons.add,
+                                              size: 16,
+                                            )
+                                          ],
+                                        )),
+                                  ),
+
+                            ],
+                          );
+                        }
+                      },
+                    ),
+
+
+                BlocBuilder<EditProfileCubit, EditState>(
+                  builder: (context, state){
+                    return state.isEditing
+                      ? Container(
+                        margin: EdgeInsets.only(top: screenWidth! * 0.03),
+                        padding: EdgeInsets.symmetric(
+                            vertical: screenWidth! * 0.02,
+                            horizontal: screenWidth! * 0.02),
                         decoration: BoxDecoration(
+                          border: Border.all(
+                            color: GCCDColor.googleGrey,
+                            width: 1,
+                          ),
                           color: GCCDColor.googleGrey.withOpacity(0.4),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Text(
-                          "Add socials by editing your profile.",
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ),
-                    ),
+                        child: EditSocialWrapper(
+                          onSubmit: (form) {
+                            if (kDebugMode) {
+                              print(form.value);
+                            }
+                            throw UnimplementedError();
+                          },
+                          formBuilder: _formBuilder,
+                          social_icon:
+                          Icons.facebook,
+                          formContent: [
+                            SizedBox(
+                              width: screenWidth! * 0.56,
+                              child: ReactiveTextField(
+                                decoration: const InputDecoration(
+                                  hintText: "Social Link",
+                                ),
+                                formControlName: socialLinkControlName,
+                              ),
+                            ),
+                          ],
+                        )
+                      // : const Offstage(),
+                    ): const Offstage();
+                  },
+                ),
+
+
                     SizedBox(height: screenWidth! * 0.06),
                     Column(
                       children: [

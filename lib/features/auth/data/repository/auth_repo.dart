@@ -76,4 +76,28 @@ class AuthenticationRepository {
       throw Exception(resetResponse);
     }
   }
+
+  // Future updateProfile({
+  //   required String firstName,
+  //   required String lastName,
+  //   required String email,
+  //   required String username,
+  // }) async {
+  //   Response response = await _dioApiClient.putData(profileEndpoint, {
+  //     'first_name': firstName,
+  //     'last_name': lastName,
+  //     'email': email,
+  //     'username': username,
+  //   });
+  //
+  //   if (response.statusCode == 200) {
+  //     final updateResponse = response.data;
+  //
+  //     return updateResponse;
+  //   } else if (response.statusCode == 400) {
+  //     final updateResponse = response.data;
+  //
+  //     throw Exception(updateResponse);
+  //   }
+  // }
 }
