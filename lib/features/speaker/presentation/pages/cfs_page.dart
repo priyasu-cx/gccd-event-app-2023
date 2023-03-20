@@ -1,7 +1,10 @@
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/auth/auth.dart';
 import 'package:ccd2023/features/speaker/data/enums/accomodation.dart';
+import 'package:ccd2023/features/speaker/data/payloads/talk_payload.dart';
+import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
+import '../../data/enums/talk.dart';
 import '../../speaker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,7 +60,7 @@ class CFSPage extends StatelessWidget {
               Validators.required,
             ],
           ),
-          talkEventControlName: FormControl<String>(
+          talkEventControlName: FormControl<int>(
             validators: [
               Validators.required,
             ],
@@ -75,7 +78,6 @@ class CFSPage extends StatelessWidget {
         },
       );
 
-  //TODO change data
   Future<void> _onSubmitSpeaker(FormGroup form, BuildContext context) async {
     final previousTalks = form.control(previousTalkControlName).value as String;
     final travelSupportRequired =
@@ -86,7 +88,7 @@ class CFSPage extends StatelessWidget {
             .toList();
     final previouslyTalked =
         form.control(previouslyTalkedControlName).value as bool;
-    SpeakerPayload payload = SpeakerPayload(
+    final payload = SpeakerPayload(
       previousTalks: previousTalks,
       travelSupport: travelSupportRequired,
       topicsOfExpertise: topicsOfExpertise,
@@ -99,22 +101,30 @@ class CFSPage extends StatelessWidget {
   }
 
   Future<void> _onSubmitTalk(FormGroup form, BuildContext context) async {
-    final previousTalks = form.control(previousTalkControlName).value as String;
-    final travelSupportRequired =
-        form.control(travelSupportControlName).value as String;
-    final topicsOfExpertise =
+    final title = form.control(talkTitleControlName).value as String;
+    final description =
+        form.control(talkDescriptionControlName).value as String;
+    final overview = form.control(talkOverviewControlName).value as String;
+    final event = form.control(talkEventControlName).value as int;
+    final technologies =
         (form.control(topicOfExpertiseControlName).value as List<Technology>)
             .map((e) => e.id)
             .toList();
-    final previouslyTalked =
-        form.control(previouslyTalkedControlName).value as bool;
-    SpeakerPayload payload = SpeakerPayload(
-      previousTalks: previousTalks,
-      travelSupport: travelSupportRequired,
-      topicsOfExpertise: topicsOfExpertise,
-      previouslyTalked: previouslyTalked,
+    final format = form.control(talkTypeControlName).value as String;
+
+    final payload = TalkPayload(
+      title: title,
+      description: description,
+      overview: overview,
+      format: format,
+      technologies: technologies,
+      event: event,
+      speakers: <int>[
+        context.read<CFSCubit>().state.speakerId!,
+      ],
     );
-    await context.read<CFSCubit>().submitSpeakerProfile(
+
+    await context.read<CFSCubit>().submitTalk(
           payload: payload,
           authToken: AuthCubit.instance.state.accessToken!,
         );
@@ -135,6 +145,11 @@ class CFSPage extends StatelessWidget {
             context.read<DioApiClient>(),
           ),
         ),
+        RepositoryProvider<EventRepository>(
+          create: (context) => EventRepository(
+            context.read<DioApiClient>(),
+          ),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -142,6 +157,13 @@ class CFSPage extends StatelessWidget {
             create: (context) => TechnologyCubit(
               context.read<TechnologyRepository>(),
             )..getTechnologies(),
+          ),
+          BlocProvider<EventCubit>(
+            create: (context) => EventCubit(
+              context.read<EventRepository>(),
+            )..getEvents(
+                authToken: AuthCubit.instance.state.accessToken!,
+              ),
           ),
           BlocProvider<CFSCubit>(
             create: (context) => CFSCubit(
@@ -165,9 +187,9 @@ class CFSPage extends StatelessWidget {
             formBuilder: state.isSpeaker ? _talkFormBuilder : _formBuilder,
             onSubmit: (group) async {
               if (state.isSpeaker) {
-                _onSubmitTalk(group, context);
+                await _onSubmitTalk(group, context);
               } else {
-                _onSubmitSpeaker(group, context);
+                await _onSubmitSpeaker(group, context);
               }
             },
             onSuccess: () {
@@ -244,23 +266,45 @@ class CFSPage extends StatelessWidget {
                       textAlign: TextAlign.start,
                     ),
                     const SizedBox(height: kPadding * 3 / 4),
-
-                    ///TODO load from API like technologies
-                    ReactiveDropdownField<String>(
-                      formControlName: talkEventControlName,
-                      items: AccomodationEnum.values
-                          .map(
-                            (e) => DropdownMenuItem(
-                              value: e.value,
-                              child: Text(
-                                e.name,
-                              ),
+                    BlocBuilder<EventCubit, EventState>(
+                      builder: (context, state) {
+                        return state.when(
+                          initial: () => const Offstage(),
+                          loading: () =>
+                              const Center(child: CircularProgressIndicator()),
+                          loaded: (items) => ReactiveDropdownField<int>(
+                            formControlName: talkEventControlName,
+                            items: items
+                                .map(
+                                  (e) => DropdownMenuItem(
+                                    value: e.id,
+                                    child: Text(e.title),
+                                  ),
+                                )
+                                .toList(),
+                            selectedItemBuilder: (context) => items
+                                .map(
+                                  (e) => SizedBox(
+                                    width: screenWidth! * 0.7,
+                                    child: Text(
+                                      e.title,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                            validationMessages: {
+                              ValidationMessage.required: (_) =>
+                                  'Event cannot be empty',
+                            },
+                          ),
+                          error: (message) => Center(
+                            child: Text(
+                              'Error loading events',
+                              style: textTheme.headlineSmall,
                             ),
-                          )
-                          .toList(),
-                      validationMessages: {
-                        ValidationMessage.required: (_) =>
-                            'Event cannot be empty',
+                          ),
+                        );
                       },
                     ),
                     const SizedBox(
@@ -273,12 +317,12 @@ class CFSPage extends StatelessWidget {
                     const SizedBox(height: kPadding * 3 / 4),
                     ReactiveDropdownField<String>(
                       formControlName: talkTypeControlName,
-                      items: ['Lightning talk', 'Regular Talk', 'Long Talk']
+                      items: Talk.values
                           .map(
                             (e) => DropdownMenuItem(
-                              value: e,
+                              value: e.value,
                               child: Text(
-                                e,
+                                e.name,
                               ),
                             ),
                           )
@@ -326,6 +370,7 @@ class CFSPage extends StatelessWidget {
                         );
                       },
                     ),
+                    const SizedBox(height: kPadding * 3 / 4),
                   ]
                 : [
                     const Text(

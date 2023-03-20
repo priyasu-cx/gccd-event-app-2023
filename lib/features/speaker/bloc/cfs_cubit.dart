@@ -1,3 +1,4 @@
+import 'package:ccd2023/features/speaker/data/payloads/talk_payload.dart';
 import 'package:ccd2023/features/speaker/speaker.dart';
 import 'package:dio/dio.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -24,6 +25,20 @@ class CFSCubit extends Cubit<CFSState> {
     }
   }
 
+  Future<void> submitTalk({
+    required TalkPayload payload,
+    required String authToken,
+  }) async {
+    try {
+      await cfsRepository.submitTalk(payload, authToken);
+    } on DioError catch (e) {
+      print(e.response);
+      DjangoflowAppSnackbar.showError(e.message ?? 'Unknown Error Occurred');
+    } on Exception catch (e) {
+      DjangoflowAppSnackbar.showError(e.toString());
+    }
+  }
+
   Future<void> checkSpeakerProfileExists({
     required String authToken,
   }) async {
@@ -36,6 +51,7 @@ class CFSCubit extends Cubit<CFSState> {
     emit(
       state.copyWith(
         isSpeaker: response.isNotEmpty,
+        speakerId:response.isEmpty ? null : response.first['id'],
         loading: false,
       ),
     );
@@ -46,6 +62,7 @@ class CFSCubit extends Cubit<CFSState> {
 class CFSState with _$CFSState {
   const factory CFSState({
     @Default(false) bool isSpeaker,
+    int? speakerId,
     @Default(false) bool loading,
   }) = _CFSState;
 }

@@ -7,9 +7,18 @@ abstract class BaseApiClient<T, Client> {
 
   void configure();
 
-  Future<T> getData(
-      {required String endPoint, Map<String, dynamic>? dataPayload});
+  Future<T> getData({
+    required String endPoint,
+    Map<String, dynamic>? dataPayload,
+  });
 
-  Future<T> postData(
-      {required String endPoint, required Map<String, dynamic> dataPayload});
+  Future<T> postData({
+    required String endPoint,
+    required Map<String, dynamic> dataPayload,
+  });
+
+  Future<T> putData({
+    required String endPoint,
+    required Map<String, dynamic> dataPayload,
+  });
 }
