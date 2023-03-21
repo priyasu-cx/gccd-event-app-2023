@@ -94,7 +94,7 @@ class CCDDrawer extends StatelessWidget {
               bool isSelected =
                   context.router.currentPath == drawerItemsMainPath[index];
 
-              if (drawerItemsMain[index] == 'Profile' && user == null || drawerItemsMain[index] == 'Buy Tickets' && user == null) {
+              if (drawerItemsMain[index] == 'Profile' && user == null) {
                 return const Offstage();
               } else {
                 return Padding(
@@ -162,9 +162,10 @@ class CCDDrawer extends StatelessWidget {
                       ? drawerItemsFooterIcon[index]
                       : drawerItemsFooterIconOutlined[index],
                   onTap: () {
-                    if(drawerItemsFooter[index] == 'Share'){
-                      launchExternalUrl("https://play.google.com/store/apps/details?id=com.gdgck.ccd2022");
-                    }else{
+                    if (drawerItemsFooter[index] == 'Share') {
+                      launchExternalUrl(
+                          "https://play.google.com/store/apps/details?id=com.gdgck.ccd2022");
+                    } else {
                       context.router.pushNamed(drawerItemsFooterPath[index]);
                     }
                   },
@@ -188,24 +189,31 @@ class CCDDrawer extends StatelessWidget {
           //     ),
           //   ),
           // ),
-          SizedBox(height: 20,),
-          Center(child: Text("Connect with us", style: Theme.of(context).textTheme.bodySmall,)),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+              child: Text(
+            "Connect with us",
+            style: Theme.of(context).textTheme.bodySmall,
+          )),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: appSocials
                 .map(
                   (social) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    child: Icon(social['icon'], size: 20,),
-                    onTap: () async {
-                      launchExternalUrl(social['url']);
-                    },
-                  )
-              ),
-            )
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        child: Icon(
+                          social['icon'],
+                          size: 20,
+                        ),
+                        onTap: () async {
+                          launchExternalUrl(social['url']);
+                        },
+                      )),
+                )
                 .toList(),
-
           ),
 
           Padding(
@@ -239,8 +247,6 @@ class CCDDrawer extends StatelessWidget {
               ],
             ),
           ),
-
-
         ],
       ),
     );

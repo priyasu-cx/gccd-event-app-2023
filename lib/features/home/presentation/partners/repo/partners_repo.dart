@@ -1,10 +1,8 @@
+
 import 'dart:convert';
 
-import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/app.dart';
 import 'package:ccd2023/features/home/presentation/partners/models/partner_model.dart';
-import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
 
 
 class PartnersRepository {
@@ -15,12 +13,13 @@ class PartnersRepository {
   Future<List<Partners>> getPartners() async {
     // final response = await http.get(Uri.parse('https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/partners/content.json'));
     final response = await _dioApiClient.getPartnerData(endPoint: 'https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/partners/content.json');
-    print("response: $response");
+    print("response: ${response.data.runtimeType}");
 
     List<Partners> partners = [];
     if (response.statusCode == 200) {
-      // final partners = json.decode(response.body);
-      for (var partner in response.data["community_partners"]["sponsors"]) {
+      final responseMap = json.decode(response.data);
+      print(responseMap);
+      for (var partner in responseMap["partners"]) {
         print("partner: $partner");
         partners.add(Partners.fromJson(partner));
       }

@@ -12,6 +12,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i9;
+import 'package:ccd2023/configurations/router/auth_guard.dart' as _i11;
 import 'package:ccd2023/features/app/app.dart' as _i8;
 import 'package:ccd2023/features/auth/auth.dart' as _i3;
 import 'package:ccd2023/features/buy_tickets/pages/buy_ticket_page.dart' as _i4;
@@ -25,8 +26,12 @@ import 'package:ccd2023/features/speaker/presentation/pages/cfs_page.dart'
 import 'package:flutter/material.dart' as _i10;
 
 class AppRouter extends _i9.RootStackRouter {
-  AppRouter([_i10.GlobalKey<_i10.NavigatorState>? navigatorKey])
-      : super(navigatorKey);
+  AppRouter({
+    _i10.GlobalKey<_i10.NavigatorState>? navigatorKey,
+    required this.authGuard,
+  }) : super(navigatorKey);
+
+  final _i11.AuthGuard authGuard;
 
   @override
   final Map<String, _i9.PageFactory> pagesMap = {
@@ -138,6 +143,7 @@ class AppRouter extends _i9.RootStackRouter {
         _i9.RouteConfig(
           BuyTicketRoute.name,
           path: '/buy-tickets',
+          guards: [authGuard],
         ),
         _i9.RouteConfig(
           ProfileRoute.name,

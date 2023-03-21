@@ -3,6 +3,7 @@ import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/material.dart';
 
 import 'configurations/configurations.dart';
+import 'configurations/router/auth_guard.dart';
 
 Future<void> main() async {
   DjangoflowAppRunner.run(
@@ -15,7 +16,7 @@ Future<void> main() async {
       );
     },
     rootWidgetBuilder: (appBuilder) async {
-      final router = AppRouter();
+      final router = AppRouter(authGuard: AuthGuard());
 
       return appBuilder(
         CCDAppBuilder(
