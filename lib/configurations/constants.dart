@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 
 const kPadding = 8.0;
 
@@ -111,6 +112,48 @@ const drawerItemsFooterIcon = [
   Icons.error_outline,
   Icons.verified_user,
   Icons.reply,
+];
+
+List appSocials = [
+  {
+    "title": "Facebook",
+    "icon": FontAwesome5.facebook_square,
+    "url": "https://facebook.com/gdgcloudkol",
+  },
+  {
+    "title": "Twitter",
+    "icon": FontAwesome5.twitter_square,
+    "url": "https://twitter.com/gdgcloudkol",
+  },
+  {
+    "title": "Instagram",
+    "icon": FontAwesome5.instagram_square,
+    "url": "https://instagram.com/gdgcloudkol",
+  },
+  {
+    "title": "Linkedin",
+    "icon": FontAwesome5.linkedin,
+    "url": "https://www.linkedin.com/company/gdgcloudkol",
+  },
+  {
+    "title": "Github",
+    "icon": FontAwesome5.github_square,
+    "url": "https://github.com/gdgcloudkol",
+  },
+  {
+    "title": "Mail",
+    "icon": Icons.email,
+    "url": "mailto:gdgcloudkol@gmail.com",
+  },
+];
+
+const socialIcons = [
+  'FontAwesome5.facebook_square',
+  'FontAwesome5.twitter_square',
+  'FontAwesome5.instagram_square',
+  'FontAwesome5.linkedin',
+  'FontAwesome5.github_square',
+  'FontAwesome5.gmail',
 ];
 
 //Form control names
