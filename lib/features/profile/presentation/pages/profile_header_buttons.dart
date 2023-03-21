@@ -19,16 +19,18 @@ class HeaderButtons extends StatelessWidget {
             children: [
               SizedBox(
                 width: screenWidth! * 0.4,
-                child: state.isEditing
-                    ? DefaultButton(
-                        text: 'Save ',
-                        backgroundColor: GCCDColor.googleGreen,
-                        withIcon: true,
-                        icon: Icons.save_outlined,
-                        isOutlined: true,
-                        onPressed: () {},
-                      )
-                    : DefaultButton(
+                // child: state.isEditing
+                //     ? DefaultButton(
+                //         text: 'Save ',
+                //         backgroundColor: GCCDColor.googleGreen,
+                //         withIcon: true,
+                //         icon: Icons.save_outlined,
+                //         isOutlined: true,
+                //         onPressed: () {
+                //           context.read<EditProfileCubit>().toggleEditing();
+                //         },
+                //       )
+                 child: DefaultButton(
                         text: 'Buy Tickets',
                         backgroundColor: GCCDColor.googleGreen,
                         withIcon: true,

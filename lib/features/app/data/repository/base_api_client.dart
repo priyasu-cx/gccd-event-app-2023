@@ -12,6 +12,11 @@ abstract class BaseApiClient<T, Client> {
     Map<String, dynamic>? dataPayload,
   });
 
+  Future<T> getPartnerData({
+    required String endPoint,
+    Map<String, dynamic>? dataPayload,
+  });
+
   Future<T> postData({
     required String endPoint,
     required Map<String, dynamic> dataPayload,

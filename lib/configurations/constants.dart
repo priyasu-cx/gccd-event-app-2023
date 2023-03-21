@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 
 const kPadding = 8.0;
 
@@ -113,6 +114,48 @@ const drawerItemsFooterIcon = [
   Icons.reply,
 ];
 
+List appSocials = [
+  {
+    "title": "Facebook",
+    "icon": FontAwesome5.facebook_square,
+    "url": "https://facebook.com/gdgcloudkol",
+  },
+  {
+    "title": "Twitter",
+    "icon": FontAwesome5.twitter_square,
+    "url": "https://twitter.com/gdgcloudkol",
+  },
+  {
+    "title": "Instagram",
+    "icon": FontAwesome5.instagram_square,
+    "url": "https://instagram.com/gdgcloudkol",
+  },
+  {
+    "title": "Linkedin",
+    "icon": FontAwesome5.linkedin,
+    "url": "https://www.linkedin.com/company/gdgcloudkol",
+  },
+  {
+    "title": "Github",
+    "icon": FontAwesome5.github_square,
+    "url": "https://github.com/gdgcloudkol",
+  },
+  {
+    "title": "Mail",
+    "icon": Icons.email,
+    "url": "mailto:gdgcloudkol@gmail.com",
+  },
+];
+
+const socialIcons = [
+  'FontAwesome5.facebook_square',
+  'FontAwesome5.twitter_square',
+  'FontAwesome5.instagram_square',
+  'FontAwesome5.linkedin',
+  'FontAwesome5.github_square',
+  'FontAwesome5.gmail',
+];
+
 //Form control names
 const passwordControlName = 'password';
 const confirmPasswordControlName = 'confirm-password';
@@ -150,6 +193,7 @@ const String eventDescription =
 const String eventDate_copy = '7th May 2023';
 const String eventTime = '9:00 AM - 5:00 PM';
 const String eventVenue = 'Biswa Bangla Convention Centre, Kolkata';
+const String eventVenueUrl = 'https://goo.gl/maps/P6GssvSRvHxta4qk6';
 const String aboutGCCD =
     'GDG Cloud Kolkata is bringing to you the largest Google Cloud developer event in Eastern India. Cloud Community Days Kolkata is the flagship event of GDG Cloud Kolkata, held annually, recollecting the best of the year and setting the stone for the upcoming year. Join us as we bring the best of speakers and help you to put your career on a runway to Google Cloud.';
 const String cfpDesc = 'Each Google Cloud Community Days event brings you an opportunity to lead and present to the crown your excellent views. Join us as a Speaker to showcase your awesomeness';
@@ -222,8 +266,12 @@ const List<Map<String, dynamic>> communityPartners = [
 // FAQ body
 const FAQDetails = {
   "title": "Frequently Asked Questions",
-  "description":
-      "For any queries related to sponsorship, please reach out to us at partners@gdgcloud.kolkata.dev. Any question related to participation can be asked at gdgcloudkol@gmail.com",
+  "description1":
+      "For any queries related to sponsorship, please reach out to us at ",
+  "sponsorMail": "partners@gdgcloud.kolkata.dev",
+  "description2": "Any question related to participation can be asked at",
+  "generalMail": "gdgcloudkol@gmail.com",
+
   "length": 8,
 };
 

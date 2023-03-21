@@ -1,8 +1,11 @@
 import 'package:ccd2023/features/auth/auth.dart';
-import 'package:ccd2023/features/home/community_partners.dart';
+import 'package:ccd2023/features/home/presentation/partners/blocs/partners_cubit.dart';
+import 'package:ccd2023/features/home/presentation/partners/pages/community_partners.dart';
 import 'package:ccd2023/features/home/home.dart';
+import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ccd2023/features/app/app.dart';
@@ -100,14 +103,30 @@ class HomePage extends StatelessWidget {
                             ),
                       ),
                       SizedBox(height: screenWidth! * 0.02),
-                      Text(
-                        'Venue : $eventVenue',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      RichText(
+                          text: TextSpan(
+                            text: 'Venue : ',
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               color: themeMode == ThemeMode.light
                                   ? GCCDColor.googleBlue
                                   : GCCDColor.googleYellow,
                             ),
+                            children: [
+                              TextSpan(
+                                text: ' $eventVenue 🔗',
+                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                  color: themeMode == ThemeMode.light
+                                      ? GCCDColor.googleBlue
+                                      : GCCDColor.googleYellow,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => launchExternalUrl(eventVenueUrl),
+                              ),
+                            ],
+                          ),
+
                       ),
+
                       Padding(
                         padding:
                             EdgeInsets.symmetric(vertical: screenWidth! * 0.05),
@@ -194,6 +213,18 @@ class HomePage extends StatelessWidget {
               SizedBox(height: screenWidth! * 0.1),
               const Divider(),
               // SizedBox(height: screenWidth! * 0.06),
+              // BlocBuilder<PartnersCubit, PartnersState>(
+              //     builder: (context, state) {
+              //       if (state is PartnersLoaded) {
+              //         return Padding(
+              //           padding: EdgeInsets.only(top: screenWidth! * 0.04),
+              //           child: const CommunityPartners(),
+              //         );
+              //       } else {
+              //         return const SizedBox();
+              //       }
+              //     }
+              // ),
               Padding(
                 padding: EdgeInsets.only(top: screenWidth! * 0.04),
                 child: const CommunityPartners(),

@@ -1,6 +1,7 @@
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/presentation/navigation/appbar.dart';
 import 'package:ccd2023/features/app/presentation/navigation/drawer.dart';
+import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,7 @@ class FAQPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(18.0),
+                  padding: EdgeInsets.only(left: screenWidth! * 0.08, top: screenWidth! * 0.1, bottom: screenWidth! * 0.05),
                   child: Text(
                     FAQDetails["title"].toString(),
                     style: Theme.of(context)
@@ -34,9 +35,37 @@ class FAQPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.all(screenWidth! * 0.08),
-                  child: Text(
-                    FAQDetails["description"].toString(),
-                    style: Theme.of(context).textTheme.titleMedium,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        FAQDetails["description1"].toString(),
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      InkWell(
+                        onTap: () => launchExternalUrl("mailto:${FAQDetails["sponsorMail"].toString()}"),
+                        child: Text(
+                          FAQDetails["sponsorMail"].toString(),
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: GCCDColor.googleBlue,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      Text(
+                        FAQDetails["description2"].toString(),
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      InkWell(
+                        onTap: () => launchExternalUrl("mailto:${FAQDetails["generalMail"].toString()}"),
+                        child: Text(
+                          FAQDetails["generalMail"].toString(),
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: GCCDColor.googleBlue,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 ListView.builder(
