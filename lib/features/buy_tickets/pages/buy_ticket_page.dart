@@ -66,9 +66,9 @@ class BuyTicketPage extends StatelessWidget {
                 children: [
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(vertical: screenWidth! * 0.08),
+                        EdgeInsets.only(top: screenWidth! * 0.08, bottom: 20),
                     child: Text(
-                      'Buy Tickets 🎫',
+                      'Buy Ticket 🎫',
                       style: TextStyle(
                         fontSize: screenWidth! * 0.09,
                         foreground: Paint()
@@ -80,6 +80,14 @@ class BuyTicketPage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Text(
+                    "Please edit the fields if not accurate or incomplete and update profile from profile section",
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: GCCDColor.googleGrey,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
                   EditProfileWrapper(
                     onSuccess: () {
                       DjangoflowAppSnackbar.showInfo(
