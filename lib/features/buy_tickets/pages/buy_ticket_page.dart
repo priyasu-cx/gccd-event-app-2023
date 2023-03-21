@@ -17,12 +17,38 @@ import '../../home/presentation/default_button_widget.dart';
 class BuyTicketPage extends StatelessWidget {
   const BuyTicketPage({Key? key}) : super(key: key);
 
+  Future<void> _onSubmit(FormGroup form) async {
+    final user = AuthCubit.instance.state.user;
+    print(user);
+
+    if(form.control(firstNameControlName).value as String == "Anonymous" ||
+        form.control(lastNameControlName).value as String == "Wildcat"){
+      DjangoflowAppSnackbar.showError("Please change your Name");
+      return;
+    }
+
+    await AuthCubit.instance.updateProfile(
+      firstName: form.control(firstNameControlName).value as String,
+      lastName: form.control(lastNameControlName).value as String,
+      phone: form.control(phoneControlName).value as String,
+      college: user?.profile.college ?? "",
+      course: user?.profile.course ?? "",
+      graduationYear: user!.profile.graduationYear,
+      company: user.profile.company ?? "",
+      role: user.profile.role ?? "",
+      foodChoice: user.profile.foodChoice,
+      tSize: user.profile.tSize,
+      country: user.profile.countryCode,
+    );
+  }
+
   FormGroup _formBuilder() {
     final user = AuthCubit.instance.state.user;
 
     return fb.group(
       {
         emailControlName: FormControl<String>(
+          disabled: true,
           value: user?.email,
           validators: [Validators.required, Validators.email],
         ),
@@ -81,7 +107,7 @@ class BuyTicketPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Please edit the fields if not accurate or incomplete and update profile from profile section",
+                    "Please edit the fields if not accurate or incomplete and update profile from Profile Page",
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: GCCDColor.googleGrey,
                     ),
@@ -95,12 +121,7 @@ class BuyTicketPage extends StatelessWidget {
                       );
                       context.read<EditProfileCubit>().toggleEditing();
                     },
-                    onSubmit: (form) {
-                      if (kDebugMode) {
-                        print(form.value);
-                      }
-                      throw UnimplementedError();
-                    },
+                    onSubmit: _onSubmit,
                     formBuilder: _formBuilder,
                     formContent: [
                       // Email
@@ -109,14 +130,35 @@ class BuyTicketPage extends StatelessWidget {
                         textAlign: TextAlign.start,
                       ),
                       const SizedBox(height: 6),
-                      ReactiveTextField(
-                        formControlName: emailControlName,
-                        autofillHints: const [AutofillHints.email],
-                        validationMessages: {
-                          ValidationMessage.required: (_) =>
-                              'Email cannot be empty',
-                          ValidationMessage.email: (_) => 'Email is not valid',
-                        },
+                      // ReactiveTextField(
+                      //   formControlName: emailControlName,
+                      //   autofillHints: const [AutofillHints.email],
+                      //   validationMessages: {
+                      //     ValidationMessage.required: (_) =>
+                      //         'Email cannot be empty',
+                      //     ValidationMessage.email: (_) => 'Email is not valid',
+                      //   },
+                      // ),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(kPadding * 2),
+                          border: Border.all(
+                            color: GCCDColor.googleGrey.withOpacity(0.5),
+                            width: 0.5,
+                          ),
+                        ),
+                        child: Text(
+                          user?.email ?? '',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: GCCDColor.googleGrey,
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 20),
 
@@ -193,7 +235,7 @@ class BuyTicketPage extends StatelessWidget {
                                 context.read<AuthCubit>().logout();
                               } else if (user.profile.phone == null) {
                                 DjangoflowAppSnackbar.showError(
-                                  'Please complete profile using edit profile option.',
+                                  'Please complete profile from Profile Page.',
                                 );
                               } else {
                                 launchBuyTicket(
@@ -222,6 +264,12 @@ class BuyTicketPage extends StatelessWidget {
                                     : Icons.edit_note_outlined,
                                 isOutlined: true,
                                 onPressed: () {
+                                  if(user?.profile.phone == null) {
+                                    DjangoflowAppSnackbar.showError(
+                                      'Please complete profile from Profile Page.',
+                                    );
+                                    return;
+                                  }
                                   context
                                       .read<EditProfileCubit>()
                                       .toggleEditing();

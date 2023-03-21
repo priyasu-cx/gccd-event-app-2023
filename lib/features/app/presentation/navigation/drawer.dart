@@ -6,7 +6,6 @@ import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttericon/font_awesome5_icons.dart';
 
 class CCDDrawer extends StatelessWidget {
   const CCDDrawer({Key? key}) : super(key: key);

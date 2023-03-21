@@ -3,6 +3,7 @@ import 'package:ccd2023/configurations/constants.dart';
 import 'package:ccd2023/configurations/router/ccd_router.gr.dart';
 import 'package:ccd2023/configurations/theme/ccd_asset.dart';
 import 'package:ccd2023/configurations/theme/ccd_colors.dart';
+import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/features/home/presentation/default_button_widget.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -16,6 +17,7 @@ class CFPSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeMode = context.watch<AppCubit>().state.themeMode;
+    final user = context.watch<AuthCubit>().state.user;
 
     return Container(
       color: themeMode == ThemeMode.light ?
@@ -70,7 +72,15 @@ class CFPSection extends StatelessWidget {
                   ),
                   SizedBox(
                     width: screenWidth! * 0.6,
-                    child: DefaultButton(
+                    child:
+                    user == null ?
+                    DefaultButton(
+                      text: "Login to Apply",
+                      backgroundColor: GCCDColor.googleRed,
+                      foregroundColor: GCCDColor.white,
+                      onPressed: () => context.router.push(const LoginRoute()),
+                    ) :
+                    DefaultButton(
                       text: "Apply to be a Speaker",
                       backgroundColor: GCCDColor.googleRed,
                       foregroundColor: GCCDColor.white,
