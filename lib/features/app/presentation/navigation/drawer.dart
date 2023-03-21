@@ -162,7 +162,11 @@ class CCDDrawer extends StatelessWidget {
                       ? drawerItemsFooterIcon[index]
                       : drawerItemsFooterIconOutlined[index],
                   onTap: () {
-                    context.router.pushNamed(drawerItemsFooterPath[index]);
+                    if(drawerItemsFooter[index] == 'Share'){
+                      launchExternalUrl("https://play.google.com/store/apps/details?id=com.gdgck.ccd2022");
+                    }else{
+                      context.router.pushNamed(drawerItemsFooterPath[index]);
+                    }
                   },
                 ),
               );
