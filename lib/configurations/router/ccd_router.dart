@@ -8,6 +8,7 @@ import 'package:ccd2023/features/profile/presentation/pages/profile_page.dart';
 import 'package:ccd2023/features/speaker/presentation/pages/cfs_page.dart';
 
 import '../../features/buy_tickets/pages/buy_ticket_page.dart';
+import 'auth_guard.dart';
 
 export 'package:auto_route/auto_route.dart';
 export 'ccd_router.gr.dart';
@@ -21,7 +22,7 @@ export 'ccd_router.gr.dart';
     AutoRoute(page: SignUpPage, path: "/signup"),
     AutoRoute(page: ActivateEmailPage, path: "/activate-account"),
     AutoRoute(page: ForgotPassPage, path: "/forgot-pass"),
-    AutoRoute(page: BuyTicketPage, path: "/buy-tickets"),
+    AutoRoute(page: BuyTicketPage, path: "/buy-tickets",guards: [AuthGuard]),
     AutoRoute(page: ProfilePage, path: "/profile"),
     AutoRoute(page: FAQPage, path: "/faq"),
     AutoRoute(page: CoCPage, path: "/coc"),

@@ -1,6 +1,5 @@
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/data/repository/dio/dio_api_client.dart';
-import 'package:ccd2023/features/home/home.dart';
 import 'package:ccd2023/features/home/presentation/partners/blocs/partners_cubit.dart';
 import 'package:ccd2023/features/home/presentation/partners/repo/partners_repo.dart';
 import 'package:ccd2023/utils/launch_url.dart';
@@ -27,7 +26,8 @@ class CommunityPartners extends StatelessWidget {
         child: BlocProvider(
             create: (context) => PartnersCubit(
                   context.read<PartnersRepository>(),
-                )..getPartners(),
+                ),
+              //..getPartners(),
             child: Container(
               // decoration: BoxDecoration(
               //   color: themeMode == ThemeMode.light

@@ -35,4 +35,5 @@ class TechnologyCubit extends Cubit<TechnologyState> {
       emit(TechnologyState.error(e.toString()));
     }
   }
+
 }

@@ -71,7 +71,6 @@ class PartnersCubit extends Cubit<PartnersState> {
     emit(const PartnersState.loading());
     try {
       final partners = await _partnersRepository.getPartners();
-      print("getPartners");
       emit(PartnersState.loaded(partners));
     } on DioError catch (e) {
       emit(
