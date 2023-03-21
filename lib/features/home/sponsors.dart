@@ -63,15 +63,29 @@ class Sponsors extends StatelessWidget {
                 .toList(),
           ),
           SizedBox(height: screenWidth! * 0.04),
-          SizedBox(
-            width: screenWidth! * 0.5,
-            child: DefaultButton(
-              onPressed: () {},
-              backgroundColor: Colors.transparent,
-              isOutlined: true,
-                text: "Become a Sponsor",
-            ),
-          )
+          // SizedBox(
+          //   width: screenWidth! * 0.5,
+          //   child: DefaultButton(
+          //     onPressed: () {},
+          //     backgroundColor: Colors.transparent,
+          //     isOutlined: true,
+          //       text: "Become a Sponsor",
+          //   ),
+          // )
+          RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                  text: "To become a sponsor, please email as at ",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  children: [
+                    TextSpan(
+                      text: "partners@gdgcloud.kolkata.dev",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                          ),
+                    )
+                  ])),
         ],
       ),
     );
