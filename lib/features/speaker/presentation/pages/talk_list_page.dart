@@ -34,11 +34,28 @@ class TalkListPage extends StatelessWidget {
       body: BlocBuilder<CFSCubit, CFSState>(
         builder: (context, state) {
           return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              Text(
+                'Note: Talks can be edited only upto 72 hours post submission',
+                style: textTheme.titleLarge?.copyWith(
+                  color: GCCDColor.googleYellow,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: kPadding * 2,
+              ),
               if (state.loading)
                 const Center(
                   child: CircularProgressIndicator(),
+                )
+              else if (state.talks.isEmpty)
+                Center(
+                  child: Text(
+                    'No talks submitted',
+                    style: textTheme.headlineSmall,
+                  ),
                 )
               else
                 Expanded(
@@ -47,7 +64,8 @@ class TalkListPage extends StatelessWidget {
                     itemCount: state.talks.length,
                     itemBuilder: (context, index) {
                       final talk = state.talks[index];
-
+                      final talkSubmittedDate =
+                          DateTime.parse(talk.addedAt ?? '');
                       return Padding(
                         padding: const EdgeInsets.all(kPadding * 2),
                         child: GCCDBorder(
@@ -58,13 +76,6 @@ class TalkListPage extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  talk.title,
-                                  style: textTheme.bodyLarge,
-                                ),
-                                const SizedBox(
-                                  height: kPadding,
-                                ),
                                 Row(
                                   children: [
                                     const Icon(Icons.date_range),
@@ -78,6 +89,13 @@ class TalkListPage extends StatelessWidget {
                                       style: textTheme.titleLarge,
                                     ),
                                   ],
+                                ),
+                                const SizedBox(
+                                  height: kPadding,
+                                ),
+                                Text(
+                                  talk.title,
+                                  style: textTheme.bodyLarge,
                                 ),
                                 const SizedBox(
                                   height: kPadding,
@@ -121,48 +139,52 @@ class TalkListPage extends StatelessWidget {
                                 const SizedBox(
                                   height: kPadding * 2,
                                 ),
-                                Row(
-                                  children: [
-                                    _TalkActionButtons(
-                                      color: GCCDColor.googleBlue,
-                                      iconData: Icons.edit,
-                                      onPressed: () {
-                                        context.router.push(
-                                          CFSRoute(
-                                            talkDescription: talk.description,
-                                            talkType: talk.format,
-                                            talkId: talk.id,
-                                            talkEvent: talk.event,
-                                            talkOverview: talk.overview,
-                                            talkTitle: talk.title,
-                                            topicsOfExpertise:
-                                                talk.technologies,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    const SizedBox(
-                                      width: kPadding,
-                                    ),
-                                    CircularProgressBuilder(
-                                      action: (_) async {
-                                        await context
-                                            .read<CFSCubit>()
-                                            .deleteTalk(
-                                              authToken: AuthCubit
-                                                  .instance.state.accessToken!,
-                                              id: talk.id!,
-                                            );
-                                      },
-                                      builder: (context, action, error) =>
-                                          _TalkActionButtons(
-                                        color: GCCDColor.googleRed,
-                                        iconData: Icons.delete,
-                                        onPressed: action,
+                                if (_shouldShowActionButtons(
+                                  talkSubmittedDate,
+                                  talk.status ?? '',
+                                ))
+                                  Row(
+                                    children: [
+                                      _TalkActionButtons(
+                                        color: GCCDColor.googleBlue,
+                                        iconData: Icons.edit,
+                                        onPressed: () {
+                                          context.router.push(
+                                            CFSRoute(
+                                              talkDescription: talk.description,
+                                              talkType: talk.format,
+                                              talkId: talk.id,
+                                              talkEvent: talk.event,
+                                              talkOverview: talk.overview,
+                                              talkTitle: talk.title,
+                                              topicsOfExpertise:
+                                                  talk.technologies,
+                                            ),
+                                          );
+                                        },
                                       ),
-                                    ),
-                                  ],
-                                ),
+                                      const SizedBox(
+                                        width: kPadding,
+                                      ),
+                                      CircularProgressBuilder(
+                                        action: (_) async {
+                                          await context
+                                              .read<CFSCubit>()
+                                              .deleteTalk(
+                                                authToken: AuthCubit.instance
+                                                    .state.accessToken!,
+                                                id: talk.id!,
+                                              );
+                                        },
+                                        builder: (context, action, error) =>
+                                            _TalkActionButtons(
+                                          color: GCCDColor.googleRed,
+                                          iconData: Icons.delete,
+                                          onPressed: action,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 const SizedBox(
                                   height: kPadding * 2,
                                 ),
@@ -179,6 +201,19 @@ class TalkListPage extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+bool _shouldShowActionButtons(
+  DateTime talkSubmittedDate,
+  String status,
+) {
+  if (talkSubmittedDate.difference(DateTime.now()).inDays <= 3) {
+    return true;
+  } else if (status == 'Rejected' || status == 'Accepted') {
+    return false;
+  } else {
+    return false;
   }
 }
 

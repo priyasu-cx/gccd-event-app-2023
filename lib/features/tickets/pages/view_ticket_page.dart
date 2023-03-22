@@ -115,14 +115,14 @@ class _TicketDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: screenWidth! * 0.1,
+        horizontal: screenWidth! * 0.15,
         vertical: kPadding,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Text(
               '$heading: ',
               style: Theme.of(context).textTheme.bodyLarge,
