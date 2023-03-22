@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccd2023/configurations/configurations.dart';
+import 'package:ccd2023/features/app/presentation/navigation/drawer.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,7 @@ class ViewTicketPage extends StatelessWidget {
         preferredSize: Size.fromHeight(screenHeight! * 0.07),
         child: const CCDAppBar(),
       ),
+      drawer: const CCDDrawer(),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: SizedBox(
@@ -30,6 +32,9 @@ class ViewTicketPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(
+                height: screenHeight! * 0.02,
+              ),
               Text(
                 'Your Ticket',
                 style: Theme.of(context).textTheme.displayMedium?.copyWith(
