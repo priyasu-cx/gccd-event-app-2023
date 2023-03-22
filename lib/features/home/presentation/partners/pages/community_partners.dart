@@ -40,7 +40,7 @@ class CommunityPartners extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: screenWidth! * 0.06),
+                  // SizedBox(height: screenWidth! * 0.06),
                   Text(
                     'COMMUNITY PARTNERS',
                     textAlign: TextAlign.center,

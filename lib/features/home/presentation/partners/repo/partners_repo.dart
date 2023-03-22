@@ -11,20 +11,12 @@ class PartnersRepository {
   PartnersRepository(this._dioApiClient);
 
   Future<Partners> getPartners() async {
-    // final response = await http.get(Uri.parse('https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/partners/content.json'));
     final response = await _dioApiClient.getPartnerData(endPoint: 'https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/partners/content.json');
-    // print("response: ${response.data.runtimeType}");
 
-    // List<Partners> partners = [];
     Partners partners;
 
     if (response.statusCode == 200) {
       final responseMap = json.decode(response.data);
-      print(responseMap);
-      // for (var partner in responseMap["partners"]) {
-      //   print("partner: $partner");
-      //   // partners.add(Partners.fromJson(partner));
-      // }
       partners = Partners.fromJson(responseMap);
 
     } else {
