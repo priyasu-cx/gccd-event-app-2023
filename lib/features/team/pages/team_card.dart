@@ -28,7 +28,7 @@ class TeamCard extends StatelessWidget {
         ),
       ),
       width: screenWidth!,
-      height: screenHeight! * 0.38,
+      height: screenHeight! * 0.4,
       child: GCCDBorder(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

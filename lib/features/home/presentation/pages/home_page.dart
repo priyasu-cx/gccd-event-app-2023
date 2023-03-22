@@ -4,6 +4,10 @@ import 'package:ccd2023/features/auth/auth.dart';
 import 'package:ccd2023/features/home/home.dart';
 import 'package:ccd2023/features/home/presentation/partners/pages/community_partners.dart';
 import 'package:ccd2023/features/speaker/bloc/cfs_cubit.dart';
+import 'package:ccd2023/features/home/event_stats.dart';
+import 'package:ccd2023/features/home/presentation/partners/pages/community_partners.dart';
+import 'package:ccd2023/features/home/home.dart';
+import 'package:ccd2023/features/home/taglines.dart';
 import 'package:ccd2023/features/tickets/bloc/ticket_cubit.dart';
 import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
@@ -214,8 +218,8 @@ class HomePage extends StatelessWidget {
                                         ],
                                       );
                                     },
-                                  );
-                                },
+                                  ),
+                                ],
                               ),
                             );
                           } else {
@@ -241,6 +245,14 @@ class HomePage extends StatelessWidget {
                       ),
                       SizedBox(height: screenWidth! * 0.06),
                     ]),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: screenWidth! * 0.04),
+                child: const Taglines(),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: screenWidth! * 0.04),
+                child: const EventStats(),
               ),
               Padding(
                 padding: EdgeInsets.only(top: screenWidth! * 0.04),
