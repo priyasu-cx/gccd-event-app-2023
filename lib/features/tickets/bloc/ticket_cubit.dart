@@ -1,13 +1,13 @@
 import 'package:ccd2023/features/tickets/data/model/ticket_model.dart';
 import 'package:ccd2023/features/tickets/data/ticket_repository.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'ticket_cubit.freezed.dart';
 
 part 'ticket_cubit.g.dart';
 
-class TicketCubit extends Cubit<TicketState> {
+class TicketCubit extends HydratedCubit<TicketState> {
   TicketCubit(this.ticketRepository) : super(const TicketState());
 
   final TicketRepository ticketRepository;
@@ -19,35 +19,38 @@ class TicketCubit extends Cubit<TicketState> {
       return;
     }
 
-    // try {
-      emit(state.copyWith(isLoading: true));
-      final response = await ticketRepository.getTicketInfo(authToken);
-      if (response.isEmpty) {
-        emit(
-          state.copyWith(hasTickets: false, isLoading: false),
-        );
-      } else {
-        emit(
-          state.copyWith(
-            hasTickets: true,
-            isLoading: false,
-            ticket : Ticket.fromJson(response[0]),
-          ),
-        );
-      }
-    // } catch (e) {
-    //   print(e);
-    // }
+    emit(state.copyWith(isLoading: true));
+    final response = await ticketRepository.getTicketInfo(authToken);
+    if (response.isEmpty) {
+      emit(
+        state.copyWith(hasTickets: false, isLoading: false),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          hasTickets: true,
+          isLoading: false,
+          ticket: Ticket.fromJson(response[0]),
+        ),
+      );
+    }
   }
 
   void clearTicketStatus() {
     emit(
       state.copyWith(
         hasTickets: false,
-        ticket:null,
+        ticket: null,
       ),
     );
   }
+
+  @override
+  Map<String, dynamic>? toJson(TicketState state) => state.toJson();
+
+  @override
+  TicketState? fromJson(Map<String, dynamic> json) =>
+      TicketState.fromJson(json);
 }
 
 @freezed
