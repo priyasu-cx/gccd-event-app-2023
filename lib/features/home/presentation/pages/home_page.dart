@@ -1,9 +1,9 @@
 import 'package:ccd2023/features/auth/auth.dart';
 import 'package:ccd2023/features/home/event_stats.dart';
-import 'package:ccd2023/features/home/presentation/partners/blocs/partners_cubit.dart';
 import 'package:ccd2023/features/home/presentation/partners/pages/community_partners.dart';
 import 'package:ccd2023/features/home/home.dart';
 import 'package:ccd2023/features/home/taglines.dart';
+import 'package:ccd2023/features/tickets/bloc/ticket_cubit.dart';
 import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -50,13 +50,13 @@ class HomePage extends StatelessWidget {
                               child: ColorFiltered(
                                 colorFilter: state.themeMode == ThemeMode.light
                                     ? const ColorFilter.mode(
-                                        Colors.transparent,
-                                        BlendMode.saturation,
-                                      )
+                                  Colors.transparent,
+                                  BlendMode.saturation,
+                                )
                                     : const ColorFilter.mode(
-                                        Colors.white,
-                                        BlendMode.srcIn,
-                                      ),
+                                  Colors.white,
+                                  BlendMode.srcIn,
+                                ),
                                 child: Image.asset(
                                   GCCDImageAssets.googleCloudLogo,
                                   width: screenWidth! * 0.58,
@@ -69,8 +69,8 @@ class HomePage extends StatelessWidget {
                       Text(
                         eventTitle,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontSize: screenWidth! * 0.1,
-                            ),
+                          fontSize: screenWidth! * 0.1,
+                        ),
                       ),
                       SizedBox(height: screenWidth! * 0.06),
                       RichText(
@@ -83,10 +83,10 @@ class HomePage extends StatelessWidget {
                                   .textTheme
                                   .bodyLarge
                                   ?.copyWith(
-                                    color: themeMode == ThemeMode.light
-                                        ? GCCDColor.googleBlue
-                                        : GCCDColor.googleYellow,
-                                  ),
+                                color: themeMode == ThemeMode.light
+                                    ? GCCDColor.googleBlue
+                                    : GCCDColor.googleYellow,
+                              ),
                             ),
                             TextSpan(
                               text: eventDescription,
@@ -99,39 +99,42 @@ class HomePage extends StatelessWidget {
                       Text(
                         'Date : $eventDate_copy',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: themeMode == ThemeMode.light
-                                  ? GCCDColor.googleBlue
-                                  : GCCDColor.googleYellow,
-                            ),
+                          color: themeMode == ThemeMode.light
+                              ? GCCDColor.googleBlue
+                              : GCCDColor.googleYellow,
+                        ),
                       ),
                       SizedBox(height: screenWidth! * 0.02),
                       RichText(
-                          text: TextSpan(
-                            text: 'Venue : ',
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: themeMode == ThemeMode.light
-                                  ? GCCDColor.googleBlue
-                                  : GCCDColor.googleYellow,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: ' $eventVenue 🔗',
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  color: themeMode == ThemeMode.light
-                                      ? GCCDColor.googleBlue
-                                      : GCCDColor.googleYellow,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () => launchExternalUrl(eventVenueUrl),
-                              ),
-                            ],
+                        text: TextSpan(
+                          text: 'Venue : ',
+                          style:
+                          Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: themeMode == ThemeMode.light
+                                ? GCCDColor.googleBlue
+                                : GCCDColor.googleYellow,
                           ),
-
+                          children: [
+                            TextSpan(
+                              text: ' $eventVenue 🔗',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                color: themeMode == ThemeMode.light
+                                    ? GCCDColor.googleBlue
+                                    : GCCDColor.googleYellow,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap =
+                                    () => launchExternalUrl(eventVenueUrl),
+                            ),
+                          ],
+                        ),
                       ),
-
                       Padding(
                         padding:
-                            EdgeInsets.symmetric(vertical: screenWidth! * 0.05),
+                        EdgeInsets.symmetric(vertical: screenWidth! * 0.05),
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
@@ -141,8 +144,8 @@ class HomePage extends StatelessWidget {
                             ),
                             Card(
                               color: (themeMode == ThemeMode.light
-                                      ? GCCDColor.black
-                                      : GCCDColor.white)
+                                  ? GCCDColor.black
+                                  : GCCDColor.white)
                                   .withOpacity(0.2),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
@@ -159,15 +162,36 @@ class HomePage extends StatelessWidget {
                           if (state.user != null) {
                             return Padding(
                               padding: EdgeInsets.symmetric(
-                                  vertical: screenWidth! * 0.06),
+                                vertical: screenWidth! * 0.06,
+                              ),
                               child: Column(
                                 children: [
-                                  DefaultButton(
-                                    isOutlined: true,
-                                    onPressed: () => context.router.push(
-                                      const BuyTicketRoute(),
-                                    ),
-                                    text: 'Buy tickets',
+                                  BlocBuilder<TicketCubit, TicketState>(
+                                    builder: (context, state) {
+                                      if (state.isLoading) {
+                                        return const Padding(
+                                          padding: EdgeInsets.all(kPadding),
+                                          child: Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                        );
+                                      }
+                                      return DefaultButton(
+                                        isOutlined: true,
+                                        onPressed: () => !state.hasTickets
+                                            ? context.router.push(
+                                          const BuyTicketRoute(),
+                                        )
+                                            : context.router.push(
+                                          ViewTicketRoute(
+                                            ticket: state.ticket!,
+                                          ),
+                                        ),
+                                        text: !state.hasTickets
+                                            ? 'Buy ticket'
+                                            : 'View Ticket',
+                                      );
+                                    },
                                   ),
                                   DefaultButton(
                                     isOutlined: true,
