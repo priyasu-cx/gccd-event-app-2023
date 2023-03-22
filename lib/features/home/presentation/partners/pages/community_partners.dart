@@ -149,7 +149,7 @@ class CommunityCard extends StatelessWidget {
       child: Container(
         width: screenWidth! * 0.2,
         height: screenWidth! * 0.2,
-        padding: const EdgeInsets.all(kPadding * 2),
+        padding: const EdgeInsets.all(kPadding * 0.5),
         // color: Colors.white,
         decoration: const BoxDecoration(
           // borderRadius: BorderRadius.circular(10),
@@ -179,7 +179,7 @@ class CommunityCard extends StatelessWidget {
                 children: [
                   SvgPicture.network(
                     'https://gdgcloud.kolkata.dev/ccd2023/images/logos/gdsc-logo.svg',
-                    width: 30,
+                    width: 50,
                     fit: BoxFit.contain,
                   ),
                   Text(
