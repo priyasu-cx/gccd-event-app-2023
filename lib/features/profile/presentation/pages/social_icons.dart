@@ -1,5 +1,4 @@
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
-import 'package:ccd2023/features/profile/bloc/edit_profile_cubit.dart';
 import 'package:ccd2023/utils/launch_url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +10,6 @@ class SocialIcons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthCubit>().state.user;
-    final isEditing = context.watch<EditProfileCubit>().state.isEditing;
 
     return user?.profile.socials.isNotEmpty ?? false
         ? Row(
@@ -30,6 +28,20 @@ class SocialIcons extends StatelessWidget {
                         ),
                       ),
                     )
+                  : const Offstage(),
+              user?.profile.socials['twitter'] != null
+                  ? Padding(
+                padding: EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: () {
+                    launchExternalUrl(
+                        user!.profile.socials['twitter']!);
+                  },
+                  child: const Icon(
+                    FontAwesome5.twitter,
+                  ),
+                ),
+              )
                   : const Offstage(),
               user?.profile.socials['linkedin'] != null
                   ? Padding(

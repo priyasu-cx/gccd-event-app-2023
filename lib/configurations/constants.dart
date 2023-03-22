@@ -60,7 +60,7 @@ const drawerItemsMain = [
   // 'Schedule',
   // 'Speakers',
   'Profile',
-  // 'Team',
+  'Team',
 ];
 
 const drawerItemsMainPath = [
@@ -69,7 +69,7 @@ const drawerItemsMainPath = [
   // '/schedule',
   // '/speakers',
   '/profile',
-  // '/team',
+  '/team',
 ];
 
 const drawerItemsMainIconOutlined = [
@@ -78,7 +78,7 @@ const drawerItemsMainIconOutlined = [
   // Icons.calendar_month_outlined,
   // Icons.campaign_outlined,
   Icons.person_outlined,
-  // Icons.group_outlined,
+  Icons.group_outlined,
 ];
 
 const drawerItemsMainIcon = [
@@ -87,7 +87,7 @@ const drawerItemsMainIcon = [
   // Icons.calendar_month,
   // Icons.campaign,
   Icons.person,
-  // Icons.group,
+  Icons.group,
 ];
 
 const drawerItemsFooter = [
