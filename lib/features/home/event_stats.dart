@@ -9,7 +9,7 @@ class EventStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(kPadding * 2),
+      padding: const EdgeInsets.all(kPadding * 2),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: statData
