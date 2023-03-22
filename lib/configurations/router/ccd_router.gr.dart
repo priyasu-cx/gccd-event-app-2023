@@ -15,6 +15,8 @@ import 'package:auto_route/auto_route.dart' as _i10;
 import 'package:ccd2023/configurations/router/auth_guard.dart' as _i12;
 import 'package:ccd2023/features/app/app.dart' as _i9;
 import 'package:ccd2023/features/auth/auth.dart' as _i3;
+
+import 'package:ccd2023/features/buy_tickets/pages/buy_ticket_page.dart' as _i4;
 import 'package:ccd2023/features/coc/pages/coc_page.dart' as _i8;
 import 'package:ccd2023/features/faq/pages/faq_page.dart' as _i7;
 import 'package:ccd2023/features/home/presentation/pages/home_page.dart' as _i1;
@@ -22,9 +24,13 @@ import 'package:ccd2023/features/profile/presentation/pages/profile_page.dart'
     as _i6;
 import 'package:ccd2023/features/speaker/presentation/pages/cfs_page.dart'
     as _i2;
+
+import 'package:ccd2023/features/team/pages/team_page.dart' as _i5;
+
 import 'package:ccd2023/features/tickets/data/model/ticket_model.dart' as _i13;
 import 'package:ccd2023/features/tickets/pages/buy_ticket_page.dart' as _i4;
 import 'package:ccd2023/features/tickets/pages/view_ticket_page.dart' as _i5;
+
 import 'package:flutter/material.dart' as _i11;
 
 class AppRouter extends _i10.RootStackRouter {
@@ -84,6 +90,12 @@ class AppRouter extends _i10.RootStackRouter {
         child: const _i4.BuyTicketPage(),
       );
     },
+
+    TeamRoute.name: (routeData) {
+      return _i10.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const _i5.TeamPage(),
+
     ViewTicketRoute.name: (routeData) {
       final args = routeData.argsAs<ViewTicketRouteArgs>();
       return _i10.AdaptivePage<dynamic>(
@@ -92,6 +104,7 @@ class AppRouter extends _i10.RootStackRouter {
           key: args.key,
           ticket: args.ticket,
         ),
+
       );
     },
     ProfileRoute.name: (routeData) {
@@ -159,9 +172,14 @@ class AppRouter extends _i10.RootStackRouter {
           guards: [authGuard],
         ),
         _i10.RouteConfig(
+
+          TeamRoute.name,
+          path: '/team',
+
           ViewTicketRoute.name,
           path: '/view-tickets',
           guards: [authGuard],
+
         ),
         _i10.RouteConfig(
           ProfileRoute.name,
@@ -295,6 +313,17 @@ class BuyTicketRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
+
+/// [_i5.TeamPage]
+class TeamRoute extends _i10.PageRouteInfo<void> {
+  const TeamRoute()
+      : super(
+          TeamRoute.name,
+          path: '/team',
+        );
+
+  static const String name = 'TeamRoute';
+
 /// [_i5.ViewTicketPage]
 class ViewTicketRoute extends _i10.PageRouteInfo<ViewTicketRouteArgs> {
   ViewTicketRoute({
@@ -326,6 +355,7 @@ class ViewTicketRouteArgs {
   String toString() {
     return 'ViewTicketRouteArgs{key: $key, ticket: $ticket}';
   }
+
 }
 
 /// generated route for
