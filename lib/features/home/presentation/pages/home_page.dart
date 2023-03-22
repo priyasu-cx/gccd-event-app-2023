@@ -4,10 +4,6 @@ import 'package:ccd2023/features/auth/auth.dart';
 import 'package:ccd2023/features/home/home.dart';
 import 'package:ccd2023/features/home/presentation/partners/pages/community_partners.dart';
 import 'package:ccd2023/features/speaker/bloc/cfs_cubit.dart';
-import 'package:ccd2023/features/home/event_stats.dart';
-import 'package:ccd2023/features/home/presentation/partners/pages/community_partners.dart';
-import 'package:ccd2023/features/home/home.dart';
-import 'package:ccd2023/features/home/taglines.dart';
 import 'package:ccd2023/features/tickets/bloc/ticket_cubit.dart';
 import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
@@ -15,6 +11,9 @@ import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../event_stats.dart';
+import '../../taglines.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -166,56 +165,52 @@ class HomePage extends StatelessWidget {
                               padding: EdgeInsets.symmetric(
                                 vertical: screenWidth! * 0.06,
                               ),
-                              child: BlocBuilder<TicketCubit, TicketState>(
-                                builder: (context, ticketState) {
-                                  return BlocBuilder<CFSCubit, CFSState>(
-                                    builder: (context, cfsState) {
-                                      return Column(
-                                        children: [
-                                          if (ticketState.isLoading ||
-                                              cfsState.loading)
-                                            const Padding(
-                                              padding: EdgeInsets.all(kPadding),
-                                              child: Center(
-                                                child:
-                                                    CircularProgressIndicator(),
+                              child: Column(
+                                children: [
+                                  BlocBuilder<TicketCubit, TicketState>(
+                                    builder: (context, state) {
+                                      if (state.isLoading) {
+                                        return const Padding(
+                                          padding: EdgeInsets.all(kPadding),
+                                          child: Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                        );
+                                      }
+                                      return DefaultButton(
+                                        isOutlined: true,
+                                        onPressed: () => !state.hasTickets
+                                            ? context.router.push(
+                                                const BuyTicketRoute(),
+                                              )
+                                            : context.router.push(
+                                                ViewTicketRoute(
+                                                  ticket: state.ticket!,
+                                                ),
                                               ),
-                                            )
-                                          else ...[
-                                            DefaultButton(
-                                              isOutlined: true,
-                                              onPressed: () =>
-                                                  !ticketState.hasTickets
-                                                      ? context.router.push(
-                                                          const BuyTicketRoute(),
-                                                        )
-                                                      : context.router.push(
-                                                          ViewTicketRoute(
-                                                            ticket: ticketState
-                                                                .ticket!,
-                                                          ),
-                                                        ),
-                                              text: !ticketState.hasTickets
-                                                  ? 'Buy ticket'
-                                                  : 'View Ticket',
-                                            ),
-                                            DefaultButton(
-                                              isOutlined: true,
-                                              text: "Call for Speakers",
-                                              backgroundColor:
-                                                  GCCDColor.googleRed,
-                                              foregroundColor: GCCDColor.white,
-                                              onPressed: () =>
-                                                  cfsState.talks.isEmpty
-                                                      ? context.router.push(
-                                                          CFSRoute(),
-                                                        )
-                                                      : context.router.push(
-                                                          const TalkListRoute(),
-                                                        ),
-                                            ),
-                                          ],
-                                        ],
+                                        text: !state.hasTickets
+                                            ? 'Buy ticket'
+                                            : 'View Ticket',
+                                      );
+                                    },
+                                  ),
+                                  BlocBuilder<CFSCubit, CFSState>(
+                                    builder: (context, state) {
+                                      if (state.loading) {
+                                        return const Offstage();
+                                      }
+                                      return DefaultButton(
+                                        isOutlined: true,
+                                        text: "Call for Speakers",
+                                        backgroundColor: GCCDColor.googleRed,
+                                        foregroundColor: GCCDColor.white,
+                                        onPressed: () => state.talks.isEmpty
+                                            ? context.router.push(
+                                                CFSRoute(),
+                                              )
+                                            : context.router.push(
+                                                const TalkListRoute(),
+                                              ),
                                       );
                                     },
                                   ),
