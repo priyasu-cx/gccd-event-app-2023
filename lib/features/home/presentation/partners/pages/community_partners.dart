@@ -26,8 +26,8 @@ class CommunityPartners extends StatelessWidget {
         child: BlocProvider(
             create: (context) => PartnersCubit(
                   context.read<PartnersRepository>(),
-                ),
-              //..getPartners(),
+                )
+              ..getPartners(),
             child: Container(
               // decoration: BoxDecoration(
               //   color: themeMode == ThemeMode.light
@@ -40,7 +40,7 @@ class CommunityPartners extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: screenWidth! * 0.06),
+                  // SizedBox(height: screenWidth! * 0.06),
                   Text(
                     'COMMUNITY PARTNERS',
                     textAlign: TextAlign.center,
@@ -79,7 +79,8 @@ class CommunityPartners extends StatelessWidget {
                       builder: (context, state) {
                     return state.when(
                       initial: () => const SizedBox.shrink(),
-                      loading: () => const SizedBox.shrink(),
+                      loading: () => const CircularProgressIndicator(
+                        color: GCCDColor.googleBlue,),
                       loaded: (partners) {
                         return GridView.builder(
                           physics: const NeverScrollableScrollPhysics(),
@@ -90,12 +91,15 @@ class CommunityPartners extends StatelessWidget {
                             crossAxisSpacing: kPadding,
                             mainAxisSpacing: kPadding,
                           ),
-                          itemCount: partners.length,
+                          itemCount: partners.community_partners.sponsors.length,
                           itemBuilder: (context, index) {
                             return CommunityCard(
-                              imageUrl: partners[index].imgSrc,
-                              url: partners[index].hyperlink,
-                              name: partners[index].sponsorName,
+                                imageUrl: partners
+                                    .community_partners.sponsors[index].imgSrc,
+                                url: partners
+                                    .community_partners.sponsors[index].hyperlink,
+                                name: partners
+                                    .community_partners.sponsors[index].sponsorName,
                             );
                           },
                         );
@@ -103,24 +107,24 @@ class CommunityPartners extends StatelessWidget {
                       error: (message) => Text(message),
                     );
                   }),
-                  GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: kPadding,
-                      mainAxisSpacing: kPadding,
-                    ),
-                    itemCount: communityPartners.length,
-                    itemBuilder: (context, index) {
-                      return CommunityCard(
-                        imageUrl: communityPartners[index]['logo'],
-                        url: communityPartners[index]['link'],
-                        name: communityPartners[index]['name'],
-                      );
-                    },
-                  )
+                  // GridView.builder(
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //   shrinkWrap: true,
+                  //   gridDelegate:
+                  //       const SliverGridDelegateWithFixedCrossAxisCount(
+                  //     crossAxisCount: 2,
+                  //     crossAxisSpacing: kPadding,
+                  //     mainAxisSpacing: kPadding,
+                  //   ),
+                  //   itemCount: communityPartners.length,
+                  //   itemBuilder: (context, index) {
+                  //     return CommunityCard(
+                  //       imageUrl: communityPartners[index]['logo'],
+                  //       url: communityPartners[index]['link'],
+                  //       name: communityPartners[index]['name'],
+                  //     );
+                  //   },
+                  // )
                 ],
               ),
             )));
@@ -132,15 +136,15 @@ class CommunityCard extends StatelessWidget {
       {required this.imageUrl, required this.url, required this.name, Key? key})
       : super(key: key);
 
-  final String imageUrl;
-  final String url;
-  final String name;
+  final String? imageUrl;
+  final String? url;
+  final String? name;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        launchExternalUrl(url);
+        launchExternalUrl(url!);
       },
       child: Container(
         width: screenWidth! * 0.2,
@@ -169,17 +173,17 @@ class CommunityCard extends StatelessWidget {
             ),
           ),
         ),
-        child: imageUrl ==
-                'https://gdgcloud.kolkata.dev/ccd2023/images/logos/gdsc-logo.svg'
+        child: imageUrl == ""
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.network(
-                    imageUrl,
+                    'https://gdgcloud.kolkata.dev/ccd2023/images/logos/gdsc-logo.svg',
+                    width: 30,
                     fit: BoxFit.contain,
                   ),
                   Text(
-                    name,
+                    name!,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Colors.black,
@@ -187,13 +191,8 @@ class CommunityCard extends StatelessWidget {
                   ),
                 ],
               )
-            : imageUrl.endsWith('.svg')
-                ? SvgPicture.network(
-                    imageUrl,
-                    fit: BoxFit.contain,
-                  )
-                : CachedNetworkImage(
-                    imageUrl: imageUrl,
+            : CachedNetworkImage(
+                    imageUrl: "https://gdgcloud.kolkata.dev/ccd2023/images/communityPartners/${imageUrl!}",
                     fit: BoxFit.contain,
                   ),
       ),

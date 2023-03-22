@@ -31,8 +31,8 @@ class CFPSection extends StatelessWidget {
         children: [
           Positioned(
             bottom: 20,
-            child: SvgPicture.asset(
-              GCCDImageAssets.victoriaSVGImage,
+            child: Image.asset(
+              GCCDImageAssets.backgroundGraphics,
               width: screenWidth!,
             ),
           ),

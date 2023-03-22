@@ -66,7 +66,9 @@ class Sponsors extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.04),
             child: Text(
               'To become a sponsor, please email us at',
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontSize: 14,
+              ),
               textAlign: TextAlign.center,
             ),
           ),
