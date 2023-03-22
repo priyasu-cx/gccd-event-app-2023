@@ -1,5 +1,4 @@
 import 'package:ccd2023/configurations/configurations.dart';
-import 'package:ccd2023/features/home/home.dart';
 import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -63,29 +62,25 @@ class Sponsors extends StatelessWidget {
                 .toList(),
           ),
           SizedBox(height: screenWidth! * 0.04),
-          // SizedBox(
-          //   width: screenWidth! * 0.5,
-          //   child: DefaultButton(
-          //     onPressed: () {},
-          //     backgroundColor: Colors.transparent,
-          //     isOutlined: true,
-          //       text: "Become a Sponsor",
-          //   ),
-          // )
-          RichText(
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.04),
+            child: Text(
+              'To become a sponsor, please email us at',
+              style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
-              text: TextSpan(
-                  text: "To become a sponsor, please email as at ",
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  children: [
-                    TextSpan(
-                      text: "partners@gdgcloud.kolkata.dev",
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline,
-                          ),
-                    )
-                  ])),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              launchExternalUrl('mailto: partners@gdgcloud.kolkata.dev');
+            },
+            child: Text(
+              'partners@gdgcloud.kolkata.dev',
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: GCCDColor.googleBlue,
+                  ),
+            ),
+          )
         ],
       ),
     );

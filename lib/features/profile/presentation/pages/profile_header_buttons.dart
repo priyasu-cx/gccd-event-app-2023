@@ -3,6 +3,7 @@ import 'package:ccd2023/configurations/router/ccd_router.gr.dart';
 import 'package:ccd2023/configurations/theme/ccd_colors.dart';
 import 'package:ccd2023/features/home/presentation/default_button_widget.dart';
 import 'package:ccd2023/features/profile/bloc/edit_profile_cubit.dart';
+import 'package:ccd2023/features/tickets/bloc/ticket_cubit.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,27 +20,24 @@ class HeaderButtons extends StatelessWidget {
             children: [
               SizedBox(
                 width: screenWidth! * 0.4,
-                // child: state.isEditing
-                //     ? DefaultButton(
-                //         text: 'Save ',
-                //         backgroundColor: GCCDColor.googleGreen,
-                //         withIcon: true,
-                //         icon: Icons.save_outlined,
-                //         isOutlined: true,
-                //         onPressed: () {
-                //           context.read<EditProfileCubit>().toggleEditing();
-                //         },
-                //       )
-                 child: DefaultButton(
-                        text: 'Buy Tickets',
-                        backgroundColor: GCCDColor.googleGreen,
-                        withIcon: true,
-                        icon: Icons.local_activity_outlined,
-                        isOutlined: true,
-                        onPressed: () {
-                          context.router.push(const BuyTicketRoute());
-                        },
-                      ),
+                child: BlocBuilder<TicketCubit, TicketState>(
+                  builder: (context, state) {
+                    return DefaultButton(
+                      text: state.hasTickets ? 'View Ticket' : 'Buy Ticket',
+                      backgroundColor: GCCDColor.googleGreen,
+                      withIcon: true,
+                      icon: Icons.local_activity_outlined,
+                      isOutlined: true,
+                      onPressed: () {
+                        !state.hasTickets
+                            ? context.router.push(const BuyTicketRoute())
+                            : context.router.push(
+                                ViewTicketRoute(ticket: state.ticket!),
+                              );
+                      },
+                    );
+                  },
+                ),
               ),
               SizedBox(
                   width: screenWidth! * 0.4,
@@ -54,6 +52,9 @@ class HeaderButtons extends StatelessWidget {
                     isOutlined: true,
                     onPressed: () {
                       context.read<EditProfileCubit>().toggleEditing();
+                      if (state.isEditing) {
+                        context.router.popAndPush(const ProfileRoute());
+                      }
                     },
                   ))
             ]);

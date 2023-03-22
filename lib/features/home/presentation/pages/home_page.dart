@@ -1,7 +1,7 @@
 import 'package:ccd2023/features/auth/auth.dart';
-import 'package:ccd2023/features/home/presentation/partners/blocs/partners_cubit.dart';
 import 'package:ccd2023/features/home/presentation/partners/pages/community_partners.dart';
 import 'package:ccd2023/features/home/home.dart';
+import 'package:ccd2023/features/tickets/bloc/ticket_cubit.dart';
 import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -104,29 +104,32 @@ class HomePage extends StatelessWidget {
                       ),
                       SizedBox(height: screenWidth! * 0.02),
                       RichText(
-                          text: TextSpan(
-                            text: 'Venue : ',
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: themeMode == ThemeMode.light
-                                  ? GCCDColor.googleBlue
-                                  : GCCDColor.googleYellow,
+                        text: TextSpan(
+                          text: 'Venue : ',
+                          style:
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    color: themeMode == ThemeMode.light
+                                        ? GCCDColor.googleBlue
+                                        : GCCDColor.googleYellow,
+                                  ),
+                          children: [
+                            TextSpan(
+                              text: ' $eventVenue 🔗',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                    color: themeMode == ThemeMode.light
+                                        ? GCCDColor.googleBlue
+                                        : GCCDColor.googleYellow,
+                                  ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap =
+                                    () => launchExternalUrl(eventVenueUrl),
                             ),
-                            children: [
-                              TextSpan(
-                                text: ' $eventVenue 🔗',
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  color: themeMode == ThemeMode.light
-                                      ? GCCDColor.googleBlue
-                                      : GCCDColor.googleYellow,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () => launchExternalUrl(eventVenueUrl),
-                              ),
-                            ],
-                          ),
-
+                          ],
+                        ),
                       ),
-
                       Padding(
                         padding:
                             EdgeInsets.symmetric(vertical: screenWidth! * 0.05),
@@ -157,15 +160,36 @@ class HomePage extends StatelessWidget {
                           if (state.user != null) {
                             return Padding(
                               padding: EdgeInsets.symmetric(
-                                  vertical: screenWidth! * 0.06),
+                                vertical: screenWidth! * 0.06,
+                              ),
                               child: Column(
                                 children: [
-                                  DefaultButton(
-                                    isOutlined: true,
-                                    onPressed: () => context.router.push(
-                                      const BuyTicketRoute(),
-                                    ),
-                                    text: 'Buy tickets',
+                                  BlocBuilder<TicketCubit, TicketState>(
+                                    builder: (context, state) {
+                                      if (state.isLoading) {
+                                        return const Padding(
+                                          padding: EdgeInsets.all(kPadding),
+                                          child: Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                        );
+                                      }
+                                      return DefaultButton(
+                                        isOutlined: true,
+                                        onPressed: () => !state.hasTickets
+                                            ? context.router.push(
+                                                const BuyTicketRoute(),
+                                              )
+                                            : context.router.push(
+                                                ViewTicketRoute(
+                                                  ticket: state.ticket!,
+                                                ),
+                                              ),
+                                        text: !state.hasTickets
+                                            ? 'Buy ticket'
+                                            : 'View Ticket',
+                                      );
+                                    },
                                   ),
                                   DefaultButton(
                                     isOutlined: true,
