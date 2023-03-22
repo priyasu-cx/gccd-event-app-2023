@@ -4,19 +4,41 @@ import 'package:ccd2023/features/speaker/data/enums/accomodation.dart';
 import 'package:ccd2023/features/speaker/data/payloads/talk_payload.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
-import '../../data/enums/talk.dart';
-import '../../speaker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 import 'package:reactive_dropdown_search/reactive_dropdown_search.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../app/data/repository/dio/dio_api_client.dart';
 import '../../../app/presentation/pages/form_page.dart';
+import '../../data/enums/talk.dart';
+import '../../speaker.dart';
 
-class CFSPage extends StatelessWidget {
-  const CFSPage({Key? key}) : super(key: key);
+class CFSPage extends StatefulWidget {
+  const CFSPage({
+    Key? key,
+    this.talkTitle,
+    this.talkDescription,
+    this.talkOverview,
+    this.talkEvent,
+    this.talkType,
+    this.topicsOfExpertise,
+    this.talkId,
+  }) : super(key: key);
 
+  final String? talkTitle;
+  final String? talkDescription;
+  final String? talkOverview;
+  final int? talkEvent;
+  final String? talkType;
+  final List<int>? topicsOfExpertise;
+  final int? talkId;
+
+  @override
+  State<CFSPage> createState() => _CFSPageState();
+}
+
+class _CFSPageState extends State<CFSPage> {
   FormGroup _formBuilder() => fb.group(
         {
           previousTalkControlName: FormControl<String>(
@@ -43,40 +65,67 @@ class CFSPage extends StatelessWidget {
         },
       );
 
-  FormGroup _talkFormBuilder() => fb.group(
-        {
-          talkTitleControlName: FormControl<String>(
-            validators: [
-              Validators.required,
-            ],
-          ),
-          talkDescriptionControlName: FormControl<String>(
-            validators: [
-              Validators.required,
-            ],
-          ),
-          talkOverviewControlName: FormControl<String>(
-            validators: [
-              Validators.required,
-            ],
-          ),
-          talkEventControlName: FormControl<int>(
-            validators: [
-              Validators.required,
-            ],
-          ),
-          talkTypeControlName: FormControl<String>(
-            validators: [
-              Validators.required,
-            ],
-          ),
-          topicOfExpertiseControlName: FormControl<List<Technology>>(
-            validators: [
-              Validators.required,
-            ],
-          ),
-        },
-      );
+  List<Technology> getPassedTechnologies() {
+    final selectedTechnologies = <Technology>[];
+
+    context.read<TechnologyCubit>().state.maybeWhen(
+          loaded: (technologies) {
+            if (widget.topicsOfExpertise == null) return;
+            for (Technology technology in technologies) {
+              if (widget.topicsOfExpertise!.contains(technology.id)) {
+                selectedTechnologies.add(technology);
+              }
+            }
+          },
+          orElse: () {},
+        );
+    return selectedTechnologies;
+  }
+
+  FormGroup _talkFormBuilder() {
+    List<Technology> selectedTechnologies = getPassedTechnologies();
+
+    return fb.group(
+      {
+        talkTitleControlName: FormControl<String>(
+          validators: [
+            Validators.required,
+          ],
+          value: widget.talkTitle,
+        ),
+        talkDescriptionControlName: FormControl<String>(
+          validators: [
+            Validators.required,
+          ],
+          value: widget.talkDescription,
+        ),
+        talkOverviewControlName: FormControl<String>(
+          validators: [
+            Validators.required,
+          ],
+          value: widget.talkOverview,
+        ),
+        talkEventControlName: FormControl<int>(
+          validators: [
+            Validators.required,
+          ],
+          value: widget.talkEvent,
+        ),
+        talkTypeControlName: FormControl<String>(
+          validators: [
+            Validators.required,
+          ],
+          value: widget.talkType,
+        ),
+        topicOfExpertiseControlName: FormControl<List<Technology>>(
+          validators: [
+            Validators.required,
+          ],
+          value: selectedTechnologies,
+        ),
+      },
+    );
+  }
 
   Future<void> _onSubmitSpeaker(FormGroup form, BuildContext context) async {
     final previousTalks = form.control(previousTalkControlName).value as String;
@@ -100,7 +149,11 @@ class CFSPage extends StatelessWidget {
         );
   }
 
-  Future<void> _onSubmitTalk(FormGroup form, BuildContext context) async {
+  Future<void> _onSubmitTalk(
+    FormGroup form,
+    BuildContext context, {
+    bool update = false,
+  }) async {
     final title = form.control(talkTitleControlName).value as String;
     final description =
         form.control(talkDescriptionControlName).value as String;
@@ -112,7 +165,8 @@ class CFSPage extends StatelessWidget {
             .toList();
     final format = form.control(talkTypeControlName).value as String;
 
-    final payload = TalkPayload(
+    dynamic payload = TalkPayload(
+      id: widget.talkId,
       title: title,
       description: description,
       overview: overview,
@@ -127,6 +181,7 @@ class CFSPage extends StatelessWidget {
     await context.read<CFSCubit>().submitTalk(
           payload: payload,
           authToken: AuthCubit.instance.state.accessToken!,
+          update: update,
         );
   }
 
@@ -135,16 +190,6 @@ class CFSPage extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<TechnologyRepository>(
-          create: (context) => TechnologyRepository(
-            context.read<DioApiClient>(),
-          ),
-        ),
-        RepositoryProvider<CFSRepository>(
-          create: (context) => CFSRepository(
-            context.read<DioApiClient>(),
-          ),
-        ),
         RepositoryProvider<EventRepository>(
           create: (context) => EventRepository(
             context.read<DioApiClient>(),
@@ -153,22 +198,10 @@ class CFSPage extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<TechnologyCubit>(
-            create: (context) => TechnologyCubit(
-              context.read<TechnologyRepository>(),
-            )..getTechnologies(),
-          ),
           BlocProvider<EventCubit>(
             create: (context) => EventCubit(
               context.read<EventRepository>(),
             )..getEvents(
-                authToken: AuthCubit.instance.state.accessToken!,
-              ),
-          ),
-          BlocProvider<CFSCubit>(
-            create: (context) => CFSCubit(
-              context.read<CFSRepository>(),
-            )..checkSpeakerProfileExists(
                 authToken: AuthCubit.instance.state.accessToken!,
               ),
           ),
@@ -183,20 +216,32 @@ class CFSPage extends StatelessWidget {
             appBarTitle: state.isSpeaker
                 ? 'Talk for GCCD Kolkata 2023'
                 : 'Create your speaker profile',
-            submitButtonText: 'Submit',
+            submitButtonText: widget.talkId != null ? 'Update' : 'Submit',
             formBuilder: state.isSpeaker ? _talkFormBuilder : _formBuilder,
             onSubmit: (group) async {
               if (state.isSpeaker) {
-                await _onSubmitTalk(group, context);
+                await _onSubmitTalk(group, context,
+                    update: widget.talkId != null);
               } else {
                 await _onSubmitSpeaker(group, context);
               }
             },
             onSuccess: () {
-              context.popRoute();
+              context
+                  .read<CFSCubit>()
+                  .getTalksList(AuthCubit.instance.state.accessToken!);
+
+              if (widget.talkId != null) {
+                context.router.pushAndPopUntil(
+                  const TalkListRoute(),
+                  predicate: (route) => false,
+                );
+              } else {
+                context.popRoute();
+              }
               DjangoflowAppSnackbar.showInfo(
                 state.isSpeaker
-                    ? 'Talk Submitted'
+                    ? 'Talk ${widget.talkId == null ? 'Submitted' : 'Updated'}'
                     : 'Speaker profile created. You are ready to submit talks now.',
               );
             },
@@ -353,9 +398,10 @@ class CFSPage extends StatelessWidget {
                             items: items,
                             itemAsString: (item) => item.name,
                             popupProps: const PopupPropsMultiSelection.menu(
-                                listViewProps: ListViewProps(
-                              physics: BouncingScrollPhysics(),
-                            )),
+                              listViewProps: ListViewProps(
+                                physics: BouncingScrollPhysics(),
+                              ),
+                            ),
                             validationMessages: {
                               ValidationMessage.required: (_) =>
                                   'Topics of expertise cannot be empty',

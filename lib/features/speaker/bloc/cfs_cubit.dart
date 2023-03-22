@@ -5,6 +5,8 @@ import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../data/payloads/submitted_talk_payload.dart';
+
 part 'cfs_cubit.freezed.dart';
 
 class CFSCubit extends Cubit<CFSState> {
@@ -28,11 +30,29 @@ class CFSCubit extends Cubit<CFSState> {
   Future<void> submitTalk({
     required TalkPayload payload,
     required String authToken,
+    bool update = false,
   }) async {
     try {
-      await cfsRepository.submitTalk(payload, authToken);
+      if (update) {
+        await cfsRepository.updateTalk(payload, authToken);
+        //TODO add update state logic here
+      } else {
+        await cfsRepository.submitTalk(payload, authToken);
+      }
     } on DioError catch (e) {
-      print(e.response);
+      DjangoflowAppSnackbar.showError(e.message ?? 'Unknown Error Occurred');
+    } on Exception catch (e) {
+      DjangoflowAppSnackbar.showError(e.toString());
+    }
+  }
+
+  Future<void> deleteTalk({required String authToken, required int id}) async {
+    try {
+      await cfsRepository.deleteTalk(authToken, id);
+      List<SubmittedTalkPayload> talks = [...state.talks];
+      talks.removeWhere((element) => element.id == id);
+      emit(state.copyWith(talks: talks));
+    } on DioError catch (e) {
       DjangoflowAppSnackbar.showError(e.message ?? 'Unknown Error Occurred');
     } on Exception catch (e) {
       DjangoflowAppSnackbar.showError(e.toString());
@@ -51,7 +71,25 @@ class CFSCubit extends Cubit<CFSState> {
     emit(
       state.copyWith(
         isSpeaker: response.isNotEmpty,
-        speakerId:response.isEmpty ? null : response.first['id'],
+        speakerId: response.isEmpty ? null : response.first['id'],
+        loading: false,
+      ),
+    );
+    if (response.isNotEmpty) {
+      getTalksList(authToken);
+    }
+  }
+
+  Future<void> getTalksList(String authToken) async {
+    emit(
+      state.copyWith(
+        loading: true,
+      ),
+    );
+    final response = await cfsRepository.getTalksList(authToken);
+    emit(
+      state.copyWith(
+        talks: response,
         loading: false,
       ),
     );
@@ -64,5 +102,6 @@ class CFSState with _$CFSState {
     @Default(false) bool isSpeaker,
     int? speakerId,
     @Default(false) bool loading,
+    @Default([]) List<SubmittedTalkPayload> talks,
   }) = _CFSState;
 }

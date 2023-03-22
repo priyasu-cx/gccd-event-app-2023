@@ -1,13 +1,5 @@
-
-import 'package:auto_route/auto_route.dart';
-import 'package:ccd2023/configurations/constants.dart';
-import 'package:ccd2023/configurations/router/ccd_router.gr.dart';
-import 'package:ccd2023/configurations/theme/ccd_asset.dart';
-import 'package:ccd2023/configurations/theme/ccd_colors.dart';
-import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
-
 import 'package:ccd2023/configurations/configurations.dart';
-
+import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/features/home/presentation/default_button_widget.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -66,7 +58,8 @@ class CFPSection extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.04),
+                    padding:
+                        EdgeInsets.symmetric(vertical: screenWidth! * 0.04),
                     child: Text(
                       cfpDesc,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -79,20 +72,20 @@ class CFPSection extends StatelessWidget {
                   ),
                   SizedBox(
                     width: screenWidth! * 0.6,
-                    child:
-                    user == null ?
-                    DefaultButton(
-                      text: "Login to Apply",
-                      backgroundColor: GCCDColor.googleRed,
-                      foregroundColor: GCCDColor.white,
-                      onPressed: () => context.router.push(const LoginRoute()),
-                    ) :
-                    DefaultButton(
-                      text: "Apply to be a Speaker",
-                      backgroundColor: GCCDColor.googleRed,
-                      foregroundColor: GCCDColor.white,
-                      onPressed: () => context.router.push(const CFSRoute()),
-                    ),
+                    child: user == null
+                        ? DefaultButton(
+                            text: "Login to Apply",
+                            backgroundColor: GCCDColor.googleRed,
+                            foregroundColor: GCCDColor.white,
+                            onPressed: () =>
+                                context.router.push(const LoginRoute()),
+                          )
+                        : DefaultButton(
+                            text: "Apply to be a Speaker",
+                            backgroundColor: GCCDColor.googleRed,
+                            foregroundColor: GCCDColor.white,
+                            onPressed: () => context.router.push(CFSRoute()),
+                          ),
                   ),
                 ],
               ),

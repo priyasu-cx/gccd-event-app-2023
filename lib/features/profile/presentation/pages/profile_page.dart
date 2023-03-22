@@ -5,6 +5,7 @@ import 'package:ccd2023/features/home/home.dart';
 import 'package:ccd2023/features/profile/bloc/edit_profile_cubit.dart';
 import 'package:ccd2023/features/profile/presentation/pages/profile_header_buttons.dart';
 import 'package:ccd2023/features/profile/presentation/pages/social_icons.dart';
+import 'package:ccd2023/features/speaker/bloc/cfs_cubit.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/material.dart';
@@ -145,12 +146,22 @@ class ProfilePage extends StatelessWidget {
                           right: 0,
                           child: SizedBox(
                             width: screenWidth! * 0.4,
-                            child: DefaultButton(
-                              isOutlined: true,
-                              backgroundColor: Colors.transparent,
-                              text: "Speaker Profile",
-                              onPressed: () {
-                                context.router.push(const CFSRoute());
+                            child: BlocBuilder<CFSCubit, CFSState>(
+                              builder: (context, state) {
+                                return DefaultButton(
+                                  isOutlined: true,
+                                  backgroundColor: Colors.transparent,
+                                  text: "Speaker Profile",
+                                  onPressed: () {
+                                    state.talks.isEmpty
+                                        ? context.router.push(
+                                            CFSRoute(),
+                                          )
+                                        : context.router.push(
+                                            const TalkListRoute(),
+                                          );
+                                  },
+                                );
                               },
                             ),
                           ),
