@@ -1,4 +1,9 @@
+import 'package:ccd2023/configurations/configurations.dart';
+import 'package:ccd2023/features/app/app.dart';
 import 'package:ccd2023/features/auth/auth.dart';
+import 'package:ccd2023/features/home/home.dart';
+import 'package:ccd2023/features/home/presentation/partners/pages/community_partners.dart';
+import 'package:ccd2023/features/speaker/bloc/cfs_cubit.dart';
 import 'package:ccd2023/features/home/event_stats.dart';
 import 'package:ccd2023/features/home/presentation/partners/pages/community_partners.dart';
 import 'package:ccd2023/features/home/home.dart';
@@ -9,9 +14,6 @@ import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
-import 'package:ccd2023/features/app/app.dart';
-import 'package:ccd2023/configurations/configurations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
@@ -193,13 +195,25 @@ class HomePage extends StatelessWidget {
                                       );
                                     },
                                   ),
-                                  DefaultButton(
-                                    isOutlined: true,
-                                    text: "Call for Speakers",
-                                    backgroundColor: GCCDColor.googleRed,
-                                    foregroundColor: GCCDColor.white,
-                                    onPressed: () =>
-                                        context.router.push(const CFSRoute()),
+                                  BlocBuilder<CFSCubit, CFSState>(
+                                    builder: (context, state) {
+                                      if (state.loading) {
+                                        return const Offstage();
+                                      }
+                                      return DefaultButton(
+                                        isOutlined: true,
+                                        text: "Call for Speakers",
+                                        backgroundColor: GCCDColor.googleRed,
+                                        foregroundColor: GCCDColor.white,
+                                        onPressed: () => state.talks.isEmpty
+                                            ? context.router.push(
+                                                CFSRoute(),
+                                              )
+                                            : context.router.push(
+                                                const TalkListRoute(),
+                                              ),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),

@@ -8,7 +8,7 @@ class GCCDBorder extends StatelessWidget {
 
   final Widget child;
 
-  final kBorderWidth = kPadding / 1.5;
+  final kBorderWidth = kPadding / 2;
 
   @override
   Widget build(BuildContext context) {

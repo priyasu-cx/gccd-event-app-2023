@@ -10,6 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'configurations/configurations.dart';
+import 'features/speaker/bloc/cfs_cubit.dart';
+import 'features/speaker/bloc/technology_cubit.dart';
+import 'features/speaker/data/repos/cfs_repo.dart';
+import 'features/speaker/data/repos/technology_repo.dart';
 
 class CCDAppBuilder extends AppBuilder {
   CCDAppBuilder({
@@ -42,6 +46,16 @@ class CCDAppBuilder extends AppBuilder {
             RepositoryProvider<SizeRepository>(
               create: (context) => SizeRepository(),
             ),
+            RepositoryProvider<CFSRepository>(
+              create: (context) => CFSRepository(
+                context.read<DioApiClient>(),
+              ),
+            ),
+            RepositoryProvider<TechnologyRepository>(
+              create: (context) => TechnologyRepository(
+                context.read<DioApiClient>(),
+              ),
+            ),
           ],
           providers: [
             BlocProvider<AppCubit>(
@@ -54,9 +68,26 @@ class CCDAppBuilder extends AppBuilder {
                 ),
             ),
             BlocProvider<TicketCubit>(
+              create: (context) => TicketCubit(
+                context.read<TicketRepository>(),
+              )..checkTicketStatus(
+                  AuthCubit.instance.state.accessToken,
+                ),
               lazy: false,
-              create: (context) => TicketCubit(context.read<TicketRepository>())
-                ..checkTicketStatus(AuthCubit.instance.state.accessToken),
+            ),
+            BlocProvider<CFSCubit>(
+              lazy: false,
+              create: (context) => CFSCubit(
+                context.read<CFSRepository>(),
+              )..checkSpeakerProfileExists(
+                  authToken: AuthCubit.instance.state.accessToken,
+                ),
+            ),
+            BlocProvider<TechnologyCubit>(
+              lazy: false,
+              create: (context) => TechnologyCubit(
+                context.read<TechnologyRepository>(),
+              )..getTechnologies(),
             ),
           ],
           builder: (context) => LoginListener(
@@ -72,6 +103,7 @@ class CCDAppBuilder extends AppBuilder {
             },
             onLogout: (context) {
               context.read<TicketCubit>().clearTicketStatus();
+              context.read<CFSCubit>().clearTalks();
               appRouter.pushAndPopUntil(
                 const HomeRoute(),
                 predicate: (route) => false,
