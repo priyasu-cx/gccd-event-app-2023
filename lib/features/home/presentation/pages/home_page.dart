@@ -246,7 +246,7 @@ class HomePage extends StatelessWidget {
               ),
               SizedBox(height: screenWidth! * 0.1),
               const Divider(),
-              // SizedBox(height: screenWidth! * 0.06),
+              SizedBox(height: screenWidth! * 0.06),
               // BlocBuilder<PartnersCubit, PartnersState>(
               //     builder: (context, state) {
               //       if (state is PartnersLoaded) {

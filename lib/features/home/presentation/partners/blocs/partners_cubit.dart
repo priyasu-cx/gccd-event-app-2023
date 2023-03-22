@@ -56,7 +56,7 @@ class PartnersState with _$PartnersState {
 
   const factory PartnersState.loading() = _Loading;
 
-  const factory PartnersState.loaded(List<Partners> partners) = _Loaded;
+  const factory PartnersState.loaded(Partners partners) = _Loaded;
 
   const factory PartnersState.error(String message) = _Error;
 }
