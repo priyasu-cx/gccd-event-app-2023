@@ -16,7 +16,6 @@ class TicketCubit extends HydratedCubit<TicketState> {
     if (authToken == null) {
       return;
     } else if (state.hasTickets) {
-      print("HERE = ====");
       return;
     }
 

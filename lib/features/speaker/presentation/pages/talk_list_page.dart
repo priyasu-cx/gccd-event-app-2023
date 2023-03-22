@@ -5,6 +5,7 @@ import 'package:ccd2023/features/speaker/bloc/cfs_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:progress_builder/progress_builder.dart';
 
 class TalkListPage extends StatelessWidget {
   const TalkListPage({
@@ -143,16 +144,22 @@ class TalkListPage extends StatelessWidget {
                                     const SizedBox(
                                       width: kPadding,
                                     ),
-                                    _TalkActionButtons(
-                                      color: GCCDColor.googleRed,
-                                      iconData: Icons.delete,
-                                      onPressed: () {
-                                        context.read<CFSCubit>().deleteTalk(
+                                    CircularProgressBuilder(
+                                      action: (_) async {
+                                        await context
+                                            .read<CFSCubit>()
+                                            .deleteTalk(
                                               authToken: AuthCubit
                                                   .instance.state.accessToken!,
                                               id: talk.id!,
                                             );
                                       },
+                                      builder: (context, action, error) =>
+                                          _TalkActionButtons(
+                                        color: GCCDColor.googleRed,
+                                        iconData: Icons.delete,
+                                        onPressed: action,
+                                      ),
                                     ),
                                   ],
                                 ),

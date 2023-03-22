@@ -60,8 +60,11 @@ class CFSCubit extends Cubit<CFSState> {
   }
 
   Future<void> checkSpeakerProfileExists({
-    required String authToken,
+    required String? authToken,
   }) async {
+    if (authToken == null) {
+      return;
+    }
     emit(
       state.copyWith(
         loading: true,
@@ -91,6 +94,16 @@ class CFSCubit extends Cubit<CFSState> {
       state.copyWith(
         talks: response,
         loading: false,
+      ),
+    );
+  }
+
+  void clearTalks() {
+    emit(
+      state.copyWith(
+        talks: [],
+        isSpeaker: false,
+        speakerId: null,
       ),
     );
   }

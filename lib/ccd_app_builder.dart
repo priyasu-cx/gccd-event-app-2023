@@ -71,7 +71,7 @@ class CCDAppBuilder extends AppBuilder {
               create: (context) => TicketCubit(
                 context.read<TicketRepository>(),
               )..checkTicketStatus(
-                  AuthCubit.instance.state.accessToken!,
+                  AuthCubit.instance.state.accessToken,
                 ),
               lazy: false,
             ),
@@ -80,7 +80,7 @@ class CCDAppBuilder extends AppBuilder {
               create: (context) => CFSCubit(
                 context.read<CFSRepository>(),
               )..checkSpeakerProfileExists(
-                  authToken: AuthCubit.instance.state.accessToken!,
+                  authToken: AuthCubit.instance.state.accessToken,
                 ),
             ),
             BlocProvider<TechnologyCubit>(
@@ -103,6 +103,7 @@ class CCDAppBuilder extends AppBuilder {
             },
             onLogout: (context) {
               context.read<TicketCubit>().clearTicketStatus();
+              context.read<CFSCubit>().clearTalks();
               appRouter.pushAndPopUntil(
                 const HomeRoute(),
                 predicate: (route) => false,
