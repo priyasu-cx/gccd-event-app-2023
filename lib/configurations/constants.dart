@@ -9,6 +9,7 @@ const ccdLogo =
 
 //Base endpoints
 const baseURI = 'https://api2.gdgcloud.kolkata.dev/';
+const ticketStorageBaseURI = 'http://storage.googleapis.com/gccdkol23/tickets/';
 
 //Ticketing endpoints
 const eventCode='google-cloud-community-days-kolkata-2023';

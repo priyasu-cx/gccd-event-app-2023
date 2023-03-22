@@ -1,5 +1,7 @@
 import 'package:ccd2023/features/app/data/repository/dio/dio_api_client.dart';
 import 'package:ccd2023/features/auth/auth.dart';
+import 'package:ccd2023/features/tickets/bloc/ticket_cubit.dart';
+import 'package:ccd2023/features/tickets/data/ticket_repository.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:dio/dio.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -32,6 +34,11 @@ class CCDAppBuilder extends AppBuilder {
                 context.read<DioApiClient>(),
               ),
             ),
+            RepositoryProvider<TicketRepository>(
+              create: (context) => TicketRepository(
+                context.read<DioApiClient>(),
+              ),
+            ),
             RepositoryProvider<SizeRepository>(
               create: (context) => SizeRepository(),
             ),
@@ -46,6 +53,11 @@ class CCDAppBuilder extends AppBuilder {
                   context.read<AuthenticationRepository>(),
                 ),
             ),
+            BlocProvider<TicketCubit>(
+              lazy: false,
+              create: (context) => TicketCubit(context.read<TicketRepository>())
+                ..checkTicketStatus(AuthCubit.instance.state.accessToken),
+            ),
           ],
           builder: (context) => LoginListener(
             onLogin: (context, authState) {
@@ -53,8 +65,13 @@ class CCDAppBuilder extends AppBuilder {
                 const HomeRoute(),
                 predicate: (route) => false,
               );
+
+              context
+                  .read<TicketCubit>()
+                  .checkTicketStatus(authState.accessToken);
             },
             onLogout: (context) {
+              context.read<TicketCubit>().clearTicketStatus();
               appRouter.pushAndPopUntil(
                 const HomeRoute(),
                 predicate: (route) => false,

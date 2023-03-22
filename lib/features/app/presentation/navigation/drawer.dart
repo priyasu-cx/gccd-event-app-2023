@@ -1,6 +1,7 @@
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/presentation/navigation/drawer_list_tile.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
+import 'package:ccd2023/features/tickets/bloc/ticket_cubit.dart';
 import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -18,6 +19,7 @@ class CCDDrawer extends StatelessWidget {
       width: screenWidth! * 0.75,
       child: ListView(
         shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
@@ -96,6 +98,33 @@ class CCDDrawer extends StatelessWidget {
 
               if (drawerItemsMain[index] == 'Profile' && user == null) {
                 return const Offstage();
+              } else if (drawerItemsMain[index] == 'Buy Tickets') {
+                final ticketState = context.read<TicketCubit>().state;
+                return Padding(
+                  padding: EdgeInsets.all(isSelected ? kPadding / 2 : 0),
+                  child: DrawerListTile(
+                    selected: isSelected,
+                    title: ticketState.hasTickets
+                        ? 'View Ticket'
+                        : drawerItemsMain[index],
+                    icon: isSelected
+                        ? drawerItemsMainIcon[index]
+                        : drawerItemsMainIconOutlined[index],
+                    onTap: () {
+                      if (ticketState.hasTickets) {
+                        Navigator.pop(context);
+                        context.router.push(
+                          ViewTicketRoute(
+                            ticket: ticketState.ticket!,
+                          ),
+                        );
+                      } else {
+                        Navigator.pop(context);
+                        context.router.pushNamed(drawerItemsMainPath[index]);
+                      }
+                    },
+                  ),
+                );
               } else {
                 return Padding(
                   padding: EdgeInsets.all(isSelected ? kPadding / 2 : 0),
@@ -106,6 +135,7 @@ class CCDDrawer extends StatelessWidget {
                         ? drawerItemsMainIcon[index]
                         : drawerItemsMainIconOutlined[index],
                     onTap: () {
+                      Navigator.pop(context);
                       context.router.pushNamed(drawerItemsMainPath[index]);
                     },
                   ),
@@ -117,6 +147,7 @@ class CCDDrawer extends StatelessWidget {
             title: 'Sign ${user == null ? 'In' : 'Out'}',
             icon: user == null ? Icons.login : Icons.logout,
             onTap: () {
+              Navigator.pop(context);
               if (user != null) {
                 AuthCubit.instance.logout();
               } else {
@@ -166,6 +197,7 @@ class CCDDrawer extends StatelessWidget {
                       launchExternalUrl(
                           "https://play.google.com/store/apps/details?id=com.gdgck.ccd2022");
                     } else {
+                      Navigator.pop(context);
                       context.router.pushNamed(drawerItemsFooterPath[index]);
                     }
                   },
