@@ -162,56 +162,60 @@ class HomePage extends StatelessWidget {
                               padding: EdgeInsets.symmetric(
                                 vertical: screenWidth! * 0.06,
                               ),
-                              child: Column(
-                                children: [
-                                  BlocBuilder<TicketCubit, TicketState>(
-                                    builder: (context, state) {
-                                      if (state.isLoading) {
-                                        return const Padding(
-                                          padding: EdgeInsets.all(kPadding),
-                                          child: Center(
-                                            child: CircularProgressIndicator(),
-                                          ),
-                                        );
-                                      }
-                                      return DefaultButton(
-                                        isOutlined: true,
-                                        onPressed: () => !state.hasTickets
-                                            ? context.router.push(
-                                                const BuyTicketRoute(),
-                                              )
-                                            : context.router.push(
-                                                ViewTicketRoute(
-                                                  ticket: state.ticket!,
-                                                ),
+                              child: BlocBuilder<TicketCubit, TicketState>(
+                                builder: (context, ticketState) {
+                                  return BlocBuilder<CFSCubit, CFSState>(
+                                    builder: (context, cfsState) {
+                                      return Column(
+                                        children: [
+                                          if (ticketState.isLoading ||
+                                              cfsState.loading)
+                                            const Padding(
+                                              padding: EdgeInsets.all(kPadding),
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(),
                                               ),
-                                        text: !state.hasTickets
-                                            ? 'Buy ticket'
-                                            : 'View Ticket',
+                                            )
+                                          else ...[
+                                            DefaultButton(
+                                              isOutlined: true,
+                                              onPressed: () =>
+                                                  !ticketState.hasTickets
+                                                      ? context.router.push(
+                                                          const BuyTicketRoute(),
+                                                        )
+                                                      : context.router.push(
+                                                          ViewTicketRoute(
+                                                            ticket: ticketState
+                                                                .ticket!,
+                                                          ),
+                                                        ),
+                                              text: !ticketState.hasTickets
+                                                  ? 'Buy ticket'
+                                                  : 'View Ticket',
+                                            ),
+                                            DefaultButton(
+                                              isOutlined: true,
+                                              text: "Call for Speakers",
+                                              backgroundColor:
+                                                  GCCDColor.googleRed,
+                                              foregroundColor: GCCDColor.white,
+                                              onPressed: () =>
+                                                  cfsState.talks.isEmpty
+                                                      ? context.router.push(
+                                                          CFSRoute(),
+                                                        )
+                                                      : context.router.push(
+                                                          const TalkListRoute(),
+                                                        ),
+                                            ),
+                                          ],
+                                        ],
                                       );
                                     },
-                                  ),
-                                  BlocBuilder<CFSCubit, CFSState>(
-                                    builder: (context, state) {
-                                      if (state.loading) {
-                                        return const Offstage();
-                                      }
-                                      return DefaultButton(
-                                        isOutlined: true,
-                                        text: "Call for Speakers",
-                                        backgroundColor: GCCDColor.googleRed,
-                                        foregroundColor: GCCDColor.white,
-                                        onPressed: () => state.talks.isEmpty
-                                            ? context.router.push(
-                                                CFSRoute(),
-                                              )
-                                            : context.router.push(
-                                                const TalkListRoute(),
-                                              ),
-                                      );
-                                    },
-                                  ),
-                                ],
+                                  );
+                                },
                               ),
                             );
                           } else {

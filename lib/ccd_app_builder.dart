@@ -96,10 +96,12 @@ class CCDAppBuilder extends AppBuilder {
                 const HomeRoute(),
                 predicate: (route) => false,
               );
-
-              context
-                  .read<TicketCubit>()
-                  .checkTicketStatus(authState.accessToken);
+              context.read<CFSCubit>().checkSpeakerProfileExists(
+                    authToken: authState.accessToken,
+                  );
+              context.read<TicketCubit>().checkTicketStatus(
+                    authState.accessToken,
+                  );
             },
             onLogout: (context) {
               context.read<TicketCubit>().clearTicketStatus();
