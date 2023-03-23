@@ -64,6 +64,7 @@ class TalkListPage extends StatelessWidget {
                 else
                   Expanded(
                     child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: state.talks.length,
                       itemBuilder: (context, index) {
