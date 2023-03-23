@@ -53,8 +53,10 @@ class StatWidget extends StatelessWidget {
                           ? Colors.white
                           : Colors.black,
                   ),
+              textAlign: TextAlign.right,
             ),
           ),
+          const SizedBox(width: kPadding * 2),
           Expanded(
             flex: 4,
             child: Text(

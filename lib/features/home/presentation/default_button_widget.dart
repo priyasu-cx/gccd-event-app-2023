@@ -27,7 +27,7 @@ class DefaultButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final textTheme = Theme.of(context).textTheme.titleSmall;
+    final textTheme = Theme.of(context).textTheme.titleMedium;
     final themeMode = context.watch<AppCubit>().state.themeMode;
 
     return Padding(
@@ -44,14 +44,16 @@ class DefaultButton extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if(withIcon)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5.0),
-                      child: Icon(
-                        icon,
-                        color: themeMode == ThemeMode.light ? Colors.black : Colors.white,
+                    if (withIcon)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 5.0),
+                        child: Icon(
+                          icon,
+                          color: themeMode == ThemeMode.light
+                              ? Colors.black
+                              : Colors.white,
+                        ),
                       ),
-                    ),
                     Text(
                       text,
                       style: textTheme?.copyWith(color: foregroundColor),
@@ -70,10 +72,12 @@ class DefaultButton extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if(withIcon)
+                    if (withIcon)
                       Icon(
                         icon,
-                        color: themeMode == ThemeMode.light ? Colors.black : Colors.white,
+                        color: themeMode == ThemeMode.light
+                            ? Colors.black
+                            : Colors.white,
                       ),
                     Text(
                       text,
