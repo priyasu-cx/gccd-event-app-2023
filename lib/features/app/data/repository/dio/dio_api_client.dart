@@ -61,6 +61,22 @@ class DioApiClient extends BaseApiClient<Response, Dio> {
     }
   }
 
+  Future<Response> deleteData({
+    required String endPoint,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      return await client.delete(
+        baseUrl + endPoint,
+        options: Options(
+          headers: headers,
+        ),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   @override
   Future<Response> putData({
     required String endPoint,
