@@ -62,6 +62,7 @@ class _EditProfileWrapperState extends State<EditProfileWrapper> {
                             padding: const EdgeInsets.only(bottom: 20.0),
                             child: Center(
                               child: CircularProgressBuilder(
+                                onSuccess: widget.onSuccess,
                                 builder: (context, action, error) => SizedBox(
                                   width: screenWidth! * 0.54,
                                   child: ElevatedButton(

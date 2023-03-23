@@ -252,12 +252,10 @@ class ProfilePage extends StatelessWidget {
                       builder: (context, state) {
                         return state.isEditing
                             ? Container(
-                                margin: EdgeInsets.only(
-                                    top: screenWidth! * 0.03,
-                                    bottom: screenWidth! * 0.03),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: screenWidth! * 0.02,
-                                    horizontal: screenWidth! * 0.02),
+                                margin: const EdgeInsets.symmetric(
+                                  vertical: kPadding,
+                                ),
+                                padding: const EdgeInsets.all(kPadding),
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: GCCDColor.googleGrey,
@@ -293,10 +291,10 @@ class ProfilePage extends StatelessWidget {
                             : const Offstage();
                       },
                     ),
-                    SizedBox(height: screenWidth! * 0.03),
-                    Column(
-                      children: [
-                        EditProfileWrapper(
+                    const SizedBox(height: kPadding),
+                    Builder(
+                      builder: (context) {
+                        return EditProfileWrapper(
                           headerText: "Profile Details",
                           onSubmit: (form) async {
                             await _onSubmit(form);
@@ -470,8 +468,8 @@ class ProfilePage extends StatelessWidget {
                                 formControlName: countryControlName),
                             const SizedBox(height: 20),
                           ],
-                        ),
-                      ],
+                        );
+                      }
                     ),
                     // SizedBox(height: screenWidth! * 0.06),
                     Padding(

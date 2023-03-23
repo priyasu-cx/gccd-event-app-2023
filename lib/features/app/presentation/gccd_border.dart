@@ -15,7 +15,9 @@ class GCCDBorder extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: screenWidth! * 0.07),
+        padding: const EdgeInsets.symmetric(
+          horizontal: kPadding * 2,
+        ),
         width: screenWidth!,
         decoration: BoxDecoration(
           border: Border(

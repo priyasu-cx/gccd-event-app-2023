@@ -21,10 +21,9 @@ class TeamCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(
           horizontal: screenWidth! * 0.08, vertical: screenHeight! * 0.02),
       width: screenWidth!,
-      height: screenHeight! * 0.43,
       child: GCCDBorder(
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(kPadding*3),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,7 +40,6 @@ class TeamCard extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: kPadding * 1.25,
                   vertical: kPadding,
                 ),
                 child: Text(
@@ -50,10 +48,7 @@ class TeamCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TeamSocialIcons(teamMember: teamMember),
-              ),
+              TeamSocialIcons(teamMember: teamMember),
             ],
           ),
         ),

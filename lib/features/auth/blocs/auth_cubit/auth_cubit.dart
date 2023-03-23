@@ -209,9 +209,6 @@ class AuthCubit extends HydratedCubit<AuthState> {
             user: state.user?.copyWith(profile: updateProfileResponse),
           ),
         );
-        DjangoflowAppSnackbar.showInfo(
-          'Profile updated!',
-        );
       }
     } on DioError catch (e) {
       DjangoflowAppSnackbar.showError(e.message ?? 'Error occurred');
