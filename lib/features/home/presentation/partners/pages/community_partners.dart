@@ -165,7 +165,7 @@ class CommunityCard extends StatelessWidget {
                     fit: BoxFit.contain,
                   ),
                   Text(
-                    '${!name!.startsWith("Google") ? 'Google Developer Students Club\n\n' : ''}$name',
+                    '${!name!.startsWith("Google") ? 'Google Developer Students Club\n' : ''}$name',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Colors.black,
