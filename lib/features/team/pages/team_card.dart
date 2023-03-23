@@ -20,46 +20,42 @@ class TeamCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(
           horizontal: screenWidth! * 0.08, vertical: screenHeight! * 0.02),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: GCCDColor.googleGrey.withOpacity(0.5),
-          width: 0.5,
-        ),
-      ),
       width: screenWidth!,
-      height: screenHeight! * 0.4,
+      height: screenHeight! * 0.43,
       child: GCCDBorder(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 80,
-              backgroundColor: GCCDColor.googleYellow,
-              child: CircleAvatar(
-                  radius: 77,
-                  backgroundImage: teamMember.profilePicture.startsWith("https")
-                      ? CachedNetworkImageProvider(teamMember.profilePicture)
-                      : CachedNetworkImageProvider(
-                          "https://gdgcloud.kolkata.dev${teamMember.profilePicture}")),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: kPadding * 1.25,
-                vertical: kPadding,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 80,
+                backgroundColor: GCCDColor.googleYellow,
+                child: CircleAvatar(
+                    radius: 77,
+                    backgroundImage: teamMember.profilePicture.startsWith("https")
+                        ? CachedNetworkImageProvider(teamMember.profilePicture)
+                        : CachedNetworkImageProvider(
+                            "https://gdgcloud.kolkata.dev${teamMember.profilePicture}")),
               ),
-              child: Text(
-                teamMember.fullName,
-                style: Theme.of(context).textTheme.headlineMedium,
-                textAlign: TextAlign.center,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: kPadding * 1.25,
+                  vertical: kPadding,
+                ),
+                child: Text(
+                  teamMember.fullName,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TeamSocialIcons(teamMember: teamMember),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TeamSocialIcons(teamMember: teamMember),
+              ),
+            ],
+          ),
         ),
       ),
     );
