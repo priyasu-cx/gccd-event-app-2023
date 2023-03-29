@@ -3,6 +3,8 @@ import 'package:ccd2023/features/app/data/repository/dio/dio_api_client.dart';
 import 'package:ccd2023/features/auth/auth.dart';
 import 'package:dio/dio.dart';
 
+import '../../../../utils/build_auth_header.dart';
+
 class AuthenticationRepository {
   final DioApiClient _dioApiClient;
 
@@ -13,11 +15,14 @@ class AuthenticationRepository {
     required String email,
     required String password,
   }) async {
-    Response response = await _dioApiClient.postData(loginEndpoint, {
-      'username': username,
-      'email': email,
-      'password': password,
-    });
+    Response response = await _dioApiClient.postData(
+      endPoint: loginEndpoint,
+      dataPayload: {
+        'username': username,
+        'email': email,
+        'password': password,
+      },
+    );
 
     if (response.statusCode == 200) {
       final loginResponse = LoginResponse.fromJson(response.data);
@@ -38,12 +43,15 @@ class AuthenticationRepository {
     required String email,
     required String password,
   }) async {
-    Response response = await _dioApiClient.postData(registrationEndpoint, {
-      'username': username,
-      'email': email,
-      'password1': password,
-      'password2': password,
-    });
+    Response response = await _dioApiClient.postData(
+      endPoint: registrationEndpoint,
+      dataPayload: {
+        'username': username,
+        'email': email,
+        'password1': password,
+        'password2': password,
+      },
+    );
 
     final signUpResponse = response.data;
 
@@ -53,9 +61,12 @@ class AuthenticationRepository {
   Future resetPassword({
     required String email,
   }) async {
-    Response response = await _dioApiClient.postData(passwordResetEndpoint, {
-      'email': email,
-    });
+    Response response = await _dioApiClient.postData(
+      endPoint: passwordResetEndpoint,
+      dataPayload: {
+        'email': email,
+      },
+    );
 
     if (response.statusCode == 200) {
       final resetResponse = response.data;
@@ -65,6 +76,28 @@ class AuthenticationRepository {
       final resetResponse = response.data;
 
       throw Exception(resetResponse);
+    }
+  }
+
+  Future<Profile> updateProfile({
+    required Profile profile,
+    required String authToken,
+  }) async {
+    Response response = await _dioApiClient.postData(
+      endPoint: usersUpdateEndpoint,
+      dataPayload: profile.toJson(),
+      headers: buildAuthHeader(
+        authToken,
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      final updateResponse = response.data;
+
+      print(updateResponse);
+      return Profile.fromJson(updateResponse);
+    } else {
+      throw Exception('Error updating profile. Please try again.');
     }
   }
 }

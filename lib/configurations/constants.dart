@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 
 const kPadding = 8.0;
 
@@ -8,6 +9,11 @@ const ccdLogo =
 
 //Base endpoints
 const baseURI = 'https://api2.gdgcloud.kolkata.dev/';
+const ticketStorageBaseURI = 'http://storage.googleapis.com/gccdkol23/tickets/';
+
+//Ticketing endpoints
+const eventCode='google-cloud-community-days-kolkata-2023';
+const baseBuyTicketURI = 'https://www.townscript.com/v2/e/$eventCode/booking?';
 
 const authEndpoint = 'auth/';
 
@@ -55,16 +61,16 @@ const drawerItemsMain = [
   // 'Schedule',
   // 'Speakers',
   'Profile',
-  // 'Team',
+  'Team',
 ];
 
 const drawerItemsMainPath = [
   '/home',
-  '/buy_tickets',
+  '/buy-tickets',
   // '/schedule',
   // '/speakers',
   '/profile',
-  // '/team',
+  '/team',
 ];
 
 const drawerItemsMainIconOutlined = [
@@ -73,7 +79,7 @@ const drawerItemsMainIconOutlined = [
   // Icons.calendar_month_outlined,
   // Icons.campaign_outlined,
   Icons.person_outlined,
-  // Icons.group_outlined,
+  Icons.group_outlined,
 ];
 
 const drawerItemsMainIcon = [
@@ -82,7 +88,7 @@ const drawerItemsMainIcon = [
   // Icons.calendar_month,
   // Icons.campaign,
   Icons.person,
-  // Icons.group,
+  Icons.group,
 ];
 
 const drawerItemsFooter = [
@@ -109,10 +115,55 @@ const drawerItemsFooterIcon = [
   Icons.reply,
 ];
 
+List appSocials = [
+  {
+    "title": "Facebook",
+    "icon": FontAwesome5.facebook_square,
+    "url": "https://facebook.com/gdgcloudkol",
+  },
+  {
+    "title": "Twitter",
+    "icon": FontAwesome5.twitter_square,
+    "url": "https://twitter.com/gdgcloudkol",
+  },
+  {
+    "title": "Instagram",
+    "icon": FontAwesome5.instagram_square,
+    "url": "https://instagram.com/gdgcloudkol",
+  },
+  {
+    "title": "Linkedin",
+    "icon": FontAwesome5.linkedin,
+    "url": "https://www.linkedin.com/company/gdgcloudkol",
+  },
+  {
+    "title": "Github",
+    "icon": FontAwesome5.github_square,
+    "url": "https://github.com/gdgcloudkol",
+  },
+  {
+    "title": "Mail",
+    "icon": Icons.email,
+    "url": "mailto:gdgcloudkol@gmail.com",
+  },
+];
+
+const socialIcons = [
+  'FontAwesome5.facebook_square',
+  'FontAwesome5.twitter_square',
+  'FontAwesome5.instagram_square',
+  'FontAwesome5.linkedin',
+  'FontAwesome5.github_square',
+  'FontAwesome5.gmail',
+];
+
 //Form control names
 const passwordControlName = 'password';
 const confirmPasswordControlName = 'confirm-password';
 const usernameControlName = 'username';
+const socialLinkControlName = 'social-link';
+const firstNameControlName = 'first-name';
+const lastNameControlName = 'last-name';
 const emailControlName = 'email';
 const phoneControlName = 'phone';
 const collegeControlName = 'college';
@@ -124,6 +175,18 @@ const foodPreferenceControlName = 'food-preference';
 const tshirtSizeControlName = 'tshirt-size';
 const countryControlName = 'country';
 
+
+const previousTalkControlName = 'previous_talk';
+const travelSupportControlName = 'travel_support';
+const topicOfExpertiseControlName = 'topic_of_expertise';
+const previouslyTalkedControlName = 'previously_talked';
+
+const talkTitleControlName = 'talk_title';
+const talkDescriptionControlName = 'talk_description';
+const talkOverviewControlName = 'talk_overview';
+const talkEventControlName = 'talk_event';
+const talkTypeControlName = 'talk_type';
+
 const String eventTitle = 'Community Days Kolkata, 2023';
 const String eventHashTag = '#GoogleCloudCommunityDays';
 const String eventDescription =
@@ -131,8 +194,31 @@ const String eventDescription =
 const String eventDate_copy = '7th May 2023';
 const String eventTime = '9:00 AM - 5:00 PM';
 const String eventVenue = 'Biswa Bangla Convention Centre, Kolkata';
+const String eventVenueUrl = 'https://goo.gl/maps/P6GssvSRvHxta4qk6';
 const String aboutGCCD =
     'GDG Cloud Kolkata is bringing to you the largest Google Cloud developer event in Eastern India. Cloud Community Days Kolkata is the flagship event of GDG Cloud Kolkata, held annually, recollecting the best of the year and setting the stone for the upcoming year. Join us as we bring the best of speakers and help you to put your career on a runway to Google Cloud.';
+const String tagline1 = 'COLLARDS AND CODE. WAFFLES AND WINGS. 1 DAY. 20+ SPEAKERS.';
+const String tagline2 = 'THIS IS THE TECH CONFERENCE TO VISIT';
+const String cfpDesc = 'Each Google Cloud Community Days event brings you an opportunity to lead and present to the crown your excellent views. Join us as a Speaker to showcase your awesomeness';
+List<Map<String, String>> statData = [
+  {
+    "title": "Complete\nDay",
+    "value": "1",
+  },
+  {
+    "title": "Excited\nAttendees",
+    "value": "2500+",
+  },
+  {
+    "title": "Expert\nSpeakers",
+    "value": "20+",
+  },
+  {
+    "title": "Speciality\nTracks",
+    "value": "4",
+  },
+];
+
 
 Duration eventDate = DateTime(2023, 5, 7, 0, 0).difference(DateTime.now());
 
@@ -154,11 +240,58 @@ List<String> tshirtSize = [
   "XXL",
 ];
 
+// Sponsor
+const String sponsorDesc = "We're thankful to all our sponsors who are making CCD 2023 Kolkata amazing.";
+
+const List<Map<String, dynamic>> titleSponsor = [
+  {
+    "name": "Google Developers",
+    "logo": "https://gdgcloud.kolkata.dev/ccd2023/images/sponsors/GoogleDevelopers.svg",
+    "link": "https://developers.google.com/",
+  },
+];
+
+// Community Partners
+const String communityPartnerDesc = "We're are glad to present our Community Partners.";
+const String applyCommunityPartner = "https://bit.ly/gccdkol-community-partners";
+
+const List<Map<String, dynamic>> communityPartners = [
+  {
+    "name": "Women Techmakers",
+    "logo": "https://gdgcloud.kolkata.dev/ccd2023/images/communityPartners/wtm.png",
+    "link": "https://developers.google.com/womentechmakers",
+  },
+  {
+    "name": "Google Developer Group Siliguri",
+    "logo": "https://gdgcloud.kolkata.dev/ccd2023/images/logos/gdsc-logo.svg",
+    "link": "https://gdg.community.dev/gdg-siliguri/",
+  },
+  {
+    "name": "Women Techmakers",
+    "logo": "https://gdgcloud.kolkata.dev/ccd2023/images/communityPartners/wtm.png",
+    "link": "https://developers.google.com/womentechmakers",
+  },
+  {
+    "name": "Women Techmakers",
+    "logo": "https://gdgcloud.kolkata.dev/ccd2023/images/communityPartners/wtm.png",
+    "link": "https://developers.google.com/womentechmakers",
+  },
+  {
+    "name": "Women Techmakers",
+    "logo": "https://gdgcloud.kolkata.dev/ccd2023/images/communityPartners/wtm.png",
+    "link": "https://developers.google.com/womentechmakers",
+  },
+];
+
 // FAQ body
 const FAQDetails = {
   "title": "Frequently Asked Questions",
-  "description":
-      "For any queries related to sponsorship, please reach out to us at partners@gdgcloud.kolkata.dev. Any question related to participation can be asked at gdgcloudkol@gmail.com",
+  "description1":
+      "For any queries related to sponsorship, please reach out to us at ",
+  "sponsorMail": "partners@gdgcloud.kolkata.dev",
+  "description2": "Any question related to participation can be asked at",
+  "generalMail": "gdgcloudkol@gmail.com",
+
   "length": 8,
 };
 

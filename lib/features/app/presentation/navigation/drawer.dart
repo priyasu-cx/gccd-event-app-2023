@@ -1,6 +1,8 @@
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/presentation/navigation/drawer_list_tile.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
+import 'package:ccd2023/features/tickets/bloc/ticket_cubit.dart';
+import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +15,11 @@ class CCDDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.watch<AuthCubit>().state.user;
 
-    final appCubit = context.read<AppCubit>();
-
     return Drawer(
-      width: screenWidth! * 0.7,
+      width: screenWidth! * 0.75,
       child: ListView(
         shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
@@ -70,7 +71,7 @@ class CCDDrawer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hi, ${user?.profile.firstName ?? 'Anonymous Jedi'}',
+                            'Hi, ${user?.profile.firstName ?? 'Anonymous'} ${user?.profile.lastName ?? 'Jedi'}',
                             style: Theme.of(context).textTheme.titleMedium,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -97,9 +98,36 @@ class CCDDrawer extends StatelessWidget {
 
               if (drawerItemsMain[index] == 'Profile' && user == null) {
                 return const Offstage();
+              } else if (drawerItemsMain[index] == 'Buy Tickets') {
+                final ticketState = context.read<TicketCubit>().state;
+                return Padding(
+                  padding: EdgeInsets.all(isSelected ? kPadding / 2 : 0),
+                  child: DrawerListTile(
+                    selected: isSelected,
+                    title: ticketState.hasTickets
+                        ? 'View Ticket'
+                        : drawerItemsMain[index],
+                    icon: isSelected
+                        ? drawerItemsMainIcon[index]
+                        : drawerItemsMainIconOutlined[index],
+                    onTap: () {
+                      if (ticketState.hasTickets) {
+                        Navigator.pop(context);
+                        context.router.push(
+                          ViewTicketRoute(
+                            ticket: ticketState.ticket!,
+                          ),
+                        );
+                      } else {
+                        Navigator.pop(context);
+                        context.router.pushNamed(drawerItemsMainPath[index]);
+                      }
+                    },
+                  ),
+                );
               } else {
                 return Padding(
-                  padding: EdgeInsets.all(isSelected ? 8.0 : 0),
+                  padding: EdgeInsets.all(isSelected ? kPadding / 2 : 0),
                   child: DrawerListTile(
                     selected: isSelected,
                     title: drawerItemsMain[index],
@@ -107,6 +135,7 @@ class CCDDrawer extends StatelessWidget {
                         ? drawerItemsMainIcon[index]
                         : drawerItemsMainIconOutlined[index],
                     onTap: () {
+                      Navigator.pop(context);
                       context.router.pushNamed(drawerItemsMainPath[index]);
                     },
                   ),
@@ -118,6 +147,7 @@ class CCDDrawer extends StatelessWidget {
             title: 'Sign ${user == null ? 'In' : 'Out'}',
             icon: user == null ? Icons.login : Icons.logout,
             onTap: () {
+              Navigator.pop(context);
               if (user != null) {
                 AuthCubit.instance.logout();
               } else {
@@ -163,11 +193,91 @@ class CCDDrawer extends StatelessWidget {
                       ? drawerItemsFooterIcon[index]
                       : drawerItemsFooterIconOutlined[index],
                   onTap: () {
-                    context.router.replaceNamed(drawerItemsFooterPath[index]);
+                    if (drawerItemsFooter[index] == 'Share') {
+                      launchExternalUrl(
+                          "https://play.google.com/store/apps/details?id=com.gdgck.gccd");
+                    } else {
+                      Navigator.pop(context);
+                      context.router.pushNamed(drawerItemsFooterPath[index]);
+                    }
                   },
                 ),
               );
             },
+          ),
+          const Divider(),
+          // Center(
+          //   child: Text(
+          //     'FOLLOW US FOR UPDATES',
+          //     style: TextStyle(
+          //       fontSize: screenWidth! * 0.04,
+          //       foreground: Paint()
+          //         ..style = PaintingStyle.stroke
+          //         ..strokeWidth = 1
+          //         ..color = themeMode == ThemeMode.light
+          //             ? Colors.black
+          //             : Colors.white,
+          //       // fontWeight: FontWeight.w600,
+          //     ),
+          //   ),
+          // ),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+              child: Text(
+            "Connect with us",
+            style: Theme.of(context).textTheme.bodySmall,
+          )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: appSocials
+                .map(
+                  (social) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        child: Icon(
+                          social['icon'],
+                          size: 20,
+                        ),
+                        onTap: () async {
+                          launchExternalUrl(social['url']);
+                        },
+                      )),
+                )
+                .toList(),
+          ),
+
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: screenHeight! * 0.02),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    launchExternalUrl("https://gdgcloud.kolkata.dev/ccd2023");
+                  },
+                  child: Text(
+                    'Terms & Conditions',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.circle_rounded, size: 7),
+                ),
+                InkWell(
+                  onTap: () async {
+                    launchExternalUrl(
+                        "https://gdgcloud.kolkata.dev/ccd2023/#/privacy-policy");
+                  },
+                  child: Text(
+                    'Privacy Policy',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

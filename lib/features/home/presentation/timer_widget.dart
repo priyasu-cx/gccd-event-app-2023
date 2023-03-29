@@ -97,7 +97,7 @@ class TimeWidget extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return SizedBox(
-      width: screenWidth! * 0.16,
+      width: screenWidth! * 0.18,
       child: BlocBuilder<AppCubit, AppState>(
         builder: (context, state) {
           return RichText(

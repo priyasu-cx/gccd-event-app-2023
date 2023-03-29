@@ -7,20 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-class ForgotPassPage extends StatefulWidget {
+class ForgotPassPage extends StatelessWidget {
   const ForgotPassPage({Key? key}) : super(key: key);
 
-  @override
-  State<ForgotPassPage> createState() => _ForgotPassPageState();
-}
-
-class _ForgotPassPageState extends State<ForgotPassPage> {
-  Future<void> _onSubmit(FormGroup form) async {
+  Future<void> _onSubmit(FormGroup form, BuildContext context) async {
     final email = form.control(emailControlName).value as String;
     await context.read<AuthCubit>().forgotPassword(
           email: email,
         );
-    context.router.replace(const HomeRoute());
   }
 
   FormGroup _formBuilder() => fb.group(
@@ -38,8 +32,9 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
   Widget build(BuildContext context) {
     return FormWrapper(
       appBarTitle: "Forgot Password",
-      loginButtonText: "Reset Password",
-      onSubmit: _onSubmit,
+      submitButtonText: "Reset Password",
+      onSubmit: (form) async => _onSubmit(form, context),
+      onSuccess: () => context.router.replace(const HomeRoute()),
       formBuilder: _formBuilder,
       formContent: [
         const Text(

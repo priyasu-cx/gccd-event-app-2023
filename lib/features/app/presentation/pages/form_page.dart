@@ -13,12 +13,14 @@ class FormWrapper extends StatelessWidget {
     required this.onSubmit,
     required this.formBuilder,
     required this.formContent,
-    required this.loginButtonText,
+    required this.submitButtonText,
+    this.onSuccess,
   });
 
   final String appBarTitle;
-  final String loginButtonText;
+  final String submitButtonText;
   final Future<void> Function(FormGroup) onSubmit;
+  final void Function()? onSuccess;
   final FormGroup Function() formBuilder;
   final List<Widget> formContent;
 
@@ -29,6 +31,7 @@ class FormWrapper extends StatelessWidget {
         title: Text(appBarTitle),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -39,7 +42,7 @@ class FormWrapper extends StatelessWidget {
             ),
             SizedBox(height: screenHeight! * 0.08),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth! * 0.1),
+              padding: const EdgeInsets.symmetric(horizontal: kPadding * 2),
               child: ReactiveFormBuilder(
                 form: formBuilder,
                 builder: (context, form, child) => AutofillGroup(
@@ -57,16 +60,19 @@ class FormWrapper extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 20.0),
                           child: Center(
                             child: CircularProgressBuilder(
-                              builder: (context, action, error) => ElevatedButton(
+                              onSuccess: onSuccess,
+                              builder: (context, action, error) =>
+                                  ElevatedButton(
                                 onPressed:
                                     (ReactiveForm.of(context)?.valid ?? false)
                                         ? action
                                         : null,
                                 child: Center(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(kPadding * 1.5),
+                                    padding:
+                                        const EdgeInsets.all(kPadding * 1.5),
                                     child: Text(
-                                      loginButtonText,
+                                      submitButtonText,
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge
@@ -81,31 +87,9 @@ class FormWrapper extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // ReactiveFormConsumer(
-                        //   builder: (buildContext, form, child) {
-                        //     return Padding(
-                        //       padding: const EdgeInsets.symmetric(vertical: 20),
-                        //       child: ElevatedButton(
-                        //         onPressed: form.valid
-                        //             ? () {
-                        //                 onSubmit(form);
-                        //               }
-                        //             : null,
-                        //         child: SizedBox(
-                        //           width: screenWidth! * 0.8,
-                        //           height: 50,
-                        //           child: Center(
-                        //             child: Text(
-                        //               loginButtonText,
-                        //               style:
-                        //                   Theme.of(context).textTheme.bodyLarge,
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     );
-                        //   },
-                        // ),
+                        const SizedBox(
+                          height: kPadding * 2,
+                        ),
                       ],
                     ),
                   ),

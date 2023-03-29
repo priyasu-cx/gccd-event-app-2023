@@ -1,4 +1,4 @@
-package com.gdgck.ccd2022
+package com.gdgck.gccd
 
 import io.flutter.embedding.android.FlutterActivity
 
