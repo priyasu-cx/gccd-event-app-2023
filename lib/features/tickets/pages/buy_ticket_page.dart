@@ -290,7 +290,7 @@ class BuyTicketPage extends StatelessWidget {
                             launchExternalUrl(ticketRefundPolicyURI);
                           },
                           child: Text(
-                            "Tickets Refund Policy",
+                            "Ticket cancellation T&C",
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall
@@ -303,7 +303,6 @@ class BuyTicketPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // const SizedBox(height: 20),
                 ],
               ),
             ),
