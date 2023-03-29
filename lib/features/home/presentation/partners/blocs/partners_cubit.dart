@@ -47,6 +47,7 @@ import 'package:ccd2023/features/home/presentation/partners/repo/partners_repo.d
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'partners_cubit.freezed.dart';
 
@@ -61,7 +62,7 @@ class PartnersState with _$PartnersState {
   const factory PartnersState.error(String message) = _Error;
 }
 
-class PartnersCubit extends Cubit<PartnersState> {
+class PartnersCubit extends HydratedCubit<PartnersState> {
   PartnersCubit(this._partnersRepository)
       : super(const PartnersState.initial());
 
@@ -80,4 +81,15 @@ class PartnersCubit extends Cubit<PartnersState> {
       emit(PartnersState.error(e.toString()));
     }
   }
+
+  @override
+  PartnersState? fromJson(Map<String, dynamic> json) => PartnersState.loaded(
+        Partners.fromJson(json),
+      );
+
+  @override
+  Map<String, dynamic>? toJson(PartnersState state) => state.maybeMap(
+        loaded: (state) => state.partners.toJson(),
+        orElse: () => null,
+      );
 }

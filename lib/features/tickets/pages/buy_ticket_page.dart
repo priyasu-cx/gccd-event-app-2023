@@ -4,8 +4,10 @@ import 'package:ccd2023/features/app/presentation/navigation/drawer.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/features/profile/bloc/edit_profile_cubit.dart';
 import 'package:ccd2023/features/profile/presentation/pages/edit_profile_page.dart';
+import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -13,15 +15,22 @@ import 'package:reactive_forms/reactive_forms.dart';
 import '../../../utils/launch_buy_ticket.dart';
 import '../../home/presentation/default_button_widget.dart';
 
-class BuyTicketPage extends StatelessWidget {
+class BuyTicketPage extends StatefulWidget {
   const BuyTicketPage({Key? key}) : super(key: key);
+
+  @override
+  State<BuyTicketPage> createState() => _BuyTicketPageState();
+}
+
+class _BuyTicketPageState extends State<BuyTicketPage> {
+  bool _checkAgree = false;
 
   Future<void> _onSubmit(FormGroup form) async {
     final user = AuthCubit.instance.state.user;
     print(user);
 
-    if(form.control(firstNameControlName).value as String == "Anonymous" ||
-        form.control(lastNameControlName).value as String == "Wildcat"){
+    if (form.control(firstNameControlName).value as String == "Anonymous" ||
+        form.control(lastNameControlName).value as String == "Wildcat") {
       DjangoflowAppSnackbar.showError("Please change your Name");
       return;
     }
@@ -108,8 +117,8 @@ class BuyTicketPage extends StatelessWidget {
                   Text(
                     "Please edit the fields if not accurate or incomplete and update profile from Profile Page",
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: GCCDColor.googleGrey,
-                    ),
+                          color: GCCDColor.googleGrey,
+                        ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
@@ -154,9 +163,10 @@ class BuyTicketPage extends StatelessWidget {
                         ),
                         child: Text(
                           user?.email ?? '',
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: GCCDColor.googleGrey,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    color: GCCDColor.googleGrey,
+                                  ),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -215,67 +225,121 @@ class BuyTicketPage extends StatelessWidget {
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(vertical: screenWidth! * 0.08),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        EdgeInsets.symmetric(vertical: screenWidth! * 0.05),
+                    child: Column(
                       children: [
-                        SizedBox(
-                          width: screenWidth! * 0.4,
-                          child: DefaultButton(
-                            text: 'Buy Tickets',
-                            backgroundColor: GCCDColor.googleGreen,
-                            withIcon: true,
-                            icon: Icons.local_activity_outlined,
-                            isOutlined: true,
-                            onPressed: () {
-                              if (user == null) {
-                                DjangoflowAppSnackbar.showInfo(
-                                    'Session Expired. Please login again.');
-                                context.read<AuthCubit>().logout();
-                              } else if (user.profile.phone == null) {
-                                DjangoflowAppSnackbar.showError(
-                                  'Please complete profile from Profile Page.',
-                                );
-                              } else {
-                                launchBuyTicket(
-                                  user.profile.firstName,
-                                  user.profile.lastName,
-                                  user.email,
-                                  user.profile.phone!,
-                                );
-                              }
-                            },
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Checkbox(
+                                checkColor: Colors.white,
+                                activeColor: GCCDColor.googleBlue,
+                                value: _checkAgree,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _checkAgree = value!;
+                                  });
+                                }),
+                            Expanded(
+                                child: RichText(
+                              text: TextSpan(
+                                text: 'I agree to the ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color: GCCDColor.googleGrey,
+                                    ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text:
+                                        'Refund Policy and Terms & Conditions',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: GCCDColor.googleBlue,
+                                        ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchExternalUrl(
+                                            RefundPolicy);
+                                      },
+                                  ),
+                                ],
+                              ),
+                            )),
+                          ],
                         ),
-                        SizedBox(
-                          width: screenWidth! * 0.4,
-                          child: BlocBuilder<EditProfileCubit, EditState>(
-                            builder: (context, state) {
-                              return DefaultButton(
-                                text:
-                                    state.isEditing ? 'Cancel' : 'Edit Profile',
-                                backgroundColor: state.isEditing
-                                    ? Colors.black12
-                                    : GCCDColor.googleBlue,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: screenWidth! * 0.4,
+                              child: DefaultButton(
+                                text: 'Buy Tickets',
+                                backgroundColor: _checkAgree?GCCDColor.googleGreen: GCCDColor.googleGrey,
                                 withIcon: true,
-                                icon: state.isEditing
-                                    ? Icons.cancel_outlined
-                                    : Icons.edit_note_outlined,
+                                icon: Icons.local_activity_outlined,
                                 isOutlined: true,
                                 onPressed: () {
-                                  if(user?.profile.phone == null) {
+                                  if (!_checkAgree) {
                                     DjangoflowAppSnackbar.showError(
-                                      'Please complete profile from Profile Page.',
+                                      'Please agree to the Refund Policy and Terms & Conditions.',
                                     );
                                     return;
                                   }
-                                  context
-                                      .read<EditProfileCubit>()
-                                      .toggleEditing();
+                                  if (user == null) {
+                                    DjangoflowAppSnackbar.showInfo(
+                                        'Session Expired. Please login again.');
+                                    context.read<AuthCubit>().logout();
+                                  } else if (user.profile.phone == null) {
+                                    DjangoflowAppSnackbar.showError(
+                                      'Please complete profile from Profile Page.',
+                                    );
+                                  } else {
+                                    launchBuyTicket(
+                                      user.profile.firstName,
+                                      user.profile.lastName,
+                                      user.email,
+                                      user.profile.phone!,
+                                    );
+                                  }
                                 },
-                              );
-                            },
-                          ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: screenWidth! * 0.4,
+                              child: BlocBuilder<EditProfileCubit, EditState>(
+                                builder: (context, state) {
+                                  return DefaultButton(
+                                    text: state.isEditing
+                                        ? 'Cancel'
+                                        : 'Edit Profile',
+                                    backgroundColor: state.isEditing
+                                        ? Colors.black12
+                                        : GCCDColor.googleBlue,
+                                    withIcon: true,
+                                    icon: state.isEditing
+                                        ? Icons.cancel_outlined
+                                        : Icons.edit_note_outlined,
+                                    isOutlined: true,
+                                    onPressed: () {
+                                      if (user?.profile.phone == null) {
+                                        DjangoflowAppSnackbar.showError(
+                                          'Please complete profile from Profile Page.',
+                                        );
+                                        return;
+                                      }
+                                      context
+                                          .read<EditProfileCubit>()
+                                          .toggleEditing();
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

@@ -106,7 +106,7 @@ class CommunityPartners extends StatelessWidget {
                           },
                         );
                       },
-                      error: (message) => Text(message),
+                      error: (message) => Text("Connect to Internet"),
                     );
                   }),
                 ],

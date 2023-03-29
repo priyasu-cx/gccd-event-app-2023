@@ -174,6 +174,7 @@ const designationControlName = 'designation';
 const foodPreferenceControlName = 'food-preference';
 const tshirtSizeControlName = 'tshirt-size';
 const countryControlName = 'country';
+const agreeTC = 'agree-tc';
 
 
 const previousTalkControlName = 'previous_talk';
@@ -219,7 +220,6 @@ List<Map<String, String>> statData = [
   },
 ];
 
-
 Duration eventDate = DateTime(2023, 5, 7, 0, 0).difference(DateTime.now());
 
 const String passwordResetResponse = 'Password reset e-mail has been sent.';
@@ -250,6 +250,9 @@ const List<Map<String, dynamic>> titleSponsor = [
     "link": "https://developers.google.com/",
   },
 ];
+
+// BuyTicket
+const String RefundPolicy = 'https://docs.google.com/document/d/1Ph3wfOQ9mcCzBSrCWkHQgtC1TdpPRedlfumyYieKO2Q/edit?usp=sharing';
 
 // Community Partners
 const String communityPartnerDesc = "We're are glad to present our Community Partners.";
