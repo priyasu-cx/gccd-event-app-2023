@@ -7,6 +7,7 @@ part 'profile_model.freezed.dart';
 @freezed
 class Profile with _$Profile {
   const factory Profile({
+    @JsonKey(name: 'pronoun') required String pronoun,
     @JsonKey(name: 'first_name') required String firstName,
     @JsonKey(name: 'last_name') required String lastName,
     required Map<String,dynamic> settings,
@@ -20,6 +21,7 @@ class Profile with _$Profile {
     required Map<String,dynamic> socials,
     @JsonKey(name: 'food_choice') required String foodChoice,
     @JsonKey(name: 'tsize') required String tSize,
+    @JsonKey(name: 'referral_count') required int referral,
   }) = _Profile;
 
   factory Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);

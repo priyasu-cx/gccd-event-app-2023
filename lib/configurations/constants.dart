@@ -162,6 +162,7 @@ const passwordControlName = 'password';
 const confirmPasswordControlName = 'confirm-password';
 const usernameControlName = 'username';
 const socialLinkControlName = 'social-link';
+const pronounControlName = 'user-pronoun';
 const firstNameControlName = 'first-name';
 const lastNameControlName = 'last-name';
 const emailControlName = 'email';
@@ -174,7 +175,6 @@ const designationControlName = 'designation';
 const foodPreferenceControlName = 'food-preference';
 const tshirtSizeControlName = 'tshirt-size';
 const countryControlName = 'country';
-const agreeTC = 'agree-tc';
 
 
 const previousTalkControlName = 'previous_talk';

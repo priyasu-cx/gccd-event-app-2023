@@ -36,6 +36,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
     }
 
     await AuthCubit.instance.updateProfile(
+      pronoun: user?.profile.pronoun ?? "",
       firstName: form.control(firstNameControlName).value as String,
       lastName: form.control(lastNameControlName).value as String,
       phone: form.control(phoneControlName).value as String,

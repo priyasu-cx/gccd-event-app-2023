@@ -168,6 +168,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
   }
 
   Future<void> updateProfile({
+    required String pronoun,
     required String firstName,
     required String lastName,
     required String phone,
@@ -188,6 +189,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
           await _authenticationRepository?.updateProfile(
         authToken: state.accessToken!,
         profile: state.user!.profile.copyWith(
+          pronoun: pronoun,
           firstName: firstName,
           lastName: lastName,
           phone: phone,
