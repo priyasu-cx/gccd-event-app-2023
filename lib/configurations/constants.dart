@@ -34,6 +34,8 @@ const eventsEndpoint = 'events/';
 
 const usersEndpoint = 'users/';
 
+const usersProfileEndpoint = 'users/profile/';
+
 // auth
 const registrationEndpoint = '${authEndpoint}registration/';
 

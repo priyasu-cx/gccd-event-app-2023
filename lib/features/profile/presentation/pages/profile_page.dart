@@ -19,6 +19,10 @@ import 'edit_profile_page.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
+  Future<void> fetchProfile() async {
+    await AuthCubit.instance.fetchProfile();
+  }
+
   Future<void> _onSocialSubmit(
     FormGroup form,
   ) async {
@@ -122,6 +126,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthCubit>().state.user;
+    fetchProfile();
 
     return SafeArea(
       top: true,

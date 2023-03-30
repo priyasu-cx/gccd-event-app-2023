@@ -32,8 +32,42 @@ class AuthCubit extends HydratedCubit<AuthState> {
     if (_authenticationRepository != null) {
       throw Exception('Already initialized');
     }
-
     _authenticationRepository = authenticationRepository;
+  }
+
+  Future<void> fetchProfile() async {
+    try {
+      if (_authenticationRepository == null) {
+        throw Exception('AuthCubit not initialized');
+      }
+      final profile = await _authenticationRepository?.getProfile(authToken: state.accessToken!);
+      if (profile != null) {
+        emit(
+          state.copyWith(
+            user: state.user!.copyWith(
+              profile: profile,
+            )
+          ),
+        );
+      }
+    } on DioError catch (e) {
+      if (e.response != null) {
+        final errorData = e.response!.data as Map<String, dynamic>;
+        if (errorData.containsKey('non_field_errors')) {
+          DjangoflowAppSnackbar.showError(
+            errorData['non_field_errors'][0],
+          );
+        } else {
+          DjangoflowAppSnackbar.showError(
+            errorData.toString(),
+          );
+        }
+      } else {
+        DjangoflowAppSnackbar.showError(e.message ?? 'Error occurred');
+      }
+    } on Exception catch (e) {
+      DjangoflowAppSnackbar.showError(e.toString());
+    }
   }
 
   void _login(
