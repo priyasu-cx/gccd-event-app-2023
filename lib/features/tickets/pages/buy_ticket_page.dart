@@ -24,6 +24,7 @@ class BuyTicketPage extends StatefulWidget {
 
 class _BuyTicketPageState extends State<BuyTicketPage> {
   bool _checkAgree = false;
+  String _referralCode = '';
 
   Future<void> _onSubmit(FormGroup form) async {
     final user = AuthCubit.instance.state.user;
@@ -221,6 +222,44 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                         },
                       ),
                       const SizedBox(height: 20),
+                      const Text(
+                        "Referral Code (Optional)",
+                        textAlign: TextAlign.start,
+                      ),
+                      const SizedBox(height: 6),
+                      Form(
+                        // key: _formKey,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: TextFormField(
+                              // controller: _referralCodeController,
+                                  onChanged: (value) {
+                                    _referralCode = value!;
+                                    print(_referralCode);
+                                  },
+                              decoration: InputDecoration(
+                                hintText: "Enter Referral Code",
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      color: GCCDColor.googleGrey,
+                                    ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color:
+                                        GCCDColor.googleGrey.withOpacity(0.5),
+                                    width: 1,
+                                  ),
+                                ),
+                              ),
+                            )),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                     ],
                     editButtonText: "Save",
                   ),
@@ -263,8 +302,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                         ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        launchExternalUrl(
-                                            RefundPolicy);
+                                        launchExternalUrl(RefundPolicy);
                                       },
                                   ),
                                 ],
@@ -279,7 +317,9 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                               width: screenWidth! * 0.4,
                               child: DefaultButton(
                                 text: 'Buy Tickets',
-                                backgroundColor: _checkAgree?GCCDColor.googleGreen: GCCDColor.googleGrey,
+                                backgroundColor: _checkAgree
+                                    ? GCCDColor.googleGreen
+                                    : GCCDColor.googleGrey,
                                 withIcon: true,
                                 icon: Icons.local_activity_outlined,
                                 isOutlined: true,

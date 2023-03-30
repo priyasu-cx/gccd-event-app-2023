@@ -11,6 +11,9 @@ const ccdLogo =
 const baseURI = 'https://api2.gdgcloud.kolkata.dev/';
 const ticketStorageBaseURI = 'http://storage.googleapis.com/gccdkol23/tickets/';
 
+// Add referral
+const addReferral = 'users/add_referrer/';
+
 //Ticketing endpoints
 const eventCode='google-cloud-community-days-kolkata-2023';
 const baseBuyTicketURI = 'https://www.townscript.com/v2/e/$eventCode/booking?';

@@ -338,23 +338,23 @@ class ProfilePage extends StatelessWidget {
                           ReactiveDropdownField(
                             items: const [
                               DropdownMenuItem(
-                                value: "Prefer not to Say",
+                                value: "NA",
                                 child: Text("Prefer not to Say"),
                               ),
                               DropdownMenuItem(
-                                value: "He/Him",
+                                value: "he",
                                 child: Text("He/Him"),
                               ),
                               DropdownMenuItem(
-                                value: "She/Her",
+                                value: "she",
                                 child: Text("She/Her"),
                               ),
                               DropdownMenuItem(
-                                value: "They/Them",
+                                value: "they",
                                 child: Text("They/Them"),
                               ),
                               DropdownMenuItem(
-                                value: "Other",
+                                value: "other",
                                 child: Text("Other"),
                               ),
                             ], formControlName: pronounControlName,
