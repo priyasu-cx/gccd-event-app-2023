@@ -78,6 +78,11 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
     );
   }
 
+  bool agreeCheckBox = false;
+  void _onAgreeCheckBoxTap() => setState(() {
+        agreeCheckBox = !agreeCheckBox;
+      });
+
   @override
   Widget build(BuildContext context) {
     final themeMode = context.watch<AppCubit>().state.themeMode;
