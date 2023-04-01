@@ -7,6 +7,7 @@ import 'package:ccd2023/features/profile/presentation/pages/edit_profile_page.da
 import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -14,8 +15,16 @@ import 'package:reactive_forms/reactive_forms.dart';
 import '../../../utils/launch_buy_ticket.dart';
 import '../../home/presentation/default_button_widget.dart';
 
-class BuyTicketPage extends StatelessWidget {
+class BuyTicketPage extends StatefulWidget {
   const BuyTicketPage({Key? key}) : super(key: key);
+
+  @override
+  State<BuyTicketPage> createState() => _BuyTicketPageState();
+}
+
+class _BuyTicketPageState extends State<BuyTicketPage> {
+  bool _checkAgree = false;
+  String _referralCode = '';
 
   Future<void> _onSubmit(FormGroup form) async {
     final user = AuthCubit.instance.state.user;
@@ -28,6 +37,7 @@ class BuyTicketPage extends StatelessWidget {
     }
 
     await AuthCubit.instance.updateProfile(
+      pronoun: user?.profile.pronoun ?? "",
       firstName: form.control(firstNameControlName).value as String,
       lastName: form.control(lastNameControlName).value as String,
       phone: form.control(phoneControlName).value as String,
@@ -212,14 +222,94 @@ class BuyTicketPage extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 20),
+                      const Text(
+                        "Referral Code (Optional)",
+                        textAlign: TextAlign.start,
+                      ),
+                      const SizedBox(height: 6),
+                      Form(
+                        // key: _formKey,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: TextFormField(
+                              // controller: _referralCodeController,
+                                  onChanged: (value) {
+                                    _referralCode = value!;
+                                    print(_referralCode);
+                                  },
+                              decoration: InputDecoration(
+                                hintText: "Enter Referral Code",
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      color: GCCDColor.googleGrey,
+                                    ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color:
+                                        GCCDColor.googleGrey.withOpacity(0.5),
+                                    width: 1,
+                                  ),
+                                ),
+                              ),
+                            )),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                     ],
                     editButtonText: "Save",
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(vertical: screenWidth! * 0.08),
+                        EdgeInsets.symmetric(vertical: screenWidth! * 0.05),
                     child: Column(
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Checkbox(
+                                checkColor: Colors.white,
+                                activeColor: GCCDColor.googleBlue,
+                                value: _checkAgree,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _checkAgree = value!;
+                                  });
+                                }),
+                            Expanded(
+                                child: RichText(
+                              text: TextSpan(
+                                text: 'I agree to the ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color: GCCDColor.googleGrey,
+                                    ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text:
+                                        'Refund Policy and Terms & Conditions',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: GCCDColor.googleBlue,
+                                        ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchExternalUrl(RefundPolicy);
+                                      },
+                                  ),
+                                ],
+                              ),
+                            )),
+                          ],
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -227,11 +317,30 @@ class BuyTicketPage extends StatelessWidget {
                               width: screenWidth! * 0.4,
                               child: DefaultButton(
                                 text: 'Buy Tickets',
-                                backgroundColor: GCCDColor.googleGreen,
+                                backgroundColor: _checkAgree
+                                    ? GCCDColor.googleGreen
+                                    : GCCDColor.googleGrey,
                                 withIcon: true,
                                 icon: Icons.local_activity_outlined,
                                 isOutlined: true,
                                 onPressed: () {
+                                  if (!_checkAgree) {
+                                  if (user == null) {
+                                    DjangoflowAppSnackbar.showInfo(
+                                        'Session Expired. Please login again.');
+                                    context.read<AuthCubit>().logout();
+                                  } else if (user.profile.phone == null) {
+                                    DjangoflowAppSnackbar.showError(
+                                      'Please agree to the Refund Policy and Terms & Conditions.',
+                                    );
+                                  } else {
+                                    launchBuyTicket(
+                                      user.profile.firstName,
+                                      user.profile.lastName,
+                                      user.email,
+                                      user.profile.phone!,
+                                    );
+                                  }
                                   if (user == null) {
                                     DjangoflowAppSnackbar.showInfo(
                                         'Session Expired. Please login again.');
@@ -283,22 +392,6 @@ class BuyTicketPage extends StatelessWidget {
                               ),
                             ),
                           ],
-                        ),
-                        const SizedBox(height: 10),
-                        GestureDetector(
-                          onTap: () {
-                            launchExternalUrl(ticketRefundPolicyURI);
-                          },
-                          child: Text(
-                            "Ticket cancellation T&C",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.copyWith(
-                                  color: GCCDColor.googleBlue,
-                                ),
-                            textAlign: TextAlign.center,
-                          ),
                         ),
                       ],
                     ),

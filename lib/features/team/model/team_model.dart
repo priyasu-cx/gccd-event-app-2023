@@ -27,6 +27,16 @@ class TeamMember {
       tagLine: json['tagLine'],
     );
   }
+
+  toJson() {
+    return {
+      'fullName': fullName,
+      'bio': bio,
+      'profilePicture': profilePicture,
+      'links': links.map((link) => link).toList(),
+      'tagLine': tagLine,
+    };
+  }
 }
 
 class Team {
@@ -45,5 +55,12 @@ class Team {
       teamMembers: teamMembers,
       title: json['team'],
     );
+  }
+
+  toJson() {
+    return {
+      'team': title,
+      'data': teamMembers.map((teamMember) => teamMember.toJson()).toList(),
+    };
   }
 }

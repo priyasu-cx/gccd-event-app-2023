@@ -11,6 +11,9 @@ const ccdLogo =
 const baseURI = 'https://api2.gdgcloud.kolkata.dev/';
 const ticketStorageBaseURI = 'http://storage.googleapis.com/gccdkol23/tickets/';
 
+// Add referral
+const addReferral = 'users/add_referrer/';
+
 //Ticketing endpoints
 const eventCode = 'google-cloud-community-days-kolkata-2023';
 const baseBuyTicketURI = 'https://www.townscript.com/v2/e/$eventCode/booking?';
@@ -32,6 +35,8 @@ const talksEndpoint = 'talks/';
 const eventsEndpoint = 'events/';
 
 const usersEndpoint = 'users/';
+
+const usersProfileEndpoint = 'users/profile/';
 
 // auth
 const registrationEndpoint = '${authEndpoint}registration/';
@@ -164,6 +169,7 @@ const passwordControlName = 'password';
 const confirmPasswordControlName = 'confirm-password';
 const usernameControlName = 'username';
 const socialLinkControlName = 'social-link';
+const pronounControlName = 'user-pronoun';
 const firstNameControlName = 'first-name';
 const lastNameControlName = 'last-name';
 const emailControlName = 'email';
@@ -254,6 +260,9 @@ const List<Map<String, dynamic>> titleSponsor = [
     "link": "https://developers.google.com/",
   },
 ];
+
+// BuyTicket
+const String RefundPolicy = 'https://docs.google.com/document/d/1Ph3wfOQ9mcCzBSrCWkHQgtC1TdpPRedlfumyYieKO2Q/edit?usp=sharing';
 
 // Community Partners
 const String communityPartnerDesc =
