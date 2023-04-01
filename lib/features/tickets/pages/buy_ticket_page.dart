@@ -325,10 +325,21 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                 isOutlined: true,
                                 onPressed: () {
                                   if (!_checkAgree) {
+                                  if (user == null) {
+                                    DjangoflowAppSnackbar.showInfo(
+                                        'Session Expired. Please login again.');
+                                    context.read<AuthCubit>().logout();
+                                  } else if (user.profile.phone == null) {
                                     DjangoflowAppSnackbar.showError(
                                       'Please agree to the Refund Policy and Terms & Conditions.',
                                     );
-                                    return;
+                                  } else {
+                                    launchBuyTicket(
+                                      user.profile.firstName,
+                                      user.profile.lastName,
+                                      user.email,
+                                      user.profile.phone!,
+                                    );
                                   }
                                   if (user == null) {
                                     DjangoflowAppSnackbar.showInfo(
