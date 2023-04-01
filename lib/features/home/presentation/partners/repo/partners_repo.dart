@@ -18,7 +18,6 @@ class PartnersRepository {
     if (response.statusCode == 200) {
       final responseMap = json.decode(response.data);
       partners = Partners.fromJson(responseMap);
-
     } else {
       throw Exception('Failed to load partners');
     }

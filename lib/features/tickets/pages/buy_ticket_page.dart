@@ -26,9 +26,12 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
   bool _checkAgree = false;
   String _referralCode = '';
 
+  Future<void> addReferrar(String referrarEmail) async {
+    await AuthCubit.instance.addReferrar(referrer: referrarEmail);
+  }
+
   Future<void> _onSubmit(FormGroup form) async {
     final user = AuthCubit.instance.state.user;
-    print(user);
 
     if (form.control(firstNameControlName).value as String == "Anonymous" ||
         form.control(lastNameControlName).value as String == "Wildcat") {
@@ -78,10 +81,26 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
     );
   }
 
+  FormGroup _referralFormBuilder() {
+    return fb.group(
+      {
+        referralCodeControlName: FormControl<String>(
+          value: _referralCode,
+          // validators: [Validators.email],
+          validators: [Validators.email],
+          touched: true,
+        ),
+      },
+    );
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     final themeMode = context.watch<AppCubit>().state.themeMode;
     final user = context.read<AuthCubit>().state.user;
+    const referrarmail = "";
 
     return SafeArea(
       top: true,
@@ -223,41 +242,84 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                       ),
                       const SizedBox(height: 20),
                       const Text(
-                        "Referral Code (Optional)",
+                        "Referrer Email (Optional)",
                         textAlign: TextAlign.start,
                       ),
                       const SizedBox(height: 6),
-                      Form(
-                        // key: _formKey,
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: TextFormField(
-                              // controller: _referralCodeController,
-                                  onChanged: (value) {
-                                    _referralCode = value!;
-                                    print(_referralCode);
-                                  },
-                              decoration: InputDecoration(
-                                hintText: "Enter Referral Code",
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(
-                                      color: GCCDColor.googleGrey,
-                                    ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color:
-                                        GCCDColor.googleGrey.withOpacity(0.5),
-                                    width: 1,
-                                  ),
-                                ),
-                              ),
-                            )),
-                          ],
-                        ),
+                      ReactiveFormBuilder(
+                          form: _referralFormBuilder,
+                          builder: (BuildContext context, FormGroup formGroup, Widget? child) {
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                    flex: 3,
+                                    child: ReactiveTextField(
+                                      // onSubmitted: (value) {
+                                      //   if (formGroup.valid) {
+                                      //     _referralCode = value as String;
+                                      //   }
+                                      // },
+                                      onChanged: (value){
+
+                                      },
+                                      validationMessages: {
+                                        ValidationMessage.email: (_) =>
+                                            'Enter a valid referrer email',
+                                      },
+                                      formControlName: referralCodeControlName,
+                                      decoration: InputDecoration(
+                                        hintText: "Enter Referrer Email",
+                                        hintStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(
+                                          color: GCCDColor.googleGrey,
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(15),
+                                          borderSide: BorderSide(
+                                            color:
+                                            GCCDColor.googleGrey.withOpacity(0.5),
+                                            width: 0.5,
+                                          ),
+                                        ),
+
+                                      ),
+                                    )),
+                                const SizedBox(width: 5),
+                                Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      height: 55,
+                                      decoration: BoxDecoration(
+                                        color: formGroup.valid ? GCCDColor.googleGreen : Colors.transparent ,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: GCCDColor.googleGrey,
+                                          width: 0.5,
+                                        ),
+                                      ),
+                                      child: IconButton(
+                                        icon: const Icon(Icons.check),
+                                        color: formGroup.valid ? Colors.white : GCCDColor.googleGreen,
+                                        onPressed: () {
+                                          setState(() {
+                                            if (formGroup.valid) {
+                                              _referralCode = formGroup.value[referralCodeControlName] as String;
+                                              _referralCode != "" ? formGroup.markAsDisabled(): formGroup.markAsEnabled();
+                                            } else {
+                                              formGroup.markAsTouched();
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    )
+                                )
+                              ],
+                            );
+                          },
+
                       ),
                       const SizedBox(height: 20),
                     ],
@@ -324,41 +386,30 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                 icon: Icons.local_activity_outlined,
                                 isOutlined: true,
                                 onPressed: () {
-                                  if (!_checkAgree) {
-                                  if (user == null) {
-                                    DjangoflowAppSnackbar.showInfo(
-                                        'Session Expired. Please login again.');
-                                    context.read<AuthCubit>().logout();
-                                  } else if (user.profile.phone == null) {
+                                  if (_checkAgree) {
+                                    if (user == null) {
+                                      DjangoflowAppSnackbar.showInfo(
+                                          'Session Expired. Please login again.');
+                                      context.read<AuthCubit>().logout();
+                                    } else if (user.profile.phone == null) {
+                                      DjangoflowAppSnackbar.showError(
+                                        'Please complete profile from Profile Page.',
+                                      );
+                                    } else {
+                                      addReferrar(_referralCode);
+                                      launchBuyTicket(
+                                        user.profile.firstName,
+                                        user.profile.lastName,
+                                        user.email,
+                                        user.profile.phone!,
+                                      );
+                                    }
+                                  } else {
                                     DjangoflowAppSnackbar.showError(
                                       'Please agree to the Refund Policy and Terms & Conditions.',
                                     );
-                                  } else {
-                                    launchBuyTicket(
-                                      user.profile.firstName,
-                                      user.profile.lastName,
-                                      user.email,
-                                      user.profile.phone!,
-                                    );
                                   }
-                                  if (user == null) {
-                                    DjangoflowAppSnackbar.showInfo(
-                                        'Session Expired. Please login again.');
-                                    context.read<AuthCubit>().logout();
-                                  } else if (user.profile.phone == null) {
-                                    DjangoflowAppSnackbar.showError(
-                                      'Please complete profile from Profile Page.',
-                                    );
-                                  } else {
-                                    launchBuyTicket(
-                                      user.profile.firstName,
-                                      user.profile.lastName,
-                                      user.email,
-                                      user.profile.phone!,
-                                    );
-                                  }
-                                },
-                              ),
+                                })
                             ),
                             SizedBox(
                               width: screenWidth! * 0.4,
@@ -382,6 +433,9 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                           'Please complete profile from Profile Page.',
                                         );
                                         return;
+                                      }
+                                      if (state.isEditing) {
+                                        context.router.popAndPush(const BuyTicketRoute());
                                       }
                                       context
                                           .read<EditProfileCubit>()
