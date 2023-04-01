@@ -19,6 +19,10 @@ import 'edit_profile_page.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
+  Future<void> fetchProfile() async {
+    await AuthCubit.instance.fetchProfile();
+  }
+
   Future<void> _onSocialSubmit(
     FormGroup form,
   ) async {
@@ -30,6 +34,7 @@ class ProfilePage extends StatelessWidget {
 
   Future<void> _onSubmit(FormGroup form) async {
     await AuthCubit.instance.updateProfile(
+      pronoun: form.control(pronounControlName).value as String,
       firstName: form.control(firstNameControlName).value as String,
       lastName: form.control(lastNameControlName).value as String,
       phone: form.control(phoneControlName).value as String,
@@ -48,6 +53,9 @@ class ProfilePage extends StatelessWidget {
     final user = AuthCubit.instance.state.user;
 
     return fb.group({
+      pronounControlName: FormControl<String>(
+        value: user?.profile.pronoun ?? 'Select',
+      ),
       firstNameControlName: FormControl<String>(
         value: user?.profile.firstName ?? '',
         validators: [
@@ -118,6 +126,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthCubit>().state.user;
+    fetchProfile();
 
     return SafeArea(
       top: true,
@@ -211,6 +220,25 @@ class ProfilePage extends StatelessWidget {
                                   style:
                                       Theme.of(context).textTheme.titleMedium,
                                 ),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        top: screenWidth! * 0.02),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: screenWidth! * 0.04,
+                                        vertical: screenWidth! * 0.01),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      border: Border.all(
+                                        color: GCCDColor.googleYellow,
+                                        width: 1.5,
+                                      ),
+                                    ),
+                                    child: Text(
+                                        "Total Referral: ${user?.profile.referral ?? 0}"),
+                                  ),
+                                )
                               ],
                             );
                           }),
@@ -315,6 +343,36 @@ class ProfilePage extends StatelessWidget {
                         editButtonText: "Save Changes",
                         formBuilder: _formBuilder,
                         formContent: [
+                          const Text(
+                            "Pronoun",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveDropdownField(
+                            items: const [
+                              DropdownMenuItem(
+                                value: "NA",
+                                child: Text("Prefer not to Say"),
+                              ),
+                              DropdownMenuItem(
+                                value: "he",
+                                child: Text("He/Him"),
+                              ),
+                              DropdownMenuItem(
+                                value: "she",
+                                child: Text("She/Her"),
+                              ),
+                              DropdownMenuItem(
+                                value: "they",
+                                child: Text("They/Them"),
+                              ),
+                              DropdownMenuItem(
+                                value: "other",
+                                child: Text("Other"),
+                              ),
+                            ], formControlName: pronounControlName,
+                          ),
+                          const SizedBox(height: 20),
                           const Text(
                             "First Name",
                             textAlign: TextAlign.start,

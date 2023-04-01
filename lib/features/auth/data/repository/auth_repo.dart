@@ -79,6 +79,48 @@ class AuthenticationRepository {
     }
   }
 
+  Future<Profile> getProfile({
+    required String authToken,
+  }) async {
+    Response response = await _dioApiClient.getData(
+      endPoint: usersProfileEndpoint,
+      headers: buildAuthHeader(
+        authToken,
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      final profileResponse = response.data;
+
+      return Profile.fromJson(profileResponse);
+    } else {
+      throw Exception('Error getting profile. Please try again.');
+    }
+  }
+
+  Future<void> addReferrar({
+    required String authToken,
+    required String referrer,
+  }) async {
+    Response response = await _dioApiClient.patchData(
+        endPoint: addReferralEndpoint,
+        dataPayload: {
+          'referrer': referrer,
+        },
+        headers: buildAuthHeader(
+          authToken,
+        ),
+    );
+
+    if (response.statusCode == 200) {
+      final addReferrerResponse = response.data;
+
+      print(addReferrerResponse);
+    } else {
+      throw Exception('Error adding referrer. Please try again.');
+    }
+  }
+
   Future<Profile> updateProfile({
     required Profile profile,
     required String authToken,

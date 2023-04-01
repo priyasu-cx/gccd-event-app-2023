@@ -97,6 +97,25 @@ class DioApiClient extends BaseApiClient<Response, Dio> {
   }
 
   @override
+  Future<Response> patchData({
+    required String endPoint,
+    required Map<String, dynamic> dataPayload,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      return await client.patch(
+        baseUrl + endPoint,
+        data: dataPayload,
+        options: Options(
+          headers: headers,
+        ),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
   void configure() {
     client.options.baseUrl = baseUrl;
   }
