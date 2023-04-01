@@ -98,6 +98,29 @@ class AuthenticationRepository {
     }
   }
 
+  Future<void> addReferrar({
+    required String authToken,
+    required String referrer,
+  }) async {
+    Response response = await _dioApiClient.patchData(
+        endPoint: addReferralEndpoint,
+        dataPayload: {
+          'referrer': referrer,
+        },
+        headers: buildAuthHeader(
+          authToken,
+        ),
+    );
+
+    if (response.statusCode == 200) {
+      final addReferrerResponse = response.data;
+
+      print(addReferrerResponse);
+    } else {
+      throw Exception('Error adding referrer. Please try again.');
+    }
+  }
+
   Future<Profile> updateProfile({
     required Profile profile,
     required String authToken,
