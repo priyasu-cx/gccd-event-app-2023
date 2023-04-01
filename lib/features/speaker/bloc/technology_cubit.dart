@@ -1,6 +1,8 @@
+import 'package:ccd2023/utils/mixin/cubit_maybe_emit_mixin.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../speaker.dart';
 
 part 'technology_cubit.freezed.dart';
@@ -16,7 +18,8 @@ class TechnologyState with _$TechnologyState {
   const factory TechnologyState.error(String message) = _Error;
 }
 
-class TechnologyCubit extends Cubit<TechnologyState> {
+class TechnologyCubit extends Cubit<TechnologyState>
+    with CubitMaybeEmit<TechnologyState> {
   TechnologyCubit(this._technologyRepository)
       : super(const TechnologyState.initial());
 
@@ -35,5 +38,4 @@ class TechnologyCubit extends Cubit<TechnologyState> {
       emit(TechnologyState.error(e.toString()));
     }
   }
-
 }
