@@ -158,77 +158,76 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      BlocBuilder<AuthCubit, AuthState>(
-                        builder: (context, state) {
-                          if (state.user != null) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: screenWidth! * 0.06,
-                              ),
-                              child: Column(
-                                children: [
-                                  BlocBuilder<TicketCubit, TicketState>(
-                                    builder: (context, state) {
-                                      if (state.isLoading) {
-                                        return const Padding(
-                                          padding: EdgeInsets.all(kPadding),
-                                          child: Center(
-                                            child: CircularProgressIndicator(),
-                                          ),
-                                        );
-                                      }
-                                      return DefaultButton(
-                                        isOutlined: true,
-                                        onPressed: () => !state.hasTickets
-                                            ? context.router.push(
-                                                const BuyTicketRoute(),
-                                              )
-                                            : context.router.push(
-                                                ViewTicketRoute(
-                                                  ticket: state.ticket!,
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: screenWidth! * 0.06,
+                        ),
+                        child: BlocBuilder<AuthCubit, AuthState>(
+                          builder: (context, authState) {
+                            if (authState.user == null) {
+                              return DefaultButton(
+                                isOutlined: true,
+                                text: 'Get Started',
+                                foregroundColor: GCCDColor.white,
+                                backgroundColor: GCCDColor.googleBlue,
+                                onPressed: () => context.router.push(
+                                  const LoginRoute(),
+                                ),
+                              );
+                            } else {
+                              return BlocBuilder<TicketCubit, TicketState>(
+                                  builder: (context, ticketState) {
+                                return BlocBuilder<CFSCubit, CFSState>(
+                                    builder: (context, cfsState) {
+                                  if (ticketState.isLoading ||
+                                      cfsState.loading) {
+                                    return const Padding(
+                                      padding: EdgeInsets.all(kPadding),
+                                      child: Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    );
+                                  } else {
+                                    bool hasTickets = ticketState.hasTickets;
+                                    return Column(
+                                      children: [
+                                        DefaultButton(
+                                          isOutlined: true,
+                                          onPressed: () => !hasTickets
+                                              ? context.router.push(
+                                                  const BuyTicketRoute(),
+                                                )
+                                              : context.router.push(
+                                                  ViewTicketRoute(
+                                                    ticket: ticketState.ticket!,
+                                                  ),
                                                 ),
-                                              ),
-                                        text: !state.hasTickets
-                                            ? 'Buy ticket'
-                                            : 'View Ticket',
-                                      );
-                                    },
-                                  ),
-                                  BlocBuilder<CFSCubit, CFSState>(
-                                    builder: (context, state) {
-                                      if (state.loading) {
-                                        return const Offstage();
-                                      }
-                                      return DefaultButton(
-                                        isOutlined: true,
-                                        text: "Call for Speakers",
-                                        backgroundColor: GCCDColor.googleRed,
-                                        foregroundColor: GCCDColor.white,
-                                        onPressed: () => state.talks.isEmpty
-                                            ? context.router.push(
-                                                CFSRoute(),
-                                              )
-                                            : context.router.push(
-                                                const TalkListRoute(),
-                                              ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
-                          } else {
-                            return DefaultButton(
-                              isOutlined: true,
-                              text: 'Get Started',
-                              foregroundColor: GCCDColor.white,
-                              backgroundColor: GCCDColor.googleBlue,
-                              onPressed: () => context.router.push(
-                                const LoginRoute(),
-                              ),
-                            );
-                          }
-                        },
+                                          text: !hasTickets
+                                              ? 'Buy ticket'
+                                              : 'View Ticket',
+                                        ),
+                                        DefaultButton(
+                                          isOutlined: true,
+                                          text: "Call for Speakers",
+                                          backgroundColor: GCCDColor.googleRed,
+                                          foregroundColor: GCCDColor.white,
+                                          onPressed: () =>
+                                              cfsState.talks.isEmpty
+                                                  ? context.router.push(
+                                                      CFSRoute(),
+                                                    )
+                                                  : context.router.push(
+                                                      const TalkListRoute(),
+                                                    ),
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                });
+                              });
+                            }
+                          },
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: screenWidth! * 0.06),
