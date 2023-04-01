@@ -155,10 +155,18 @@ class ProfilePage extends StatelessWidget {
                                   onPressed: () {
                                     state.talks.isEmpty
                                         ? context.router.push(
-                                            CFSRoute(),
+                                            CFSRouterRoute(
+                                              children: [
+                                                CFSRoute(),
+                                              ],
+                                            ),
                                           )
                                         : context.router.push(
-                                            const TalkListRoute(),
+                                            const CFSRouterRoute(
+                                              children: [
+                                                TalkListRoute(),
+                                              ],
+                                            ),
                                           );
                                   },
                                 );
@@ -292,185 +300,183 @@ class ProfilePage extends StatelessWidget {
                       },
                     ),
                     const SizedBox(height: kPadding),
-                    Builder(
-                      builder: (context) {
-                        return EditProfileWrapper(
-                          headerText: "Profile Details",
-                          onSubmit: (form) async {
-                            await _onSubmit(form);
-                          },
-                          onSuccess: () {
-                            DjangoflowAppSnackbar.showInfo(
-                              'Profile updated successfully.',
-                            );
-                            context.read<EditProfileCubit>().toggleEditing();
-                          },
-                          editButtonText: "Save Changes",
-                          formBuilder: _formBuilder,
-                          formContent: [
-                            const Text(
-                              "First Name",
-                              textAlign: TextAlign.start,
-                            ),
-                            const SizedBox(height: 6),
-                            ReactiveTextField(
-                              formControlName: firstNameControlName,
-                              validationMessages: {
-                                ValidationMessage.required: (_) =>
-                                    'First name cannot be empty',
-                              },
-                            ),
-                            const SizedBox(height: 20),
-                            const Text(
-                              "Last Name",
-                              textAlign: TextAlign.start,
-                            ),
-                            const SizedBox(height: 6),
-                            ReactiveTextField(
-                              formControlName: lastNameControlName,
-                              validationMessages: {
-                                ValidationMessage.required: (_) =>
-                                    'Last name cannot be empty',
-                              },
-                            ),
-                            const SizedBox(height: 20),
+                    Builder(builder: (context) {
+                      return EditProfileWrapper(
+                        headerText: "Profile Details",
+                        onSubmit: (form) async {
+                          await _onSubmit(form);
+                        },
+                        onSuccess: () {
+                          DjangoflowAppSnackbar.showInfo(
+                            'Profile updated successfully.',
+                          );
+                          context.read<EditProfileCubit>().toggleEditing();
+                        },
+                        editButtonText: "Save Changes",
+                        formBuilder: _formBuilder,
+                        formContent: [
+                          const Text(
+                            "First Name",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            formControlName: firstNameControlName,
+                            validationMessages: {
+                              ValidationMessage.required: (_) =>
+                                  'First name cannot be empty',
+                            },
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            "Last Name",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            formControlName: lastNameControlName,
+                            validationMessages: {
+                              ValidationMessage.required: (_) =>
+                                  'Last name cannot be empty',
+                            },
+                          ),
+                          const SizedBox(height: 20),
 
-                            /// Phone Number
-                            const Text(
-                              "Phone Number",
-                              textAlign: TextAlign.start,
-                            ),
-                            const SizedBox(height: 6),
-                            ReactiveTextField(
-                              formControlName: phoneControlName,
-                              autofillHints: const [
-                                AutofillHints.telephoneNumber
-                              ],
-                              validationMessages: {
-                                ValidationMessage.minLength: (_) =>
-                                    'Enter a valid phone number',
-                                ValidationMessage.maxLength: (_) =>
-                                    'Enter a valid phone number',
-                                ValidationMessage.number: (_) =>
-                                    'Enter a valid phone number',
-                              },
-                            ),
-                            const SizedBox(height: 20),
+                          /// Phone Number
+                          const Text(
+                            "Phone Number",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            formControlName: phoneControlName,
+                            autofillHints: const [
+                              AutofillHints.telephoneNumber
+                            ],
+                            validationMessages: {
+                              ValidationMessage.minLength: (_) =>
+                                  'Enter a valid phone number',
+                              ValidationMessage.maxLength: (_) =>
+                                  'Enter a valid phone number',
+                              ValidationMessage.number: (_) =>
+                                  'Enter a valid phone number',
+                            },
+                          ),
+                          const SizedBox(height: 20),
 
-                            /// College
-                            const Text(
-                              "College",
-                              textAlign: TextAlign.start,
-                            ),
-                            const SizedBox(height: 6),
-                            ReactiveTextField(
-                              autofillHints: const [
-                                AutofillHints.organizationName
-                              ],
-                              validationMessages: {
-                                ValidationMessage.required: (_) =>
-                                    'Organization name is required',
-                              },
-                              formControlName: collegeControlName,
-                            ),
-                            const SizedBox(height: 20),
+                          /// College
+                          const Text(
+                            "College",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            autofillHints: const [
+                              AutofillHints.organizationName
+                            ],
+                            validationMessages: {
+                              ValidationMessage.required: (_) =>
+                                  'Organization name is required',
+                            },
+                            formControlName: collegeControlName,
+                          ),
+                          const SizedBox(height: 20),
 
-                            /// Course
-                            const Text(
-                              "Course",
-                              textAlign: TextAlign.start,
-                            ),
-                            const SizedBox(height: 6),
-                            ReactiveTextField(
-                              formControlName: courseControlName,
-                              validationMessages: {
-                                ValidationMessage.required: (_) =>
-                                    'Course is required',
-                              },
-                            ),
-                            const SizedBox(height: 20),
+                          /// Course
+                          const Text(
+                            "Course",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            formControlName: courseControlName,
+                            validationMessages: {
+                              ValidationMessage.required: (_) =>
+                                  'Course is required',
+                            },
+                          ),
+                          const SizedBox(height: 20),
 
-                            /// Year
-                            const Text(
-                              "Graduation Year",
-                              textAlign: TextAlign.start,
-                            ),
-                            const SizedBox(height: 6),
-                            ReactiveTextField(
-                              formControlName: yearControlName,
-                              keyboardType: TextInputType.number,
-                              validationMessages: {
-                                ValidationMessage.number: (_) =>
-                                    'Enter a valid year',
-                              },
-                            ),
-                            const SizedBox(height: 20),
+                          /// Year
+                          const Text(
+                            "Graduation Year",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            formControlName: yearControlName,
+                            keyboardType: TextInputType.number,
+                            validationMessages: {
+                              ValidationMessage.number: (_) =>
+                                  'Enter a valid year',
+                            },
+                          ),
+                          const SizedBox(height: 20),
 
-                            /// Company
-                            const Text(
-                              "Company",
-                              textAlign: TextAlign.start,
-                            ),
-                            const SizedBox(height: 6),
-                            ReactiveTextField(
-                              formControlName: companyControlName,
-                            ),
-                            const SizedBox(height: 20),
+                          /// Company
+                          const Text(
+                            "Company",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            formControlName: companyControlName,
+                          ),
+                          const SizedBox(height: 20),
 
-                            /// Designation
-                            const Text(
-                              "Designation",
-                              textAlign: TextAlign.start,
-                            ),
-                            const SizedBox(height: 6),
-                            ReactiveTextField(
-                              formControlName: designationControlName,
-                            ),
-                            const SizedBox(height: 20),
+                          /// Designation
+                          const Text(
+                            "Designation",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveTextField(
+                            formControlName: designationControlName,
+                          ),
+                          const SizedBox(height: 20),
 
-                            /// Food Preference
-                            const Text(
-                              "Food Preference",
-                              textAlign: TextAlign.start,
+                          /// Food Preference
+                          const Text(
+                            "Food Preference",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveDropdownField(items: const [
+                            DropdownMenuItem(
+                              value: "VEG",
+                              child: Text("VEG"),
                             ),
-                            const SizedBox(height: 6),
-                            ReactiveDropdownField(items: const [
-                              DropdownMenuItem(
-                                value: "VEG",
-                                child: Text("VEG"),
-                              ),
-                              DropdownMenuItem(
-                                value: "NON-VEG",
-                                child: Text("NON-VEG"),
-                              ),
-                            ], formControlName: foodPreferenceControlName),
-                            const SizedBox(height: 20),
+                            DropdownMenuItem(
+                              value: "NON-VEG",
+                              child: Text("NON-VEG"),
+                            ),
+                          ], formControlName: foodPreferenceControlName),
+                          const SizedBox(height: 20),
 
-                            /// T-Shirt Size
-                            const Text(
-                              "T-Shirt Size",
-                              textAlign: TextAlign.start,
-                            ),
-                            const SizedBox(height: 6),
-                            ReactiveDropdownField(
-                                items: getTshirtSizeDropdownItems(),
-                                formControlName: tshirtSizeControlName),
-                            const SizedBox(height: 20),
+                          /// T-Shirt Size
+                          const Text(
+                            "T-Shirt Size",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveDropdownField(
+                              items: getTshirtSizeDropdownItems(),
+                              formControlName: tshirtSizeControlName),
+                          const SizedBox(height: 20),
 
-                            /// Country
-                            const Text(
-                              "Country",
-                              textAlign: TextAlign.start,
-                            ),
-                            const SizedBox(height: 6),
-                            ReactiveDropdownField(
-                                items: getCountryDropdownItems(),
-                                formControlName: countryControlName),
-                            const SizedBox(height: 20),
-                          ],
-                        );
-                      }
-                    ),
+                          /// Country
+                          const Text(
+                            "Country",
+                            textAlign: TextAlign.start,
+                          ),
+                          const SizedBox(height: 6),
+                          ReactiveDropdownField(
+                              items: getCountryDropdownItems(),
+                              formControlName: countryControlName),
+                          const SizedBox(height: 20),
+                        ],
+                      );
+                    }),
                     // SizedBox(height: screenWidth! * 0.06),
                     Padding(
                       padding:

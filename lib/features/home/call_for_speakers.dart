@@ -5,7 +5,6 @@ import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 class CFPSection extends StatelessWidget {
   const CFPSection({Key? key}) : super(key: key);
@@ -77,14 +76,21 @@ class CFPSection extends StatelessWidget {
                             text: "Login to Apply",
                             backgroundColor: GCCDColor.googleRed,
                             foregroundColor: GCCDColor.white,
-                            onPressed: () =>
-                                context.router.push(const LoginRoute()),
+                            onPressed: () => context.router.push(
+                              const LoginRoute(),
+                            ),
                           )
                         : DefaultButton(
                             text: "Apply to be a Speaker",
                             backgroundColor: GCCDColor.googleRed,
                             foregroundColor: GCCDColor.white,
-                            onPressed: () => context.router.push(CFSRoute()),
+                            onPressed: () => context.router.push(
+                              CFSRouterRoute(
+                                children: [
+                                  CFSRoute(),
+                                ],
+                              ),
+                            ),
                           ),
                   ),
                 ],
