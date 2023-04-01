@@ -94,8 +94,6 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final themeMode = context.watch<AppCubit>().state.themeMode;
@@ -143,112 +141,106 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
-                  EditProfileWrapper(
-                    onSuccess: () {
-                      DjangoflowAppSnackbar.showInfo(
-                        'Profile updated successfully.',
-                      );
-                      context.read<EditProfileCubit>().toggleEditing();
-                    },
-                    onSubmit: _onSubmit,
-                    formBuilder: _formBuilder,
-                    formContent: [
-                      // Email
-                      const Text(
-                        "Email",
-                        textAlign: TextAlign.start,
-                      ),
-                      const SizedBox(height: 6),
-                      // ReactiveTextField(
-                      //   formControlName: emailControlName,
-                      //   autofillHints: const [AutofillHints.email],
-                      //   validationMessages: {
-                      //     ValidationMessage.required: (_) =>
-                      //         'Email cannot be empty',
-                      //     ValidationMessage.email: (_) => 'Email is not valid',
-                      //   },
-                      // ),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 20,
+                  BlocBuilder<EditProfileCubit, EditState>(
+                      builder: (context, state) {
+                    return EditProfileWrapper(
+                      onSuccess: () {
+                        DjangoflowAppSnackbar.showInfo(
+                          'Profile updated successfully.',
+                        );
+                        context.read<EditProfileCubit>().toggleEditing();
+                      },
+                      onSubmit: _onSubmit,
+                      formBuilder: _formBuilder,
+                      formContent: [
+                        // Email
+                        const Text(
+                          "Email",
+                          textAlign: TextAlign.start,
                         ),
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(kPadding * 2),
-                          border: Border.all(
-                            color: GCCDColor.googleGrey.withOpacity(0.5),
-                            width: 0.5,
+                        const SizedBox(height: 6),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 20,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(kPadding * 2),
+                            border: Border.all(
+                              color: GCCDColor.googleGrey.withOpacity(0.5),
+                              width: 0.5,
+                            ),
+                          ),
+                          child: Text(
+                            user?.email ?? '',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      color: GCCDColor.googleGrey,
+                                    ),
                           ),
                         ),
-                        child: Text(
-                          user?.email ?? '',
-                          style:
-                              Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    color: GCCDColor.googleGrey,
-                                  ),
+                        const SizedBox(height: 20),
+
+                        // First Name
+                        const Text(
+                          "First Name",
+                          textAlign: TextAlign.start,
                         ),
-                      ),
-                      const SizedBox(height: 20),
+                        const SizedBox(height: 6),
+                        ReactiveTextField(
+                          formControlName: firstNameControlName,
+                          validationMessages: {
+                            ValidationMessage.required: (_) =>
+                                'First Name cannot be empty',
+                          },
+                        ),
+                        const SizedBox(height: 20),
 
-                      // First Name
-                      const Text(
-                        "First Name",
-                        textAlign: TextAlign.start,
-                      ),
-                      const SizedBox(height: 6),
-                      ReactiveTextField(
-                        formControlName: firstNameControlName,
-                        validationMessages: {
-                          ValidationMessage.required: (_) =>
-                              'First Name cannot be empty',
-                        },
-                      ),
-                      const SizedBox(height: 20),
+                        // Last Name
+                        const Text(
+                          "Last Name",
+                          textAlign: TextAlign.start,
+                        ),
+                        const SizedBox(height: 6),
+                        ReactiveTextField(
+                          formControlName: lastNameControlName,
+                          validationMessages: {
+                            ValidationMessage.required: (_) =>
+                                'Last Name cannot be empty',
+                          },
+                        ),
+                        const SizedBox(height: 20),
 
-                      // Last Name
-                      const Text(
-                        "Last Name",
-                        textAlign: TextAlign.start,
-                      ),
-                      const SizedBox(height: 6),
-                      ReactiveTextField(
-                        formControlName: lastNameControlName,
-                        validationMessages: {
-                          ValidationMessage.required: (_) =>
-                              'Last Name cannot be empty',
-                        },
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Phone Number
-                      const Text(
-                        "Phone Number",
-                        textAlign: TextAlign.start,
-                      ),
-                      const SizedBox(height: 6),
-                      ReactiveTextField(
-                        formControlName: phoneControlName,
-                        autofillHints: const [AutofillHints.telephoneNumber],
-                        validationMessages: {
-                          ValidationMessage.minLength: (_) =>
-                              'Enter a valid phone number',
-                          ValidationMessage.maxLength: (_) =>
-                              'Enter a valid phone number',
-                          ValidationMessage.number: (_) =>
-                              'Enter a valid phone number',
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        "Referrer Email (Optional)",
-                        textAlign: TextAlign.start,
-                      ),
-                      const SizedBox(height: 6),
-                      ReactiveFormBuilder(
+                        // Phone Number
+                        const Text(
+                          "Phone Number",
+                          textAlign: TextAlign.start,
+                        ),
+                        const SizedBox(height: 6),
+                        ReactiveTextField(
+                          formControlName: phoneControlName,
+                          autofillHints: const [AutofillHints.telephoneNumber],
+                          validationMessages: {
+                            ValidationMessage.minLength: (_) =>
+                                'Enter a valid phone number',
+                            ValidationMessage.maxLength: (_) =>
+                                'Enter a valid phone number',
+                            ValidationMessage.number: (_) =>
+                                'Enter a valid phone number',
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          "Referrer Email (Optional)",
+                          textAlign: TextAlign.start,
+                        ),
+                        const SizedBox(height: 6),
+                        ReactiveFormBuilder(
                           form: _referralFormBuilder,
-                          builder: (BuildContext context, FormGroup formGroup, Widget? child) {
+                          builder: (BuildContext context, FormGroup formGroup,
+                              Widget? child) {
                             return Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -260,9 +252,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                       //     _referralCode = value as String;
                                       //   }
                                       // },
-                                      onChanged: (value){
-
-                                      },
+                                      onChanged: (value) {},
                                       validationMessages: {
                                         ValidationMessage.email: (_) =>
                                             'Enter a valid referrer email',
@@ -274,17 +264,17 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                             .textTheme
                                             .bodyLarge
                                             ?.copyWith(
-                                          color: GCCDColor.googleGrey,
-                                        ),
+                                              color: GCCDColor.googleGrey,
+                                            ),
                                         border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(15),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
                                           borderSide: BorderSide(
-                                            color:
-                                            GCCDColor.googleGrey.withOpacity(0.5),
+                                            color: GCCDColor.googleGrey
+                                                .withOpacity(0.5),
                                             width: 0.5,
                                           ),
                                         ),
-
                                       ),
                                     )),
                                 const SizedBox(width: 5),
@@ -293,7 +283,9 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                     child: Container(
                                       height: 55,
                                       decoration: BoxDecoration(
-                                        color: formGroup.valid ? GCCDColor.googleGreen : Colors.transparent ,
+                                        color: formGroup.valid
+                                            ? GCCDColor.googleGreen
+                                            : Colors.transparent,
                                         shape: BoxShape.circle,
                                         border: Border.all(
                                           color: GCCDColor.googleGrey,
@@ -302,29 +294,34 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                       ),
                                       child: IconButton(
                                         icon: const Icon(Icons.check),
-                                        color: formGroup.valid ? Colors.white : GCCDColor.googleGreen,
+                                        color: formGroup.valid
+                                            ? Colors.white
+                                            : GCCDColor.googleGreen,
                                         onPressed: () {
                                           setState(() {
                                             if (formGroup.valid) {
-                                              _referralCode = formGroup.value[referralCodeControlName] as String;
-                                              _referralCode != "" ? formGroup.markAsDisabled(): formGroup.markAsEnabled();
+                                              _referralCode = formGroup.value[
+                                                      referralCodeControlName]
+                                                  as String;
+                                              _referralCode != ""
+                                                  ? formGroup.markAsDisabled()
+                                                  : formGroup.markAsEnabled();
                                             } else {
                                               formGroup.markAsTouched();
                                             }
                                           });
                                         },
                                       ),
-                                    )
-                                )
+                                    ))
                               ],
                             );
                           },
-
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                    editButtonText: "Save",
-                  ),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                      editButtonText: "Save",
+                    );
+                  }),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(vertical: screenWidth! * 0.05),
@@ -376,41 +373,41 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                              width: screenWidth! * 0.4,
-                              child: DefaultButton(
-                                text: 'Buy Tickets',
-                                backgroundColor: _checkAgree
-                                    ? GCCDColor.googleGreen
-                                    : GCCDColor.googleGrey,
-                                withIcon: true,
-                                icon: Icons.local_activity_outlined,
-                                isOutlined: true,
-                                onPressed: () {
-                                  if (_checkAgree) {
-                                    if (user == null) {
-                                      DjangoflowAppSnackbar.showInfo(
-                                          'Session Expired. Please login again.');
-                                      context.read<AuthCubit>().logout();
-                                    } else if (user.profile.phone == null) {
-                                      DjangoflowAppSnackbar.showError(
-                                        'Please complete profile from Profile Page.',
-                                      );
-                                    } else {
-                                      addReferrar(_referralCode);
-                                      launchBuyTicket(
-                                        user.profile.firstName,
-                                        user.profile.lastName,
-                                        user.email,
-                                        user.profile.phone!,
-                                      );
-                                    }
-                                  } else {
-                                    DjangoflowAppSnackbar.showError(
-                                      'Please agree to the Refund Policy and Terms & Conditions.',
-                                    );
-                                  }
-                                })
-                            ),
+                                width: screenWidth! * 0.4,
+                                child: DefaultButton(
+                                    text: 'Buy Tickets',
+                                    backgroundColor: _checkAgree
+                                        ? GCCDColor.googleGreen
+                                        : GCCDColor.googleGrey,
+                                    withIcon: true,
+                                    icon: Icons.local_activity_outlined,
+                                    isOutlined: true,
+                                    onPressed: () {
+                                      if (!_checkAgree) {
+                                        DjangoflowAppSnackbar.showError(
+                                          'Please agree to the Refund Policy and Terms & Conditions.',
+                                        );
+                                        return;
+                                      }
+                                      if (user == null) {
+                                        DjangoflowAppSnackbar.showInfo(
+                                            'Session Expired. Please login again.');
+                                        context.read<AuthCubit>().logout();
+                                      } else if (user.profile.phone == null) {
+                                        DjangoflowAppSnackbar.showError(
+                                          'Please complete profile from Profile Page.',
+                                        );
+                                      } else {
+                                        context.router.pop();
+                                        addReferrar(_referralCode);
+                                        launchBuyTicket(
+                                          user.profile.firstName,
+                                          user.profile.lastName,
+                                          user.email,
+                                          user.profile.phone!,
+                                        );
+                                      }
+                                    })),
                             SizedBox(
                               width: screenWidth! * 0.4,
                               child: BlocBuilder<EditProfileCubit, EditState>(
@@ -435,7 +432,8 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                         return;
                                       }
                                       if (state.isEditing) {
-                                        context.router.popAndPush(const BuyTicketRoute());
+                                        context.router
+                                            .popAndPush(const BuyTicketRoute());
                                       }
                                       context
                                           .read<EditProfileCubit>()
