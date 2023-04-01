@@ -5,8 +5,7 @@ import 'package:ccd2023/features/coc/pages/coc_page.dart';
 import 'package:ccd2023/features/faq/pages/faq_page.dart';
 import 'package:ccd2023/features/home/presentation/pages/home_page.dart';
 import 'package:ccd2023/features/profile/presentation/pages/profile_page.dart';
-import 'package:ccd2023/features/speaker/presentation/pages/cfs_page.dart';
-import 'package:ccd2023/features/speaker/presentation/pages/talk_list_page.dart';
+import 'package:ccd2023/features/speaker/speaker.dart';
 import 'package:ccd2023/features/team/pages/team_page.dart';
 import 'package:ccd2023/features/tickets/pages/view_ticket_page.dart';
 
@@ -21,8 +20,12 @@ export 'ccd_router.gr.dart';
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
     AutoRoute(page: HomePage, initial: true, path: "/home"),
-    AutoRoute(page: CFSPage, path: "/cfs", guards: [AuthGuard]),
-    AutoRoute(page: TalkListPage, path: "/talk-list", guards: [AuthGuard]),
+    AutoRoute(
+      page: CFSRouterPage,
+      path: "/cfs",
+      guards: [AuthGuard],
+      children: cfsRoutes,
+    ),
     AutoRoute(page: LoginPage, path: "/login"),
     AutoRoute(page: SignUpPage, path: "/signup"),
     AutoRoute(page: ActivateEmailPage, path: "/activate-account"),

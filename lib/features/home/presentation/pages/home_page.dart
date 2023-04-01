@@ -214,10 +214,18 @@ class HomePage extends StatelessWidget {
                                           onPressed: () =>
                                               cfsState.talks.isEmpty
                                                   ? context.router.push(
-                                                      CFSRoute(),
+                                                      CFSRouterRoute(
+                                                        children: [
+                                                          CFSRoute(),
+                                                        ],
+                                                      ),
                                                     )
                                                   : context.router.push(
-                                                      const TalkListRoute(),
+                                                      const CFSRouterRoute(
+                                                        children: [
+                                                          TalkListRoute(),
+                                                        ],
+                                                      ),
                                                     ),
                                         ),
                                       ],
