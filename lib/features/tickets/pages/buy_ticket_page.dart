@@ -234,10 +234,10 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                             Expanded(
                                 child: TextFormField(
                               // controller: _referralCodeController,
-                                  onChanged: (value) {
-                                    _referralCode = value!;
-                                    print(_referralCode);
-                                  },
+                              onChanged: (value) {
+                                _referralCode = value!;
+                                print(_referralCode);
+                              },
                               decoration: InputDecoration(
                                 hintText: "Enter Referral Code",
                                 hintStyle: Theme.of(context)
@@ -325,21 +325,10 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                 isOutlined: true,
                                 onPressed: () {
                                   if (!_checkAgree) {
-                                  if (user == null) {
-                                    DjangoflowAppSnackbar.showInfo(
-                                        'Session Expired. Please login again.');
-                                    context.read<AuthCubit>().logout();
-                                  } else if (user.profile.phone == null) {
                                     DjangoflowAppSnackbar.showError(
                                       'Please agree to the Refund Policy and Terms & Conditions.',
                                     );
-                                  } else {
-                                    launchBuyTicket(
-                                      user.profile.firstName,
-                                      user.profile.lastName,
-                                      user.email,
-                                      user.profile.phone!,
-                                    );
+                                    return;
                                   }
                                   if (user == null) {
                                     DjangoflowAppSnackbar.showInfo(
