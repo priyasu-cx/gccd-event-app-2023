@@ -11,9 +11,9 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i12;
-import 'package:ccd2023/configurations/router/auth_guard.dart' as _i14;
-import 'package:ccd2023/features/app/app.dart' as _i11;
+import 'package:auto_route/auto_route.dart' as _i13;
+import 'package:ccd2023/configurations/router/auth_guard.dart' as _i15;
+import 'package:ccd2023/features/app/app.dart' as _i12;
 import 'package:ccd2023/features/auth/auth.dart' as _i4;
 import 'package:ccd2023/features/coc/pages/coc_page.dart' as _i10;
 import 'package:ccd2023/features/faq/pages/faq_page.dart' as _i9;
@@ -22,26 +22,28 @@ import 'package:ccd2023/features/profile/presentation/pages/profile_page.dart'
     as _i7;
 import 'package:ccd2023/features/speaker/presentation/pages/cfs_page.dart'
     as _i2;
+import 'package:ccd2023/features/speaker/presentation/pages/speakers_page.dart'
+    as _i11;
 import 'package:ccd2023/features/speaker/presentation/pages/talk_list_page.dart'
     as _i3;
 import 'package:ccd2023/features/team/pages/team_page.dart' as _i8;
-import 'package:ccd2023/features/tickets/data/model/ticket_model.dart' as _i15;
+import 'package:ccd2023/features/tickets/data/model/ticket_model.dart' as _i16;
 import 'package:ccd2023/features/tickets/pages/buy_ticket_page.dart' as _i5;
 import 'package:ccd2023/features/tickets/pages/view_ticket_page.dart' as _i6;
-import 'package:flutter/material.dart' as _i13;
+import 'package:flutter/material.dart' as _i14;
 
-class AppRouter extends _i12.RootStackRouter {
+class AppRouter extends _i13.RootStackRouter {
   AppRouter({
-    _i13.GlobalKey<_i13.NavigatorState>? navigatorKey,
+    _i14.GlobalKey<_i14.NavigatorState>? navigatorKey,
     required this.authGuard,
   }) : super(navigatorKey);
 
-  final _i14.AuthGuard authGuard;
+  final _i15.AuthGuard authGuard;
 
   @override
-  final Map<String, _i12.PageFactory> pagesMap = {
+  final Map<String, _i13.PageFactory> pagesMap = {
     HomeRoute.name: (routeData) {
-      return _i12.AdaptivePage<dynamic>(
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.HomePage(),
       );
@@ -49,7 +51,7 @@ class AppRouter extends _i12.RootStackRouter {
     CFSRoute.name: (routeData) {
       final args =
           routeData.argsAs<CFSRouteArgs>(orElse: () => const CFSRouteArgs());
-      return _i12.AdaptivePage<dynamic>(
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i2.CFSPage(
           key: args.key,
@@ -64,26 +66,26 @@ class AppRouter extends _i12.RootStackRouter {
       );
     },
     TalkListRoute.name: (routeData) {
-      return _i12.AdaptivePage<dynamic>(
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i3.TalkListPage(),
       );
     },
     LoginRoute.name: (routeData) {
-      return _i12.AdaptivePage<dynamic>(
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i4.LoginPage(),
       );
     },
     SignUpRoute.name: (routeData) {
-      return _i12.AdaptivePage<dynamic>(
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i4.SignUpPage(),
       );
     },
     ActivateEmailRoute.name: (routeData) {
       final args = routeData.argsAs<ActivateEmailRouteArgs>();
-      return _i12.AdaptivePage<dynamic>(
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i4.ActivateEmailPage(
           key: args.key,
@@ -93,20 +95,20 @@ class AppRouter extends _i12.RootStackRouter {
       );
     },
     ForgotPassRoute.name: (routeData) {
-      return _i12.AdaptivePage<dynamic>(
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i4.ForgotPassPage(),
       );
     },
     BuyTicketRoute.name: (routeData) {
-      return _i12.AdaptivePage<dynamic>(
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i5.BuyTicketPage(),
       );
     },
     ViewTicketRoute.name: (routeData) {
       final args = routeData.argsAs<ViewTicketRouteArgs>();
-      return _i12.AdaptivePage<dynamic>(
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i6.ViewTicketPage(
           key: args.key,
@@ -115,103 +117,113 @@ class AppRouter extends _i12.RootStackRouter {
       );
     },
     ProfileRoute.name: (routeData) {
-      return _i12.AdaptivePage<dynamic>(
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i7.ProfilePage(),
       );
     },
     TeamRoute.name: (routeData) {
-      return _i12.AdaptivePage<dynamic>(
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i8.TeamPage(),
       );
     },
     FAQRoute.name: (routeData) {
-      return _i12.AdaptivePage<dynamic>(
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i9.FAQPage(),
       );
     },
     CoCRoute.name: (routeData) {
-      return _i12.AdaptivePage<dynamic>(
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i10.CoCPage(),
       );
     },
-    UnknownRoute.name: (routeData) {
-      return _i12.AdaptivePage<dynamic>(
+    SpeakersRoute.name: (routeData) {
+      return _i13.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i11.UnknownPage(),
+        child: const _i11.SpeakersPage(),
+      );
+    },
+    UnknownRoute.name: (routeData) {
+      return _i13.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const _i12.UnknownPage(),
       );
     },
   };
 
   @override
-  List<_i12.RouteConfig> get routes => [
-        _i12.RouteConfig(
+  List<_i13.RouteConfig> get routes => [
+        _i13.RouteConfig(
           '/#redirect',
           path: '/',
           redirectTo: '/home',
           fullMatch: true,
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
           HomeRoute.name,
           path: '/home',
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
           CFSRoute.name,
           path: '/cfs',
           guards: [authGuard],
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
           TalkListRoute.name,
           path: '/talk-list',
           guards: [authGuard],
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
           LoginRoute.name,
           path: '/login',
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
           SignUpRoute.name,
           path: '/signup',
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
           ActivateEmailRoute.name,
           path: '/activate-account',
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
           ForgotPassRoute.name,
           path: '/forgot-pass',
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
           BuyTicketRoute.name,
           path: '/buy-tickets',
           guards: [authGuard],
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
           ViewTicketRoute.name,
           path: '/view-tickets',
           guards: [authGuard],
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
           ProfileRoute.name,
           path: '/profile',
           guards: [authGuard],
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
           TeamRoute.name,
           path: '/team',
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
           FAQRoute.name,
           path: '/faq',
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
           CoCRoute.name,
           path: '/coc',
         ),
-        _i12.RouteConfig(
+        _i13.RouteConfig(
+          SpeakersRoute.name,
+          path: '/speakers',
+        ),
+        _i13.RouteConfig(
           UnknownRoute.name,
           path: '*',
         ),
@@ -220,7 +232,7 @@ class AppRouter extends _i12.RootStackRouter {
 
 /// generated route for
 /// [_i1.HomePage]
-class HomeRoute extends _i12.PageRouteInfo<void> {
+class HomeRoute extends _i13.PageRouteInfo<void> {
   const HomeRoute()
       : super(
           HomeRoute.name,
@@ -232,9 +244,9 @@ class HomeRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.CFSPage]
-class CFSRoute extends _i12.PageRouteInfo<CFSRouteArgs> {
+class CFSRoute extends _i13.PageRouteInfo<CFSRouteArgs> {
   CFSRoute({
-    _i13.Key? key,
+    _i14.Key? key,
     String? talkTitle,
     String? talkDescription,
     String? talkOverview,
@@ -272,7 +284,7 @@ class CFSRouteArgs {
     this.talkId,
   });
 
-  final _i13.Key? key;
+  final _i14.Key? key;
 
   final String? talkTitle;
 
@@ -296,7 +308,7 @@ class CFSRouteArgs {
 
 /// generated route for
 /// [_i3.TalkListPage]
-class TalkListRoute extends _i12.PageRouteInfo<void> {
+class TalkListRoute extends _i13.PageRouteInfo<void> {
   const TalkListRoute()
       : super(
           TalkListRoute.name,
@@ -308,7 +320,7 @@ class TalkListRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.LoginPage]
-class LoginRoute extends _i12.PageRouteInfo<void> {
+class LoginRoute extends _i13.PageRouteInfo<void> {
   const LoginRoute()
       : super(
           LoginRoute.name,
@@ -320,7 +332,7 @@ class LoginRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.SignUpPage]
-class SignUpRoute extends _i12.PageRouteInfo<void> {
+class SignUpRoute extends _i13.PageRouteInfo<void> {
   const SignUpRoute()
       : super(
           SignUpRoute.name,
@@ -332,9 +344,9 @@ class SignUpRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.ActivateEmailPage]
-class ActivateEmailRoute extends _i12.PageRouteInfo<ActivateEmailRouteArgs> {
+class ActivateEmailRoute extends _i13.PageRouteInfo<ActivateEmailRouteArgs> {
   ActivateEmailRoute({
-    _i13.Key? key,
+    _i14.Key? key,
     required String title,
     required String message,
   }) : super(
@@ -357,7 +369,7 @@ class ActivateEmailRouteArgs {
     required this.message,
   });
 
-  final _i13.Key? key;
+  final _i14.Key? key;
 
   final String title;
 
@@ -371,7 +383,7 @@ class ActivateEmailRouteArgs {
 
 /// generated route for
 /// [_i4.ForgotPassPage]
-class ForgotPassRoute extends _i12.PageRouteInfo<void> {
+class ForgotPassRoute extends _i13.PageRouteInfo<void> {
   const ForgotPassRoute()
       : super(
           ForgotPassRoute.name,
@@ -383,7 +395,7 @@ class ForgotPassRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.BuyTicketPage]
-class BuyTicketRoute extends _i12.PageRouteInfo<void> {
+class BuyTicketRoute extends _i13.PageRouteInfo<void> {
   const BuyTicketRoute()
       : super(
           BuyTicketRoute.name,
@@ -395,10 +407,10 @@ class BuyTicketRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.ViewTicketPage]
-class ViewTicketRoute extends _i12.PageRouteInfo<ViewTicketRouteArgs> {
+class ViewTicketRoute extends _i13.PageRouteInfo<ViewTicketRouteArgs> {
   ViewTicketRoute({
-    _i13.Key? key,
-    required _i15.Ticket ticket,
+    _i14.Key? key,
+    required _i16.Ticket ticket,
   }) : super(
           ViewTicketRoute.name,
           path: '/view-tickets',
@@ -417,9 +429,9 @@ class ViewTicketRouteArgs {
     required this.ticket,
   });
 
-  final _i13.Key? key;
+  final _i14.Key? key;
 
-  final _i15.Ticket ticket;
+  final _i16.Ticket ticket;
 
   @override
   String toString() {
@@ -429,7 +441,7 @@ class ViewTicketRouteArgs {
 
 /// generated route for
 /// [_i7.ProfilePage]
-class ProfileRoute extends _i12.PageRouteInfo<void> {
+class ProfileRoute extends _i13.PageRouteInfo<void> {
   const ProfileRoute()
       : super(
           ProfileRoute.name,
@@ -441,7 +453,7 @@ class ProfileRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.TeamPage]
-class TeamRoute extends _i12.PageRouteInfo<void> {
+class TeamRoute extends _i13.PageRouteInfo<void> {
   const TeamRoute()
       : super(
           TeamRoute.name,
@@ -453,7 +465,7 @@ class TeamRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i9.FAQPage]
-class FAQRoute extends _i12.PageRouteInfo<void> {
+class FAQRoute extends _i13.PageRouteInfo<void> {
   const FAQRoute()
       : super(
           FAQRoute.name,
@@ -465,7 +477,7 @@ class FAQRoute extends _i12.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i10.CoCPage]
-class CoCRoute extends _i12.PageRouteInfo<void> {
+class CoCRoute extends _i13.PageRouteInfo<void> {
   const CoCRoute()
       : super(
           CoCRoute.name,
@@ -476,8 +488,20 @@ class CoCRoute extends _i12.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i11.UnknownPage]
-class UnknownRoute extends _i12.PageRouteInfo<void> {
+/// [_i11.SpeakersPage]
+class SpeakersRoute extends _i13.PageRouteInfo<void> {
+  const SpeakersRoute()
+      : super(
+          SpeakersRoute.name,
+          path: '/speakers',
+        );
+
+  static const String name = 'SpeakersRoute';
+}
+
+/// generated route for
+/// [_i12.UnknownPage]
+class UnknownRoute extends _i13.PageRouteInfo<void> {
   const UnknownRoute()
       : super(
           UnknownRoute.name,

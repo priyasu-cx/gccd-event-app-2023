@@ -10,6 +10,10 @@ const ccdLogo =
 //Base endpoints
 const baseURI = 'https://api2.gdgcloud.kolkata.dev/';
 const ticketStorageBaseURI = 'http://storage.googleapis.com/gccdkol23/tickets/';
+const teamDataURI =
+    'https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/team/content.json';
+const speakerDataURI =
+    'https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/speakers/content.json';
 
 // Add referral
 const addReferral = 'users/add_referrer/';
@@ -262,7 +266,8 @@ const List<Map<String, dynamic>> titleSponsor = [
 ];
 
 // BuyTicket
-const String RefundPolicy = 'https://docs.google.com/document/d/1Ph3wfOQ9mcCzBSrCWkHQgtC1TdpPRedlfumyYieKO2Q/edit?usp=sharing';
+const String RefundPolicy =
+    'https://docs.google.com/document/d/1Ph3wfOQ9mcCzBSrCWkHQgtC1TdpPRedlfumyYieKO2Q/edit?usp=sharing';
 
 // Community Partners
 const String communityPartnerDesc =

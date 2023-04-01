@@ -1,5 +1,7 @@
 import 'package:ccd2023/features/app/data/repository/dio/dio_api_client.dart';
 import 'package:ccd2023/features/auth/auth.dart';
+import 'package:ccd2023/features/speaker/bloc/speaker_cubit.dart';
+import 'package:ccd2023/features/speaker/data/repos/speaker_repo.dart';
 import 'package:ccd2023/features/team/bloc/team_cubit.dart';
 import 'package:ccd2023/features/team/repo/team_repo.dart';
 import 'package:ccd2023/features/tickets/bloc/ticket_cubit.dart';
@@ -58,7 +60,16 @@ class CCDAppBuilder extends AppBuilder {
                 context.read<DioApiClient>(),
               ),
             ),
-            RepositoryProvider<TeamRepository>(create: (context) => TeamRepository(context.read<DioApiClient>())),
+            RepositoryProvider<TeamRepository>(
+              create: (context) => TeamRepository(
+                context.read<DioApiClient>(),
+              ),
+            ),
+            RepositoryProvider<SpeakerRepository>(
+              create: (context) => SpeakerRepository(
+                context.read<DioApiClient>(),
+              ),
+            ),
           ],
           providers: [
             BlocProvider<AppCubit>(
@@ -92,7 +103,15 @@ class CCDAppBuilder extends AppBuilder {
                 context.read<TechnologyRepository>(),
               )..getTechnologies(),
             ),
-            BlocProvider<TeamCubit>(create: (context) => TeamCubit(context.read<TeamRepository>())..getTeam(), lazy: true),
+            BlocProvider<TeamCubit>(
+                create: (context) =>
+                    TeamCubit(context.read<TeamRepository>())..getTeam(),
+                lazy: true),
+            BlocProvider<SpeakerCubit>(
+                create: (context) =>
+                    SpeakerCubit(context.read<SpeakerRepository>())
+                      ..getSpeaker(),
+                lazy: true),
           ],
           builder: (context) => LoginListener(
             onLogin: (context, authState) {
