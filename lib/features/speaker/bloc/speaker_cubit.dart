@@ -11,7 +11,7 @@ class SpeakerState with _$SpeakerState {
 
   const factory SpeakerState.loading() = _Loading;
 
-  const factory SpeakerState.loaded(SpeakerModel speaker) = _Loaded;
+  const factory SpeakerState.loaded(List<SpeakerModel> speaker) = _Loaded;
 
   const factory SpeakerState.error(String message) = _Error;
 }
@@ -35,13 +35,22 @@ class SpeakerCubit extends HydratedCubit<SpeakerState> {
 
   @override
   SpeakerState? fromJson(Map<String, dynamic> json) {
-    return SpeakerState.loaded(SpeakerModel.fromJson(json));
+    try {
+      final speakers = (json['speakers'] as List)
+          .map((e) => SpeakerModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+      return SpeakerState.loaded(speakers);
+    } catch (_) {
+      return null;
+    }
   }
 
   @override
   Map<String, dynamic>? toJson(SpeakerState state) {
     if (state is _Loaded) {
-      return state.speaker.toJson();
+      return {
+        'speakers': state.speaker.map((e) => e.toJson()).toList(),
+      };
     }
     return null;
   }

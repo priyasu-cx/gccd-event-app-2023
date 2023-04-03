@@ -38,21 +38,28 @@ class SpeakersPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  loaded: (SpeakerModel speakers) {
-                    if (speakers.speakers == null) {
+                  loaded: (List<SpeakerModel> speakers) {
+                    if (speakers.isEmpty ) {
                       return const Center(
                         child: Text("Speakers Announcing Soon"),
                       );
                     } else {
-                      print(speakers.speakers!.length);
-                      return Column(
+                      print(speakers.length);
+                      return ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: speakers.length,
+                          itemBuilder: (context, index) {
+                          return
+
+                        Column(
                         children: [
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 20,
                                 horizontal: screenWidth! * 0.08),
                             child: Text(
-                              "Speakers",
+                              speakers[index].title!,
                               textAlign: TextAlign.center,
                               style: Theme.of(context)
                                   .textTheme
@@ -69,21 +76,21 @@ class SpeakersPage extends StatelessWidget {
                           ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: speakers.speakers!.length,
+                            itemCount: speakers[index].speakers!.length,
                             itemBuilder: (
                                 context,
-                                int index,
+                                int count,
                                 ) {
                               return GestureDetector(
                                 onTap: () => {
                                   context.router.push(
                                     SpeakerDetailsRoute(
-                                      speaker: speakers.speakers![index]!,
+                                      speaker: speakers[index].speakers![count]!,
                                     ),
                                   )
                                 },
                                 child: SpeakerCard(
-                                  speaker: speakers.speakers![index]!,
+                                  speaker: speakers[index].speakers![count]!,
                                 ),
                               );
                             },
@@ -91,7 +98,7 @@ class SpeakersPage extends StatelessWidget {
                           SizedBox(
                             height: screenWidth! * 0.06,)
                         ],
-                      );
+                      );});
                     }
                   },
                   error: (message) => Center(child: Text("Connect to Internet")),
