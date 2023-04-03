@@ -28,20 +28,24 @@ class CCDDrawer extends StatelessWidget {
               children: [
                 BlocBuilder<AppCubit, AppState>(
                   builder: (context, state) {
-                    return ColorFiltered(
-                      colorFilter: state.themeMode == ThemeMode.light
-                          ? const ColorFilter.mode(
-                              Colors.transparent,
-                              BlendMode.saturation,
-                            )
-                          : const ColorFilter.mode(
-                              Colors.white,
-                              BlendMode.srcIn,
-                            ),
-                      child: Image.asset(
-                        GCCDImageAssets.gdgCloudKolkataLogo,
-                        width: screenWidth! * 0.6,
-                      ),
+                    // return ColorFiltered(
+                    //   colorFilter: state.themeMode == ThemeMode.light
+                    //       ? const ColorFilter.mode(
+                    //           Colors.transparent,
+                    //           BlendMode.saturation,
+                    //         )
+                    //       : const ColorFilter.mode(
+                    //           Colors.white,
+                    //           BlendMode.srcIn,
+                    //         ),
+                    //   child: Image.asset(
+                    //     GCCDImageAssets.gdgCloudKolkataLogo,
+                    //     width: screenWidth! * 0.6,
+                    //   ),
+                    // );
+                    return Image.asset(
+                      GCCDImageAssets.gdgCloudKolkataLogo,
+                      width: screenWidth! * 0.6,
                     );
                   },
                 ),
