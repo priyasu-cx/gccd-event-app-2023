@@ -39,9 +39,12 @@ class _TeamPageState extends State<TeamPage> {
                   builder: (context, state) {
                     return state.when(
                       initial: () => const SizedBox.shrink(),
-                      loading: () => const Center(
-                        child: CircularProgressIndicator(
-                          color: GCCDColor.googleBlue,
+                      loading: () => Container(
+                        height: screenHeight! * 0.8,
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            color: GCCDColor.googleBlue,
+                          ),
                         ),
                       ),
                       loaded: (List<Team> team) {

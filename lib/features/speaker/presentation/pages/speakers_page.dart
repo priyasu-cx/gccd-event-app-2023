@@ -1,11 +1,16 @@
+import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/configurations/theme/ccd_colors.dart';
 import 'package:ccd2023/features/app/presentation/navigation/appbar.dart';
 import 'package:ccd2023/features/app/presentation/navigation/drawer.dart';
 import 'package:ccd2023/features/speaker/bloc/speaker_cubit.dart';
 import 'package:ccd2023/features/speaker/data/models/speaker_model.dart';
+import 'package:ccd2023/features/speaker/presentation/pages/speaker_details_page.dart';
+import 'package:ccd2023/features/speaker/presentation/pages/speaker_socials.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'multiborder_image.dart';
 
 class SpeakersPage extends StatelessWidget {
   const SpeakersPage({super.key});
@@ -19,35 +24,86 @@ class SpeakersPage extends StatelessWidget {
             child: const CCDAppBar(),
           ),
           drawer: const CCDDrawer(),
-          body: BlocBuilder<SpeakerCubit, SpeakerState>(
-            builder: (context, state) {
-              return state.when(
-                initial: () => const SizedBox.shrink(),
-                loading: () => const Center(
-                  child: CircularProgressIndicator(
-                    color: GCCDColor.googleBlue,
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: BlocBuilder<SpeakerCubit, SpeakerState>(
+              builder: (context, state) {
+                return state.when(
+                  initial: () => const SizedBox.shrink(),
+                  loading: () => Container(
+                    height: screenHeight! * 0.8,
+                    child: const Center(
+                      child: CircularProgressIndicator(
+                        color: GCCDColor.googleBlue,
+                      ),
+                    ),
                   ),
-                ),
-                loaded: (SpeakerModel speakers) {
-                  if (speakers.speakers == null) {
-                    return const Center(
-                      child: Text("No Speakers"),
-                    );
-                  } else {
-                    return const Center(
-                      child: Text('Speakers'),
-                    );
-                  }
-                },
-                error: (message) => Center(child: Text("Connect to Internet")),
-              );
-            },
+                  loaded: (SpeakerModel speakers) {
+                    if (speakers.speakers == null) {
+                      return const Center(
+                        child: Text("Speakers Announcing Soon"),
+                      );
+                    } else {
+                      print(speakers.speakers!.length);
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 20,
+                                horizontal: screenWidth! * 0.08),
+                            child: Text(
+                              "Speakers",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineLarge
+                                  ?.copyWith(
+                                color: GCCDColor.googleBlue,
+                              ),
+                            ),
+                          ),
+                          const Divider(),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: speakers.speakers!.length,
+                            itemBuilder: (
+                                context,
+                                int index,
+                                ) {
+                              return GestureDetector(
+                                onTap: () => {
+                                  context.router.push(
+                                    SpeakerDetailsRoute(
+                                      speaker: speakers.speakers![index]!,
+                                    ),
+                                  )
+                                },
+                                child: SpeakerCard(
+                                  speaker: speakers.speakers![index]!,
+                                ),
+                              );
+                            },
+                          ),
+                          SizedBox(
+                            height: screenWidth! * 0.06,)
+                        ],
+                      );
+                    }
+                  },
+                  error: (message) => Center(child: Text("Connect to Internet")),
+                );
+              },
+            ),
           )),
     );
   }
 }
 
-class SpeakerCard extends StatelessWidget {
+class SpeakerCard extends StatefulWidget {
   const SpeakerCard({
     Key? key,
     required this.speaker,
@@ -56,8 +112,85 @@ class SpeakerCard extends StatelessWidget {
   final Speaker speaker;
 
   @override
+  State<SpeakerCard> createState() => _SpeakerCardState();
+}
+
+class _SpeakerCardState extends State<SpeakerCard> {
+  bool isAnimationCompleted = false;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() => isAnimationCompleted = true);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container();
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: screenWidth! * 0.08, vertical: screenHeight! * 0.01),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            MultiBorderImage(
+                imageUrl: 'https://gdgcloud.kolkata.dev/${widget.speaker.profilePicture!}',
+              ),
+            const SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        widget.speaker.fullName!,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      AnimatedContainer(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: GCCDColor.googleBlue,
+                        ),
+                        duration: const Duration(
+                          milliseconds: 700,
+                        ),
+                        width: !isAnimationCompleted
+                            ? 0
+                            : screenWidth! * 0.25,
+                        height: 5,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    widget.speaker.tagLine!,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SpeakerSocialIcons(
+                    speaker: widget.speaker,
+                    alignment: "left",
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
   }
 }
 

@@ -5,6 +5,7 @@ import 'package:ccd2023/features/coc/pages/coc_page.dart';
 import 'package:ccd2023/features/faq/pages/faq_page.dart';
 import 'package:ccd2023/features/home/presentation/pages/home_page.dart';
 import 'package:ccd2023/features/profile/presentation/pages/profile_page.dart';
+import 'package:ccd2023/features/speaker/presentation/pages/speaker_details_page.dart';
 
 import 'package:ccd2023/features/speaker/speaker.dart';
 
@@ -43,6 +44,7 @@ export 'ccd_router.gr.dart';
     AutoRoute(page: FAQPage, path: "/faq"),
     AutoRoute(page: CoCPage, path: "/coc"),
     AutoRoute(page: SpeakersPage, path: "/speakers"),
+    AutoRoute(page: SpeakerDetailsPage, path: "/speakers-details"),
     AutoRoute(path: '*', page: UnknownPage),
   ],
 )
