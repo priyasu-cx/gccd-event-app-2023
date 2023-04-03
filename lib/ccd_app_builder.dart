@@ -15,7 +15,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'configurations/configurations.dart';
 import 'features/speaker/bloc/cfs_cubit.dart';
+import 'features/speaker/bloc/technology_cubit.dart';
 import 'features/speaker/data/repos/cfs_repo.dart';
+import 'features/speaker/data/repos/technology_repo.dart';
 
 class CCDAppBuilder extends AppBuilder {
   CCDAppBuilder({
