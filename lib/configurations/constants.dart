@@ -68,37 +68,41 @@ const contentEndpoint = 'content';
 
 const drawerItemsMain = [
   'Home',
+  'Profile',
   'Buy Tickets',
   // 'Schedule',
   'Speakers',
-  'Profile',
+
   'Team',
 ];
 
 const drawerItemsMainPath = [
   '/home',
+  '/profile',
   '/buy-tickets',
   // '/schedule',
   '/speakers',
-  '/profile',
+
   '/team',
 ];
 
 const drawerItemsMainIconOutlined = [
   Icons.home_outlined,
+  Icons.person_outlined,
   Icons.local_activity_outlined,
   // Icons.calendar_month_outlined,
   Icons.campaign_outlined,
-  Icons.person_outlined,
+
   Icons.group_outlined,
 ];
 
 const drawerItemsMainIcon = [
   Icons.home,
+  Icons.person,
   Icons.local_activity,
   // Icons.calendar_month,
   Icons.campaign,
-  Icons.person,
+
   Icons.group,
 ];
 
