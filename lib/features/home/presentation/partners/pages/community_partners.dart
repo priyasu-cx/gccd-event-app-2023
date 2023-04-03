@@ -17,7 +17,6 @@ class CommunityPartners extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeMode = context.watch<AppCubit>().state.themeMode;
 
-    // BlocProvider.of<PartnersCubit>(context).fetchData();
 
     return RepositoryProvider(
         create: (context) => PartnersRepository(
