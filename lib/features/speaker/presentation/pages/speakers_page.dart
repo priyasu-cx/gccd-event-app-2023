@@ -34,8 +34,8 @@ class SpeakersPage extends StatelessWidget {
                       child: Text("No Speakers"),
                     );
                   } else {
-                    return const Center(
-                      child: Text('Speakers'),
+                    return Center(
+                      child: SpeakerCard(speaker: speakers.speakers![0]),
                     );
                   }
                 },
@@ -53,10 +53,11 @@ class SpeakerCard extends StatelessWidget {
     required this.speaker,
   }) : super(key: key);
 
-  final Speaker speaker;
+  final Speaker? speaker;
 
   @override
   Widget build(BuildContext context) {
+    print(speaker);
     return Container();
   }
 }
