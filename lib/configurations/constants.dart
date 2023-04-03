@@ -16,7 +16,7 @@ const speakerDataURI =
     'https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/speakers/content.json';
 
 // Add referral
-const addReferral = 'users/add_referrer/';
+const addReferralEndpoint = 'users/add_referrer/';
 
 //Ticketing endpoints
 const eventCode = 'google-cloud-community-days-kolkata-2023';
@@ -186,6 +186,7 @@ const designationControlName = 'designation';
 const foodPreferenceControlName = 'food-preference';
 const tshirtSizeControlName = 'tshirt-size';
 const countryControlName = 'country';
+const referralCodeControlName = 'referral-code';
 
 const previousTalkControlName = 'previous_talk';
 const travelSupportControlName = 'travel_support';

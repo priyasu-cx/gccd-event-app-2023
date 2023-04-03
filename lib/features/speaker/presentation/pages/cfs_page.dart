@@ -24,6 +24,8 @@ class CFSPage extends StatefulWidget {
     this.talkType,
     this.topicsOfExpertise,
     this.talkId,
+    this.addedAt,
+    this.status,
   }) : super(key: key);
 
   final String? talkTitle;
@@ -33,6 +35,8 @@ class CFSPage extends StatefulWidget {
   final String? talkType;
   final List<int>? topicsOfExpertise;
   final int? talkId;
+  final String? addedAt;
+  final String? status;
 
   @override
   State<CFSPage> createState() => _CFSPageState();
@@ -182,6 +186,8 @@ class _CFSPageState extends State<CFSPage> {
           payload: payload,
           authToken: AuthCubit.instance.state.accessToken!,
           update: update,
+          addedAt: widget.addedAt,
+          status: widget.status,
         );
   }
 
@@ -227,23 +233,19 @@ class _CFSPageState extends State<CFSPage> {
               }
             },
             onSuccess: () {
-              context
-                  .read<CFSCubit>()
-                  .getTalksList(AuthCubit.instance.state.accessToken!);
-
-              if (widget.talkId != null) {
-                context.router.pushAndPopUntil(
-                  const TalkListRoute(),
-                  predicate: (route) => false,
-                );
-              } else {
-                context.popRoute();
-              }
               DjangoflowAppSnackbar.showInfo(
                 state.isSpeaker
                     ? 'Talk ${widget.talkId == null ? 'Submitted' : 'Updated'}'
                     : 'Speaker profile created. You are ready to submit talks now.',
               );
+
+              context.popRoute();
+
+              if (widget.talkId == null) {
+                context
+                    .read<CFSCubit>()
+                    .getTalksList(AuthCubit.instance.state.accessToken!);
+              }
             },
             formContent: state.isSpeaker
                 ? [

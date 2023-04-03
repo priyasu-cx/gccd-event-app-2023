@@ -201,6 +201,24 @@ class AuthCubit extends HydratedCubit<AuthState> {
     }
   }
 
+  Future<void> addReferrar({
+    required String referrer,
+  }) async {
+    try {
+      if (_authenticationRepository == null) {
+        throw Exception('AuthCubit not initialized');
+      }
+      await _authenticationRepository?.addReferrar(
+        authToken: state.accessToken!,
+        referrer: referrer,
+      );
+    } on DioError catch (e) {
+      DjangoflowAppSnackbar.showError(e.message ?? 'Error occurred');
+    } on Exception catch (e) {
+      DjangoflowAppSnackbar.showError(e.toString());
+    }
+  }
+
   Future<void> updateProfile({
     required String pronoun,
     required String firstName,

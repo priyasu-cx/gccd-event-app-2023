@@ -2,6 +2,7 @@ import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/presentation/gccd_border.dart';
 import 'package:ccd2023/features/auth/auth.dart';
 import 'package:ccd2023/features/speaker/bloc/cfs_cubit.dart';
+import 'package:ccd2023/features/speaker/bloc/technology_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -33,7 +34,9 @@ class TalkListPage extends StatelessWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          context.read<CFSCubit>().getTalksList(AuthCubit.instance.state.accessToken!);
+          context
+              .read<CFSCubit>()
+              .getTalksList(AuthCubit.instance.state.accessToken!);
         },
         child: BlocBuilder<CFSCubit, CFSState>(
           builder: (context, state) {
@@ -151,20 +154,39 @@ class TalkListPage extends StatelessWidget {
                                     ),
                                     Row(
                                       children: [
-                                        _TalkActionButtons(
-                                          color: GCCDColor.googleBlue,
-                                          iconData: Icons.edit,
-                                          onPressed: () {
-                                            context.router.push(
-                                              CFSRoute(
-                                                talkDescription: talk.description,
-                                                talkType: talk.format,
-                                                talkId: talk.id,
-                                                talkEvent: talk.event,
-                                                talkOverview: talk.overview,
-                                                talkTitle: talk.title,
-                                                topicsOfExpertise:
-                                                    talk.technologies,
+                                        BlocBuilder<TechnologyCubit,
+                                            TechnologyState>(
+                                          builder: (context, state) {
+                                            return state.maybeWhen(
+                                              loaded: (_) => _TalkActionButtons(
+                                                color: GCCDColor.googleBlue,
+                                                iconData: Icons.edit,
+                                                onPressed: () {
+                                                  context.router.push(
+                                                    CFSRoute(
+                                                      talkDescription:
+                                                          talk.description,
+                                                      talkType: talk.format,
+                                                      talkId: talk.id,
+                                                      talkEvent: talk.event,
+                                                      talkOverview:
+                                                          talk.overview,
+                                                      talkTitle: talk.title,
+                                                      topicsOfExpertise:
+                                                          talk.technologies,
+                                                      addedAt: talk.addedAt,
+                                                      status: talk.status,
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                              orElse: () => const Center(
+                                                child: SizedBox(
+                                                  height: kPadding * 2,
+                                                  width: kPadding * 2,
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                ),
                                               ),
                                             );
                                           },

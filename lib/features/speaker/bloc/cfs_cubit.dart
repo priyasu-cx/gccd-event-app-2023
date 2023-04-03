@@ -31,11 +31,23 @@ class CFSCubit extends Cubit<CFSState> {
     required TalkPayload payload,
     required String authToken,
     bool update = false,
+    String? addedAt,
+    String? status,
   }) async {
     try {
       if (update) {
         await cfsRepository.updateTalk(payload, authToken);
-        //TODO add update state logic here
+
+        List<SubmittedTalkPayload> talks = [...state.talks];
+        talks[talks.indexWhere((element) => element.id == payload.id)] =
+            SubmittedTalkPayload.fromJson(
+          {
+            ...payload.toJson(),
+            'added_at': addedAt,
+            'status': status,
+          },
+        );
+        emit(state.copyWith(talks: talks));
       } else {
         await cfsRepository.submitTalk(payload, authToken);
       }
