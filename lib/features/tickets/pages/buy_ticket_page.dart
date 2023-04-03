@@ -93,6 +93,10 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
       },
     );
   }
+  bool agreeCheckBox = false;
+  void _onAgreeCheckBoxTap() => setState(() {
+        agreeCheckBox = !agreeCheckBox;
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -213,10 +217,61 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                         ),
                         const SizedBox(height: 20),
 
-                        // Phone Number
-                        const Text(
-                          "Phone Number",
-                          textAlign: TextAlign.start,
+                      // Phone Number
+                      const Text(
+                        "Phone Number",
+                        textAlign: TextAlign.start,
+                      ),
+                      const SizedBox(height: 6),
+                      ReactiveTextField(
+                        formControlName: phoneControlName,
+                        autofillHints: const [AutofillHints.telephoneNumber],
+                        validationMessages: {
+                          ValidationMessage.minLength: (_) =>
+                              'Enter a valid phone number',
+                          ValidationMessage.maxLength: (_) =>
+                              'Enter a valid phone number',
+                          ValidationMessage.number: (_) =>
+                              'Enter a valid phone number',
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        "Referral Code (Optional)",
+                        textAlign: TextAlign.start,
+                      ),
+                      const SizedBox(height: 6),
+                      Form(
+                        // key: _formKey,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: TextFormField(
+                              // controller: _referralCodeController,
+                              onChanged: (value) {
+                                _referralCode = value!;
+                                print(_referralCode);
+                              },
+                              decoration: InputDecoration(
+                                hintText: "Enter Referral Code",
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      color: GCCDColor.googleGrey,
+                                    ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color:
+                                        GCCDColor.googleGrey.withOpacity(0.5),
+                                    width: 1,
+                                  ),
+                                ),
+                              ),
+                            )),
+                          ],
+
                         ),
                         const SizedBox(height: 6),
                         ReactiveTextField(
@@ -373,6 +428,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
+
                                 width: screenWidth! * 0.4,
                                 child: DefaultButton(
                                     text: 'Buy Tickets',

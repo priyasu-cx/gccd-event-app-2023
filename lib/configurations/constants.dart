@@ -10,6 +10,10 @@ const ccdLogo =
 //Base endpoints
 const baseURI = 'https://api2.gdgcloud.kolkata.dev/';
 const ticketStorageBaseURI = 'http://storage.googleapis.com/gccdkol23/tickets/';
+const teamDataURI =
+    'https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/team/content.json';
+const speakerDataURI =
+    'https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/speakers/content.json';
 
 // Add referral
 const addReferralEndpoint = 'users/add_referrer/';
@@ -66,7 +70,7 @@ const drawerItemsMain = [
   'Home',
   'Buy Tickets',
   // 'Schedule',
-  // 'Speakers',
+  'Speakers',
   'Profile',
   'Team',
 ];
@@ -75,7 +79,7 @@ const drawerItemsMainPath = [
   '/home',
   '/buy-tickets',
   // '/schedule',
-  // '/speakers',
+  '/speakers',
   '/profile',
   '/team',
 ];
@@ -84,7 +88,7 @@ const drawerItemsMainIconOutlined = [
   Icons.home_outlined,
   Icons.local_activity_outlined,
   // Icons.calendar_month_outlined,
-  // Icons.campaign_outlined,
+  Icons.campaign_outlined,
   Icons.person_outlined,
   Icons.group_outlined,
 ];
@@ -93,7 +97,7 @@ const drawerItemsMainIcon = [
   Icons.home,
   Icons.local_activity,
   // Icons.calendar_month,
-  // Icons.campaign,
+  Icons.campaign,
   Icons.person,
   Icons.group,
 ];
@@ -263,7 +267,8 @@ const List<Map<String, dynamic>> titleSponsor = [
 ];
 
 // BuyTicket
-const String RefundPolicy = 'https://docs.google.com/document/d/1Ph3wfOQ9mcCzBSrCWkHQgtC1TdpPRedlfumyYieKO2Q/edit?usp=sharing';
+const String RefundPolicy =
+    'https://docs.google.com/document/d/1Ph3wfOQ9mcCzBSrCWkHQgtC1TdpPRedlfumyYieKO2Q/edit?usp=sharing';
 
 // Community Partners
 const String communityPartnerDesc =

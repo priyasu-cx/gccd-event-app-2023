@@ -1,9 +1,7 @@
-
 import 'dart:convert';
 
 import 'package:ccd2023/features/app/app.dart';
 import 'package:ccd2023/features/home/presentation/partners/models/partner_model.dart';
-
 
 class PartnersRepository {
   final DioApiClient _dioApiClient;
@@ -11,7 +9,9 @@ class PartnersRepository {
   PartnersRepository(this._dioApiClient);
 
   Future<Partners> getPartners() async {
-    final response = await _dioApiClient.getPartnerData(endPoint: 'https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/partners/content.json');
+    final response = await _dioApiClient.getJsonData(
+        endPoint:
+            'https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/partners/content.json');
 
     Partners partners;
 

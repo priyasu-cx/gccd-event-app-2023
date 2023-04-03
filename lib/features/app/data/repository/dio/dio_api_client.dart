@@ -24,7 +24,7 @@ class DioApiClient extends BaseApiClient<Response, Dio> {
   }
 
   @override
-  Future<Response> getPartnerData({
+  Future<Response> getJsonData({
     required String endPoint,
     Map<String, dynamic>? dataPayload,
     Map<String, dynamic>? headers,
