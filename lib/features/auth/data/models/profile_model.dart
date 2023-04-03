@@ -7,7 +7,7 @@ part 'profile_model.freezed.dart';
 @freezed
 class Profile with _$Profile {
   const factory Profile({
-    @JsonKey(name: 'pronoun') required String pronoun,
+    @JsonKey(name: 'pronoun') required String? pronoun,
     @JsonKey(name: 'first_name') required String firstName,
     @JsonKey(name: 'last_name') required String lastName,
     required Map<String,dynamic> settings,
