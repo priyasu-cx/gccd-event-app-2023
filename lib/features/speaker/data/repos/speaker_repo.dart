@@ -8,14 +8,14 @@ class SpeakerRepository {
 
   SpeakerRepository(this._dioApiClient);
 
-  Future<SpeakerModel> getSpeaker() async {
+  Future<List<SpeakerModel>> getSpeaker() async {
     final response = await _dioApiClient.getJsonData(endPoint: speakerDataURI);
 
-    SpeakerModel speaker;
+    List<SpeakerModel> speaker;
 
     if (response.statusCode == 200) {
       final responseMap = json.decode(response.data);
-      speaker = SpeakerModel.fromJson(responseMap);
+      speaker = responseMap.map<SpeakerModel>((json) => SpeakerModel.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load speakers');
     }

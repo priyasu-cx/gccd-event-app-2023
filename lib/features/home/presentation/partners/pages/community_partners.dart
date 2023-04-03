@@ -17,7 +17,6 @@ class CommunityPartners extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeMode = context.watch<AppCubit>().state.themeMode;
 
-    // BlocProvider.of<PartnersCubit>(context).fetchData();
 
     return RepositoryProvider(
         create: (context) => PartnersRepository(
@@ -62,17 +61,17 @@ class CommunityPartners extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      launchExternalUrl(applyCommunityPartner);
-                    },
-                    child: Text(
-                      "Become a Community Partner",
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: GCCDColor.googleBlue,
-                          ),
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     launchExternalUrl(applyCommunityPartner);
+                  //   },
+                  //   child: Text(
+                  //     "Become a Community Partner",
+                  //     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  //           color: GCCDColor.googleBlue,
+                  //         ),
+                  //   ),
+                  // ),
                   const SizedBox(height: 25),
                   BlocBuilder<PartnersCubit, PartnersState>(
                       builder: (context, state) {

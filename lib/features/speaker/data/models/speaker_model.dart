@@ -7,6 +7,7 @@ class SpeakerModel with _$SpeakerModel {
   const factory SpeakerModel({
     required String? title,
     required String? description,
+    required String? type,
     required List<Speaker?>? speakers,
   }) = _SpeakerModel;
 
