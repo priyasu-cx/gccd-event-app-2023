@@ -207,27 +207,28 @@ class HomePage extends StatelessWidget {
                                               : 'View Ticket',
                                         ),
                                         DefaultButton(
-                                          isOutlined: true,
-                                          text: "Call for Speakers",
-                                          backgroundColor: GCCDColor.googleRed,
-                                          foregroundColor: GCCDColor.white,
-                                          onPressed: () =>
-                                              cfsState.talks.isEmpty
-                                                  ? context.router.push(
-                                                      CFSRouterRoute(
-                                                        children: [
-                                                          CFSRoute(),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : context.router.push(
-                                                      const CFSRouterRoute(
-                                                        children: [
-                                                          TalkListRoute(),
-                                                        ],
-                                                      ),
-                                                    ),
-                                        ),
+                                            isOutlined: true,
+                                            text: "CFS Closed",
+                                            backgroundColor:
+                                                GCCDColor.googleRed,
+                                            foregroundColor: GCCDColor.white,
+                                            onPressed: () {}
+                                            // cfsState.talks.isEmpty
+                                            //     ? context.router.push(
+                                            //         CFSRouterRoute(
+                                            //           children: [
+                                            //             CFSRoute(),
+                                            //           ],
+                                            //         ),
+                                            //       )
+                                            //     : context.router.push(
+                                            //         const CFSRouterRoute(
+                                            //           children: [
+                                            //             TalkListRoute(),
+                                            //           ],
+                                            //         ),
+                                            //       ),
+                                            ),
                                       ],
                                     );
                                   }

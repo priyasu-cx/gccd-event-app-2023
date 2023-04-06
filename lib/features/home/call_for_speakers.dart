@@ -70,29 +70,16 @@ class CFPSection extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: screenWidth! * 0.6,
-                    child: user == null
-                        ? DefaultButton(
-                            text: "Login to Apply",
-                            backgroundColor: GCCDColor.googleRed,
-                            foregroundColor: GCCDColor.white,
-                            onPressed: () => context.router.push(
-                              const LoginRoute(),
-                            ),
-                          )
-                        : DefaultButton(
-                            text: "Apply to be a Speaker",
-                            backgroundColor: GCCDColor.googleRed,
-                            foregroundColor: GCCDColor.white,
-                            onPressed: () => context.router.push(
-                              CFSRouterRoute(
-                                children: [
-                                  CFSRoute(),
-                                ],
-                              ),
-                            ),
-                          ),
-                  ),
+                      width: screenWidth! * 0.6,
+                      child: DefaultButton(
+                        text: "CFS Closed",
+                        backgroundColor: GCCDColor.googleRed,
+                        foregroundColor: GCCDColor.white,
+                        onPressed: () => {},
+                        // context.router.push(
+                        //   const LoginRoute(),
+                        // ),
+                      )),
                 ],
               ),
             ),

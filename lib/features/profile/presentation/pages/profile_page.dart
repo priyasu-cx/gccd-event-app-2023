@@ -150,39 +150,39 @@ class ProfilePage extends StatelessWidget {
                           GCCDImageAssets.victoriaSVGImage,
                           width: screenWidth!,
                         ),
-                        Positioned(
-                          // bottom: 0,
-                          right: 0,
-                          child: SizedBox(
-                            width: screenWidth! * 0.4,
-                            child: BlocBuilder<CFSCubit, CFSState>(
-                              builder: (context, state) {
-                                return DefaultButton(
-                                  isOutlined: true,
-                                  backgroundColor: Colors.transparent,
-                                  text: "Speaker Profile",
-                                  onPressed: () {
-                                    state.talks.isEmpty
-                                        ? context.router.push(
-                                            CFSRouterRoute(
-                                              children: [
-                                                CFSRoute(),
-                                              ],
-                                            ),
-                                          )
-                                        : context.router.push(
-                                            const CFSRouterRoute(
-                                              children: [
-                                                TalkListRoute(),
-                                              ],
-                                            ),
-                                          );
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ),
+                        // Positioned(
+                        //   // bottom: 0,
+                        //   right: 0,
+                        //   child: SizedBox(
+                        //     width: screenWidth! * 0.4,
+                        //     child: BlocBuilder<CFSCubit, CFSState>(
+                        //       builder: (context, state) {
+                        //         return DefaultButton(
+                        //           isOutlined: true,
+                        //           backgroundColor: Colors.transparent,
+                        //           text: "Speaker Profile",
+                        //           onPressed: () {
+                        //             state.talks.isEmpty
+                        //                 ? context.router.push(
+                        //                     CFSRouterRoute(
+                        //                       children: [
+                        //                         CFSRoute(),
+                        //                       ],
+                        //                     ),
+                        //                   )
+                        //                 : context.router.push(
+                        //                     const CFSRouterRoute(
+                        //                       children: [
+                        //                         TalkListRoute(),
+                        //                       ],
+                        //                     ),
+                        //                   );
+                        //           },
+                        //         );
+                        //       },
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     // SizedBox(height: screenWidth! * 0.06),
@@ -370,7 +370,8 @@ class ProfilePage extends StatelessWidget {
                                 value: "other",
                                 child: Text("Other"),
                               ),
-                            ], formControlName: pronounControlName,
+                            ],
+                            formControlName: pronounControlName,
                           ),
                           const SizedBox(height: 20),
                           const Text(

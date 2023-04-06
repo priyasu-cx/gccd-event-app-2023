@@ -4,13 +4,12 @@ part 'partner_model.g.dart';
 
 @freezed
 class Partners with _$Partners {
-  const factory Partners({
-    required List<Sponsors> partners,
-    required String title,
-    required String description,
-    required CommunityPartners community_partners,
-    required
-  }) = _Partners;
+  const factory Partners(
+      {required List<SponsorDetails> partners,
+      required String title,
+      required String description,
+      required CommunityPartners community_partners,
+      required}) = _Partners;
 
   factory Partners.fromJson(Map<String, dynamic> json) =>
       _$PartnersFromJson(json);
@@ -26,6 +25,17 @@ class CommunityPartners with _$CommunityPartners {
 
   factory CommunityPartners.fromJson(Map<String, dynamic> json) =>
       _$CommunityPartnersFromJson(json);
+}
+
+@freezed
+class SponsorDetails with _$SponsorDetails {
+  const factory SponsorDetails({
+    required String? title,
+    required List<Sponsors?>? sponsors,
+  }) = _SponsorDetails;
+
+  factory SponsorDetails.fromJson(Map<String, dynamic> json) =>
+      _$SponsorDetailsFromJson(json);
 }
 
 @freezed
