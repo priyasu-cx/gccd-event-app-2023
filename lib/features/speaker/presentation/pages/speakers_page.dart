@@ -116,7 +116,7 @@ class SpeakerCard extends StatefulWidget {
     required this.speaker,
   }) : super(key: key);
 
-  final Speaker speaker;
+  final Speaker? speaker;
 
   @override
   State<SpeakerCard> createState() => _SpeakerCardState();
