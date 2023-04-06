@@ -77,6 +77,20 @@ class ViewTicketPage extends StatelessWidget {
               const SizedBox(
                 height: kPadding * 2,
               ),
+              GestureDetector(
+                onTap: () {
+                  launchUrlString(ticketRefundPolicyURI);
+                },
+                child: Text(
+                  'Refund Policy and Terms and Conditions',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: GCCDColor.googleYellow,
+                      ),
+                ),
+              ),
+              const SizedBox(
+                height: kPadding * 2,
+              ),
               _TicketDetails(
                 heading: 'Type',
                 content: ticket.tsTicketName,
