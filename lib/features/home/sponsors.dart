@@ -1,4 +1,7 @@
 import 'package:ccd2023/configurations/configurations.dart';
+import 'package:ccd2023/features/app/data/repository/dio/dio_api_client.dart';
+import 'package:ccd2023/features/home/presentation/partners/blocs/partners_cubit.dart';
+import 'package:ccd2023/features/home/presentation/partners/repo/partners_repo.dart';
 import 'package:ccd2023/utils/launch_url.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -13,77 +16,159 @@ class Sponsors extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeMode = context.watch<AppCubit>().state.themeMode;
 
-    return Container(
-      width: screenWidth,
-      padding: EdgeInsets.symmetric(horizontal: screenWidth! * 0.08),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: screenWidth! * 0.06),
-          Text(
-            'SPONSORS',
-            style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                  foreground: Paint()
-                    ..style = PaintingStyle.stroke
-                    ..strokeWidth = 1
-                    ..color = themeMode == ThemeMode.light
-                        ? Colors.black
-                        : Colors.white,
-                  // fontWeight: FontWeight.w600,
-                ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.04),
-            child: Text(
-              sponsorDesc,
-              style: Theme.of(context).textTheme.bodyLarge,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const Divider(),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.02),
-            child: Text(
-              "TITLE SPONSOR",
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ),
-          Column(
-            children: titleSponsor
-                .map((Map<String, dynamic> sponsor) => Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: screenWidth! * 0.02),
-                      child: SponsorCard(
-                        imageUrl: sponsor['logo'],
-                        url: sponsor['link'],
-                      ),
-                    ))
-                .toList(),
-          ),
-          SizedBox(height: screenWidth! * 0.04),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.04),
-            child: Text(
-              'To become a sponsor, please email us at',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontSize: 14,
+    return RepositoryProvider(
+      create: (context) => PartnersRepository(
+        context.read<DioApiClient>(),
+      ),
+      child: BlocProvider(
+        create: (context) => PartnersCubit(
+          context.read<PartnersRepository>(),
+        )..getPartners(),
+        child: Container(
+          width: screenWidth,
+          padding: EdgeInsets.symmetric(horizontal: screenWidth! * 0.08),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: screenWidth! * 0.06),
+              Text(
+                'SPONSORS',
+                style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 1
+                        ..color = themeMode == ThemeMode.light
+                            ? Colors.black
+                            : Colors.white,
+                      // fontWeight: FontWeight.w600,
+                    ),
               ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              launchExternalUrl('mailto: partners@gdgcloud.kolkata.dev');
-            },
-            child: Text(
-              'partners@gdgcloud.kolkata.dev',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.04),
+                child: Text(
+                  sponsorDesc,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const Divider(),
+              BlocBuilder<PartnersCubit, PartnersState>(
+                  builder: (context, state) {
+                return state.when(
+                  initial: () => const SizedBox.shrink(),
+                  loading: () => const CircularProgressIndicator(
                     color: GCCDColor.googleBlue,
                   ),
-            ),
-          )
-        ],
+                  loaded: (partners) {
+                    print(partners.partners);
+                    return ListView.builder(
+                        itemCount: partners.partners.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: screenWidth! * 0.02),
+                                child: Text(
+                                  partners.partners[index].title!,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
+                                ),
+                              ),
+                              Column(
+                                children: partners.partners[index].sponsors!
+                                    .map((sponsor) => Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: screenWidth! * 0.02),
+                                          child: SponsorCard(
+                                            imageUrl: sponsor!.imgSrc!,
+                                            url: sponsor.hyperlink!,
+                                          ),
+                                        ))
+                                    .toList(),
+                              ),
+                            ],
+                          );
+                        });
+
+                    // return GridView.builder(
+                    //   physics: const NeverScrollableScrollPhysics(),
+                    //   shrinkWrap: true,
+                    //   gridDelegate:
+                    //       const SliverGridDelegateWithFixedCrossAxisCount(
+                    //     crossAxisCount: 2,
+                    //     crossAxisSpacing: kPadding,
+                    //     mainAxisSpacing: kPadding,
+                    //   ),
+                    //   itemCount: partners.community_partners.sponsors.length,
+                    //   itemBuilder: (context, index) {
+                    //     return CommunityCard(
+                    //       imageUrl: partners
+                    //           .community_partners.sponsors[index].imgSrc,
+                    //       url: partners.community_partners.sponsors[index]
+                    //               .hyperlink ??
+                    //           '',
+                    //       name: partners
+                    //           .community_partners.sponsors[index].sponsorName,
+                    //     );
+                    //   },
+                    // );
+                  },
+                  error: (message) => Text("Connect to Internet"),
+                );
+              }),
+              // Column(
+              //   children: [
+              //     Padding(
+              //       padding:
+              //           EdgeInsets.symmetric(vertical: screenWidth! * 0.02),
+              //       child: Text(
+              //         "TITLE SPONSOR",
+              //         style: Theme.of(context).textTheme.headlineMedium,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              Column(
+                children: titleSponsor
+                    .map((Map<String, dynamic> sponsor) => Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: screenWidth! * 0.02),
+                          child: SponsorCard(
+                            imageUrl: sponsor['logo'],
+                            url: sponsor['link'],
+                          ),
+                        ))
+                    .toList(),
+              ),
+              SizedBox(height: screenWidth! * 0.04),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.04),
+                child: Text(
+                  'To become a sponsor, please email us at',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontSize: 14,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  launchExternalUrl('mailto: partners@gdgcloud.kolkata.dev');
+                },
+                child: Text(
+                  'partners@gdgcloud.kolkata.dev',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: GCCDColor.googleBlue,
+                      ),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
