@@ -194,8 +194,13 @@ class CCDDrawer extends StatelessWidget {
                       : drawerItemsFooterIconOutlined[index],
                   onTap: () {
                     if (drawerItemsFooter[index] == 'Share') {
+                      String text = "Hey! Let's join together for the largest developer conference "
+                          "in eastern India - Google Cloud Community Days Kolkata, to"
+                          " join hundreds of developers and engage with industry experts presenting on cutting edge technology. "
+                          '${user!=null ? "Here is my referral email: ${user.email}\n\nHurry, get your ticket!\n" : "\n\nHurry, get your ticket!\n"}'
+                          'Download GCCD 2023 Official App: https://play.google.com/store/apps/details?id=com.gdgck.gccd';
                       launchExternalUrl(
-                          "https://play.google.com/store/apps/details?id=com.gdgck.gccd");
+                          "whatsapp://send?text=$text");
                     } else {
                       Navigator.pop(context);
                       context.router.pushNamed(drawerItemsFooterPath[index]);

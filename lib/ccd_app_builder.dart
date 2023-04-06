@@ -15,7 +15,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'configurations/configurations.dart';
 import 'features/speaker/bloc/cfs_cubit.dart';
+import 'features/speaker/bloc/technology_cubit.dart';
 import 'features/speaker/data/repos/cfs_repo.dart';
+import 'features/speaker/data/repos/technology_repo.dart';
 
 class CCDAppBuilder extends AppBuilder {
   CCDAppBuilder({
@@ -54,8 +56,6 @@ class CCDAppBuilder extends AppBuilder {
               ),
             ),
 
-            RepositoryProvider<TeamRepository>(create: (context) => TeamRepository(context.read<DioApiClient>())),
-
             RepositoryProvider<TechnologyRepository>(
               create: (context) => TechnologyRepository(
                 context.read<DioApiClient>(),
@@ -71,7 +71,6 @@ class CCDAppBuilder extends AppBuilder {
                 context.read<DioApiClient>(),
               ),
             ),
-
           ],
           providers: [
             BlocProvider<AppCubit>(
@@ -99,8 +98,10 @@ class CCDAppBuilder extends AppBuilder {
                   authToken: AuthCubit.instance.state.accessToken,
                 ),
             ),
-            BlocProvider<TeamCubit>(create: (context) => TeamCubit(context.read<TeamRepository>())..getTeam(), lazy: true),
-
+            BlocProvider<TeamCubit>(
+                create: (context) =>
+                    TeamCubit(context.read<TeamRepository>())..getTeam(),
+                lazy: true),
             BlocProvider<TechnologyCubit>(
               lazy: false,
               create: (context) => TechnologyCubit(

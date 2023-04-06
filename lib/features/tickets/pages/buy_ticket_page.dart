@@ -93,10 +93,6 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
       },
     );
   }
-  bool agreeCheckBox = false;
-  void _onAgreeCheckBoxTap() => setState(() {
-        agreeCheckBox = !agreeCheckBox;
-      });
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +119,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                 children: [
                   Padding(
                     padding:
-                        EdgeInsets.only(top: screenWidth! * 0.08, bottom: 20),
+                    EdgeInsets.only(top: screenWidth! * 0.08, bottom: 20),
                     child: Text(
                       'Buy Ticket 🎫',
                       style: TextStyle(
@@ -140,246 +136,195 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                   Text(
                     "Please edit the fields if not accurate or incomplete and update profile from Profile Page",
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: GCCDColor.googleGrey,
-                        ),
+                      color: GCCDColor.googleGrey,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
                   BlocBuilder<EditProfileCubit, EditState>(
                       builder: (context, state) {
-                    return EditProfileWrapper(
-                      onSuccess: () {
-                        DjangoflowAppSnackbar.showInfo(
-                          'Profile updated successfully.',
-                        );
-                        context.read<EditProfileCubit>().toggleEditing();
-                      },
-                      onSubmit: _onSubmit,
-                      formBuilder: _formBuilder,
-                      formContent: [
-                        // Email
-                        const Text(
-                          "Email",
-                          textAlign: TextAlign.start,
-                        ),
-                        const SizedBox(height: 6),
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 20,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(kPadding * 2),
-                            border: Border.all(
-                              color: GCCDColor.googleGrey.withOpacity(0.5),
-                              width: 0.5,
+                        return EditProfileWrapper(
+                          onSuccess: () {
+                            DjangoflowAppSnackbar.showInfo(
+                              'Profile updated successfully.',
+                            );
+                            context.read<EditProfileCubit>().toggleEditing();
+                          },
+                          onSubmit: _onSubmit,
+                          formBuilder: _formBuilder,
+                          formContent: [
+                            // Email
+                            const Text(
+                              "Email",
+                              textAlign: TextAlign.start,
                             ),
-                          ),
-                          child: Text(
-                            user?.email ?? '',
-                            style:
-                                Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      color: GCCDColor.googleGrey,
-                                    ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-
-                        // First Name
-                        const Text(
-                          "First Name",
-                          textAlign: TextAlign.start,
-                        ),
-                        const SizedBox(height: 6),
-                        ReactiveTextField(
-                          formControlName: firstNameControlName,
-                          validationMessages: {
-                            ValidationMessage.required: (_) =>
-                                'First Name cannot be empty',
-                          },
-                        ),
-                        const SizedBox(height: 20),
-
-                        // Last Name
-                        const Text(
-                          "Last Name",
-                          textAlign: TextAlign.start,
-                        ),
-                        const SizedBox(height: 6),
-                        ReactiveTextField(
-                          formControlName: lastNameControlName,
-                          validationMessages: {
-                            ValidationMessage.required: (_) =>
-                                'Last Name cannot be empty',
-                          },
-                        ),
-                        const SizedBox(height: 20),
-
-                      // Phone Number
-                      const Text(
-                        "Phone Number",
-                        textAlign: TextAlign.start,
-                      ),
-                      const SizedBox(height: 6),
-                      ReactiveTextField(
-                        formControlName: phoneControlName,
-                        autofillHints: const [AutofillHints.telephoneNumber],
-                        validationMessages: {
-                          ValidationMessage.minLength: (_) =>
-                              'Enter a valid phone number',
-                          ValidationMessage.maxLength: (_) =>
-                              'Enter a valid phone number',
-                          ValidationMessage.number: (_) =>
-                              'Enter a valid phone number',
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        "Referral Code (Optional)",
-                        textAlign: TextAlign.start,
-                      ),
-                      const SizedBox(height: 6),
-                      Form(
-                        // key: _formKey,
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: TextFormField(
-                              // controller: _referralCodeController,
-                              onChanged: (value) {
-                                _referralCode = value!;
-                                print(_referralCode);
-                              },
-                              decoration: InputDecoration(
-                                hintText: "Enter Referral Code",
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(
-                                      color: GCCDColor.googleGrey,
-                                    ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color:
-                                        GCCDColor.googleGrey.withOpacity(0.5),
-                                    width: 1,
-                                  ),
+                            const SizedBox(height: 6),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 20,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(kPadding * 2),
+                                border: Border.all(
+                                  color: GCCDColor.googleGrey.withOpacity(0.5),
+                                  width: 0.5,
                                 ),
                               ),
-                            )),
-                          ],
+                              child: Text(
+                                user?.email ?? '',
+                                style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                  color: GCCDColor.googleGrey,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
 
-                        ),
-                        const SizedBox(height: 6),
-                        ReactiveTextField(
-                          formControlName: phoneControlName,
-                          autofillHints: const [AutofillHints.telephoneNumber],
-                          validationMessages: {
-                            ValidationMessage.minLength: (_) =>
+                            // First Name
+                            const Text(
+                              "First Name",
+                              textAlign: TextAlign.start,
+                            ),
+                            const SizedBox(height: 6),
+                            ReactiveTextField(
+                              formControlName: firstNameControlName,
+                              validationMessages: {
+                                ValidationMessage.required: (_) =>
+                                'First Name cannot be empty',
+                              },
+                            ),
+                            const SizedBox(height: 20),
+
+                            // Last Name
+                            const Text(
+                              "Last Name",
+                              textAlign: TextAlign.start,
+                            ),
+                            const SizedBox(height: 6),
+                            ReactiveTextField(
+                              formControlName: lastNameControlName,
+                              validationMessages: {
+                                ValidationMessage.required: (_) =>
+                                'Last Name cannot be empty',
+                              },
+                            ),
+                            const SizedBox(height: 20),
+
+                            // Phone Number
+                            const Text(
+                              "Phone Number",
+                              textAlign: TextAlign.start,
+                            ),
+                            const SizedBox(height: 6),
+                            ReactiveTextField(
+                              formControlName: phoneControlName,
+                              autofillHints: const [AutofillHints.telephoneNumber],
+                              validationMessages: {
+                                ValidationMessage.minLength: (_) =>
                                 'Enter a valid phone number',
-                            ValidationMessage.maxLength: (_) =>
+                                ValidationMessage.maxLength: (_) =>
                                 'Enter a valid phone number',
-                            ValidationMessage.number: (_) =>
+                                ValidationMessage.number: (_) =>
                                 'Enter a valid phone number',
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          "Referrer Email (Optional)",
-                          textAlign: TextAlign.start,
-                        ),
-                        const SizedBox(height: 6),
-                        ReactiveFormBuilder(
-                          form: _referralFormBuilder,
-                          builder: (BuildContext context, FormGroup formGroup,
-                              Widget? child) {
-                            return Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                    flex: 3,
-                                    child: ReactiveTextField(
-                                      // onSubmitted: (value) {
-                                      //   if (formGroup.valid) {
-                                      //     _referralCode = value as String;
-                                      //   }
-                                      // },
-                                      onChanged: (value) {},
-                                      validationMessages: {
-                                        ValidationMessage.email: (_) =>
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            const Text(
+                              "Referrer Email (Optional)",
+                              textAlign: TextAlign.start,
+                            ),
+                            const SizedBox(height: 6),
+                            ReactiveFormBuilder(
+                              form: _referralFormBuilder,
+                              builder: (BuildContext context, FormGroup formGroup,
+                                  Widget? child) {
+                                return Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                        flex: 3,
+                                        child: ReactiveTextField(
+                                          // onSubmitted: (value) {
+                                          //   if (formGroup.valid) {
+                                          //     _referralCode = value as String;
+                                          //   }
+                                          // },
+                                          onChanged: (value) {},
+                                          validationMessages: {
+                                            ValidationMessage.email: (_) =>
                                             'Enter a valid referrer email',
-                                      },
-                                      formControlName: referralCodeControlName,
-                                      decoration: InputDecoration(
-                                        hintText: "Enter Referrer Email",
-                                        hintStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.copyWith(
+                                          },
+                                          formControlName: referralCodeControlName,
+                                          decoration: InputDecoration(
+                                            hintText: "Enter Referrer Email",
+                                            hintStyle: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.copyWith(
                                               color: GCCDColor.googleGrey,
                                             ),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
+                                            border: OutlineInputBorder(
+                                              borderRadius:
                                               BorderRadius.circular(15),
-                                          borderSide: BorderSide(
-                                            color: GCCDColor.googleGrey
-                                                .withOpacity(0.5),
-                                            width: 0.5,
+                                              borderSide: BorderSide(
+                                                color: GCCDColor.googleGrey
+                                                    .withOpacity(0.5),
+                                                width: 0.5,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    )),
-                                const SizedBox(width: 5),
-                                Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      height: 55,
-                                      decoration: BoxDecoration(
-                                        color: formGroup.valid
-                                            ? GCCDColor.googleGreen
-                                            : Colors.transparent,
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: GCCDColor.googleGrey,
-                                          width: 0.5,
-                                        ),
-                                      ),
-                                      child: IconButton(
-                                        icon: const Icon(Icons.check),
-                                        color: formGroup.valid
-                                            ? Colors.white
-                                            : GCCDColor.googleGreen,
-                                        onPressed: () {
-                                          setState(() {
-                                            if (formGroup.valid) {
-                                              _referralCode = formGroup.value[
-                                                      referralCodeControlName]
+                                        )),
+                                    const SizedBox(width: 5),
+                                    Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                          height: 55,
+                                          decoration: BoxDecoration(
+                                            color: formGroup.valid
+                                                ? GCCDColor.googleGreen
+                                                : Colors.transparent,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: GCCDColor.googleGrey,
+                                              width: 0.5,
+                                            ),
+                                          ),
+                                          child: IconButton(
+                                            icon: const Icon(Icons.check),
+                                            color: formGroup.valid
+                                                ? Colors.white
+                                                : GCCDColor.googleGreen,
+                                            onPressed: () {
+                                              setState(() {
+                                                if (formGroup.valid) {
+                                                  _referralCode = formGroup.value[
+                                                  referralCodeControlName]
                                                   as String;
-                                              _referralCode != ""
-                                                  ? formGroup.markAsDisabled()
-                                                  : formGroup.markAsEnabled();
-                                            } else {
-                                              formGroup.markAsTouched();
-                                            }
-                                          });
-                                        },
-                                      ),
-                                    ))
-                              ],
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-                      editButtonText: "Save",
-                    );
-                  }),
+                                                  _referralCode != ""
+                                                      ? formGroup.markAsDisabled()
+                                                      : formGroup.markAsEnabled();
+                                                } else {
+                                                  formGroup.markAsTouched();
+                                                }
+                                              });
+                                            },
+                                          ),
+                                        ))
+                                  ],
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                          editButtonText: "Save",
+                        );
+                      }),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(vertical: screenWidth! * 0.05),
+                    EdgeInsets.symmetric(vertical: screenWidth! * 0.05),
                     child: Column(
                       children: [
                         Row(
@@ -396,39 +341,38 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                 }),
                             Expanded(
                                 child: RichText(
-                              text: TextSpan(
-                                text: 'I agree to the ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                      color: GCCDColor.googleGrey,
-                                    ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text:
-                                        'Refund Policy and Terms & Conditions',
+                                  text: TextSpan(
+                                    text: 'I agree to the ',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
                                         ?.copyWith(
+                                      color: GCCDColor.googleGrey,
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text:
+                                        'Refund Policy and Terms & Conditions',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
                                           color: GCCDColor.googleBlue,
                                         ),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        launchExternalUrl(RefundPolicy);
-                                      },
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            launchExternalUrl(RefundPolicy);
+                                          },
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            )),
+                                )),
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-
                                 width: screenWidth! * 0.4,
                                 child: DefaultButton(
                                     text: 'Buy Tickets',
