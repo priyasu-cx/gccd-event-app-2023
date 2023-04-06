@@ -39,69 +39,72 @@ class SpeakersPage extends StatelessWidget {
                     ),
                   ),
                   loaded: (List<SpeakerModel> speakers) {
-                    if (speakers.isEmpty ) {
+                    if (speakers.isEmpty) {
                       return const Center(
                         child: Text("Speakers Announcing Soon"),
                       );
                     } else {
                       print(speakers.length);
                       return ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: speakers.length,
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: speakers.length,
                           itemBuilder: (context, index) {
-                          return
-
-                        Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 20,
-                                horizontal: screenWidth! * 0.08),
-                            child: Text(
-                              speakers[index].title!,
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineLarge
-                                  ?.copyWith(
-                                color: GCCDColor.googleBlue,
-                              ),
-                            ),
-                          ),
-                          const Divider(),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: speakers[index].speakers!.length,
-                            itemBuilder: (
-                                context,
-                                int count,
-                                ) {
-                              return GestureDetector(
-                                onTap: () => {
-                                  context.router.push(
-                                    SpeakerDetailsRoute(
-                                      speaker: speakers[index].speakers![count]!,
-                                    ),
-                                  )
-                                },
-                                child: SpeakerCard(
-                                  speaker: speakers[index].speakers![count]!,
+                            return Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 20,
+                                      horizontal: screenWidth! * 0.08),
+                                  child: Text(
+                                    speakers[index].title!,
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge
+                                        ?.copyWith(
+                                          color: GCCDColor.googleBlue,
+                                        ),
+                                  ),
                                 ),
-                              );
-                            },
-                          ),
-                          SizedBox(
-                            height: screenWidth! * 0.06,)
-                        ],
-                      );});
+                                const Divider(),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: speakers[index].speakers!.length,
+                                  itemBuilder: (
+                                    context,
+                                    int count,
+                                  ) {
+                                    return GestureDetector(
+                                      onTap: () => {
+                                        context.router.push(
+                                          SpeakerDetailsRoute(
+                                            speaker: speakers[index]
+                                                .speakers![count]!,
+                                          ),
+                                        )
+                                      },
+                                      child: SpeakerCard(
+                                        speaker:
+                                            speakers[index].speakers![count]!,
+                                      ),
+                                    );
+                                  },
+                                ),
+                                SizedBox(
+                                  height: screenWidth! * 0.06,
+                                )
+                              ],
+                            );
+                          });
                     }
                   },
-                  error: (message) => Center(child: Text("Connect to Internet")),
+                  error: (message) =>
+                      Center(child: Text("Connect to Internet")),
                 );
               },
             ),
@@ -136,67 +139,67 @@ class _SpeakerCardState extends State<SpeakerCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: screenWidth! * 0.08, vertical: screenHeight! * 0.01),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            MultiBorderImage(
-                imageUrl: 'https://gdgcloud.kolkata.dev/${widget.speaker.profilePicture!}',
-              ),
-            const SizedBox(
-              width: 20,
+      padding: EdgeInsets.symmetric(
+          horizontal: screenWidth! * 0.08, vertical: screenHeight! * 0.01),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          MultiBorderImage(
+            imageUrl:
+                'https://gdgcloud.kolkata.dev/${widget.speaker!.profilePicture!}',
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      widget.speaker!.fullName!,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    AnimatedContainer(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: GCCDColor.googleBlue,
+                      ),
+                      duration: const Duration(
+                        milliseconds: 700,
+                      ),
+                      width: !isAnimationCompleted ? 0 : screenWidth! * 0.25,
+                      height: 5,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  widget.speaker!.tagLine!,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                SpeakerSocialIcons(
+                  speaker: widget.speaker!,
+                  alignment: "left",
+                ),
+              ],
             ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        widget.speaker.fullName!,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      AnimatedContainer(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: GCCDColor.googleBlue,
-                        ),
-                        duration: const Duration(
-                          milliseconds: 700,
-                        ),
-                        width: !isAnimationCompleted
-                            ? 0
-                            : screenWidth! * 0.25,
-                        height: 5,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    widget.speaker.tagLine!,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SpeakerSocialIcons(
-                    speaker: widget.speaker,
-                    alignment: "left",
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      );
+          )
+        ],
+      ),
+    );
   }
 }
