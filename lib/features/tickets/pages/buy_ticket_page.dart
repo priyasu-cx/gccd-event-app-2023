@@ -361,7 +361,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                         ),
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
-                                            launchExternalUrl(RefundPolicy);
+                                            launchExternalUrl(refundPolicyUrl);
                                           },
                                       ),
                                     ],

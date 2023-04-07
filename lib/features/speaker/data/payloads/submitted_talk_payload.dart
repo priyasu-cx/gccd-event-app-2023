@@ -4,6 +4,7 @@ part 'submitted_talk_payload.freezed.dart';
 
 part 'submitted_talk_payload.g.dart';
 
+//ignore_for_file: invalid_annotation_target
 @freezed
 class SubmittedTalkPayload with _$SubmittedTalkPayload {
   const factory SubmittedTalkPayload({
@@ -16,7 +17,7 @@ class SubmittedTalkPayload with _$SubmittedTalkPayload {
     required List<int> technologies,
     required List<int> speakers,
     required int event,
-    @JsonKey(name : 'added_at') String? addedAt,
+    @JsonKey(name: 'added_at') String? addedAt,
   }) = _SubmittedTalkPayload;
 
   factory SubmittedTalkPayload.fromJson(Map<String, dynamic> json) =>

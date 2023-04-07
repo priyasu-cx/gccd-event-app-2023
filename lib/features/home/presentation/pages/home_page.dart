@@ -98,7 +98,7 @@ class HomePage extends StatelessWidget {
                       ),
                       SizedBox(height: screenWidth! * 0.06),
                       Text(
-                        'Date : $eventDate_copy',
+                        'Date : $eventDateStr',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               color: themeMode == ThemeMode.light
                                   ? GCCDColor.googleBlue

@@ -1,8 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'speaker_payload.freezed.dart';
+
 part 'speaker_payload.g.dart';
 
+//ignore_for_file: invalid_annotation_target
 @freezed
 class SpeakerPayload with _$SpeakerPayload {
   const factory SpeakerPayload({
@@ -12,7 +14,6 @@ class SpeakerPayload with _$SpeakerPayload {
     @JsonKey(name: 'has_spoken_previously') required bool previouslyTalked,
     String? user,
   }) = _SpeakerPayload;
-
 
   factory SpeakerPayload.fromJson(Map<String, dynamic> json) =>
       _$SpeakerPayloadFromJson(json);

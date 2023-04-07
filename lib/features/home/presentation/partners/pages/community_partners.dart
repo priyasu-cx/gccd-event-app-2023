@@ -17,7 +17,6 @@ class CommunityPartners extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeMode = context.watch<AppCubit>().state.themeMode;
 
-
     return RepositoryProvider(
         create: (context) => PartnersRepository(
               context.read<DioApiClient>(),
@@ -90,22 +89,21 @@ class CommunityPartners extends StatelessWidget {
                             crossAxisSpacing: kPadding,
                             mainAxisSpacing: kPadding,
                           ),
-                          itemCount:
-                              partners.community_partners.sponsors.length,
+                          itemCount: partners.communityPartners.sponsors.length,
                           itemBuilder: (context, index) {
                             return CommunityCard(
                               imageUrl: partners
-                                  .community_partners.sponsors[index].imgSrc,
-                              url: partners.community_partners.sponsors[index]
+                                  .communityPartners.sponsors[index].imgSrc,
+                              url: partners.communityPartners.sponsors[index]
                                       .hyperlink ??
                                   '',
-                              name: partners.community_partners.sponsors[index]
+                              name: partners.communityPartners.sponsors[index]
                                   .sponsorName,
                             );
                           },
                         );
                       },
-                      error: (message) => Text("Connect to Internet"),
+                      error: (message) => const Text("Connect to Internet"),
                     );
                   }),
                 ],

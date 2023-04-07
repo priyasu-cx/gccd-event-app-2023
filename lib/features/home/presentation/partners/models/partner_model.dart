@@ -2,13 +2,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'partner_model.freezed.dart';
 part 'partner_model.g.dart';
 
+//ignore_for_file: invalid_annotation_target
 @freezed
 class Partners with _$Partners {
   const factory Partners(
       {required List<SponsorDetails> partners,
       required String title,
       required String description,
-      required CommunityPartners community_partners,
+      @JsonKey(name: 'community_partners') required CommunityPartners communityPartners,
       required}) = _Partners;
 
   factory Partners.fromJson(Map<String, dynamic> json) =>

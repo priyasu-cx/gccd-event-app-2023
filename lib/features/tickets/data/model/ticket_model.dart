@@ -1,8 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'ticket_model.freezed.dart';
+
 part 'ticket_model.g.dart';
 
+//ignore_for_file: invalid_annotation_target
 @freezed
 class Ticket with _$Ticket {
   const factory Ticket({
@@ -18,7 +20,5 @@ class Ticket with _$Ticket {
     required int event,
   }) = _Ticket;
 
-
-  factory Ticket.fromJson(Map<String, dynamic> json) =>
-      _$TicketFromJson(json);
+  factory Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);
 }

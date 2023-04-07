@@ -25,7 +25,6 @@ class Sponsors extends StatelessWidget {
           context.read<PartnersRepository>(),
         )..getPartners(),
         child: Container(
-          width: screenWidth,
           padding: EdgeInsets.symmetric(horizontal: screenWidth! * 0.08),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -64,6 +63,7 @@ class Sponsors extends StatelessWidget {
                     return ListView.builder(
                         itemCount: partners.partners.length,
                         shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return Column(
                             children: [

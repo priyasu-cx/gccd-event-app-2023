@@ -207,7 +207,7 @@ const String eventTitle = 'Community Days Kolkata, 2023';
 const String eventHashTag = '#GoogleCloudCommunityDays';
 const String eventDescription =
     ' - is series of community-leds events organised by GDG Cloud communities across India to help you prepare for Google Cloud Certifications and learn more about Cloud technologies.';
-const String eventDate_copy = '7th May 2023';
+const String eventDateStr = '7th May 2023';
 const String eventTime = '9:00 AM - 5:00 PM';
 const String eventVenue = 'Biswa Bangla Convention Centre, Kolkata';
 const String eventVenueUrl = 'https://goo.gl/maps/P6GssvSRvHxta4qk6';
@@ -271,7 +271,7 @@ const String sponsorDesc =
 // ];
 
 // BuyTicket
-const String RefundPolicy =
+const String refundPolicyUrl =
     'https://docs.google.com/document/d/1Ph3wfOQ9mcCzBSrCWkHQgtC1TdpPRedlfumyYieKO2Q/edit?usp=sharing';
 
 // Community Partners
