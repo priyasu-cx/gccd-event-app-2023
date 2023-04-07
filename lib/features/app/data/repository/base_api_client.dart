@@ -26,4 +26,10 @@ abstract class BaseApiClient<T, Client> {
     required String endPoint,
     required Map<String, dynamic> dataPayload,
   });
+
+   Future<T> patchData({
+    required String endPoint,
+    required Map<String, dynamic> dataPayload,
+    Map<String, dynamic>? headers,
+  });
 }

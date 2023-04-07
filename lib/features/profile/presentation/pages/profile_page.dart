@@ -5,7 +5,6 @@ import 'package:ccd2023/features/home/home.dart';
 import 'package:ccd2023/features/profile/bloc/edit_profile_cubit.dart';
 import 'package:ccd2023/features/profile/presentation/pages/profile_header_buttons.dart';
 import 'package:ccd2023/features/profile/presentation/pages/social_icons.dart';
-import 'package:ccd2023/features/speaker/bloc/cfs_cubit.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:flutter/material.dart';

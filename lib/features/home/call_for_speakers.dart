@@ -1,5 +1,4 @@
 import 'package:ccd2023/configurations/configurations.dart';
-import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/features/home/presentation/default_button_widget.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:djangoflow_app/djangoflow_app.dart';
@@ -12,7 +11,6 @@ class CFPSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeMode = context.watch<AppCubit>().state.themeMode;
-    final user = context.watch<AuthCubit>().state.user;
 
     return Container(
       color: themeMode == ThemeMode.light ? Colors.black : Colors.white,

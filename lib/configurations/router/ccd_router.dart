@@ -6,13 +6,7 @@ import 'package:ccd2023/features/faq/pages/faq_page.dart';
 import 'package:ccd2023/features/home/presentation/pages/home_page.dart';
 import 'package:ccd2023/features/profile/presentation/pages/profile_page.dart';
 import 'package:ccd2023/features/speaker/presentation/pages/speaker_details_page.dart';
-
 import 'package:ccd2023/features/speaker/speaker.dart';
-
-import 'package:ccd2023/features/speaker/presentation/pages/cfs_page.dart';
-import 'package:ccd2023/features/speaker/presentation/pages/speakers_page.dart';
-import 'package:ccd2023/features/speaker/presentation/pages/talk_list_page.dart';
-
 import 'package:ccd2023/features/team/pages/team_page.dart';
 import 'package:ccd2023/features/tickets/pages/view_ticket_page.dart';
 
