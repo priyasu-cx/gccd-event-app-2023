@@ -1,3 +1,4 @@
+import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:ccd2023/utils/launch_url.dart';
 import 'package:flutter/material.dart';
@@ -16,87 +17,64 @@ class SocialIcons extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               user?.profile.socials['instagram'] != null
-                  ? Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          launchExternalUrl(
-                              user!.profile.socials['instagram']!);
-                        },
-                        child: const Icon(
-                          FontAwesome5.instagram,
-                        ),
-                      ),
+                  ? _SocialIcon(
+                      link: user!.profile.socials['instagram']!,
+                      icon: FontAwesome5.instagram,
                     )
                   : const Offstage(),
               user?.profile.socials['twitter'] != null
-                  ? Padding(
-                padding: EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: () {
-                    launchExternalUrl(
-                        user!.profile.socials['twitter']!);
-                  },
-                  child: const Icon(
-                    FontAwesome5.twitter,
-                  ),
-                ),
-              )
+                  ? _SocialIcon(
+                      link: user!.profile.socials['twitter']!,
+                      icon: FontAwesome5.twitter,
+                    )
                   : const Offstage(),
               user?.profile.socials['linkedin'] != null
-                  ? Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          launchExternalUrl(user!.profile.socials['linkedin']!);
-                        },
-                        child: const Icon(
-                          FontAwesome5.linkedin,
-                        ),
-                      ),
+                  ? _SocialIcon(
+                      link: user!.profile.socials['linkedin']!,
+                      icon: FontAwesome5.linkedin,
                     )
                   : const Offstage(),
               user?.profile.socials['github'] != null
-                  ? Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          launchExternalUrl(user!.profile.socials['github']!);
-                        },
-                        child: const Icon(
-                          FontAwesome5.github,
-                        ),
-                      ),
+                  ? _SocialIcon(
+                      link: user!.profile.socials['github']!,
+                      icon: FontAwesome5.github,
                     )
                   : const Offstage(),
               user?.profile.socials['facebook'] != null
-                  ? Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          launchExternalUrl(user!.profile.socials['facebook']!);
-                        },
-                        child: const Icon(
-                          FontAwesome5.facebook,
-                        ),
-                      ),
+                  ? _SocialIcon(
+                      link: user!.profile.socials['facebook']!,
+                      icon: FontAwesome5.facebook,
                     )
                   : const Offstage(),
               user?.profile.socials['website'] != null
-                  ? Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          launchExternalUrl(user!.profile.socials['website']!);
-                        },
-                        child: const Icon(
-                          FontAwesome5.globe_asia,
-                        ),
-                      ),
+                  ? _SocialIcon(
+                      link: user!.profile.socials['website']!,
+                      icon: FontAwesome5.globe_asia,
                     )
                   : const Offstage()
             ],
           )
         : const Offstage();
+  }
+}
+
+class _SocialIcon extends StatelessWidget {
+  const _SocialIcon({Key? key, required this.link, required this.icon})
+      : super(key: key);
+
+  final String link;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(kPadding),
+      child: InkWell(
+        onTap: () {
+          launchExternalUrl(link);
+        },
+        child: Icon(icon),
+      ),
+    );
   }
 }

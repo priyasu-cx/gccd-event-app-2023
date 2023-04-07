@@ -17,12 +17,12 @@ class SpeakerState with _$SpeakerState {
 }
 
 class SpeakerCubit extends HydratedCubit<SpeakerState> {
-  SpeakerCubit(this._speakerRepository) : super(SpeakerState.initial());
+  SpeakerCubit(this._speakerRepository) : super(const SpeakerState.initial());
 
   final SpeakerRepository _speakerRepository;
 
   Future<void> getSpeaker() async {
-    emit(SpeakerState.loading());
+    emit(const SpeakerState.loading());
     try {
       final speaker = await _speakerRepository.getSpeaker();
       emit(SpeakerState.loaded(speaker));

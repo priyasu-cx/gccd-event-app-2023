@@ -1,10 +1,8 @@
 import 'package:ccd2023/configurations/configurations.dart';
-import 'package:ccd2023/configurations/theme/ccd_colors.dart';
 import 'package:ccd2023/features/app/presentation/navigation/appbar.dart';
 import 'package:ccd2023/features/app/presentation/navigation/drawer.dart';
 import 'package:ccd2023/features/speaker/bloc/speaker_cubit.dart';
 import 'package:ccd2023/features/speaker/data/models/speaker_model.dart';
-import 'package:ccd2023/features/speaker/presentation/pages/speaker_details_page.dart';
 import 'package:ccd2023/features/speaker/presentation/pages/speaker_socials.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +28,7 @@ class SpeakersPage extends StatelessWidget {
               builder: (context, state) {
                 return state.when(
                   initial: () => const SizedBox.shrink(),
-                  loading: () => Container(
+                  loading: () => SizedBox(
                     height: screenHeight! * 0.8,
                     child: const Center(
                       child: CircularProgressIndicator(
@@ -44,7 +42,6 @@ class SpeakersPage extends StatelessWidget {
                         child: Text("Speakers Announcing Soon"),
                       );
                     } else {
-                      print(speakers.length);
                       return ListView.builder(
                           physics: const BouncingScrollPhysics(),
                           shrinkWrap: true,
@@ -104,7 +101,7 @@ class SpeakersPage extends StatelessWidget {
                     }
                   },
                   error: (message) =>
-                      Center(child: Text("Connect to Internet")),
+                      const Center(child: Text("Connect to Internet")),
                 );
               },
             ),

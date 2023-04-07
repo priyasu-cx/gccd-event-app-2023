@@ -1,5 +1,4 @@
 import 'package:ccd2023/configurations/configurations.dart';
-import 'package:ccd2023/configurations/theme/ccd_colors.dart';
 import 'package:ccd2023/features/app/presentation/navigation/appbar.dart';
 import 'package:ccd2023/features/app/presentation/navigation/drawer.dart';
 import 'package:ccd2023/features/home/home.dart';
@@ -71,7 +70,7 @@ class SpeakerDetailsPage extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
                   color: themeMode == ThemeMode.dark ? Colors.white: Colors.black,
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(20),
                   ),
                 ),
@@ -117,9 +116,9 @@ class SpeakerDetailsPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: const Divider(
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Divider(
                             color: Colors.black54,
                           ),
                         ),

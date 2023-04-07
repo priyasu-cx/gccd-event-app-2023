@@ -27,12 +27,6 @@ class CCDAppBar extends StatelessWidget {
           );
         },
       ),
-      // actions: [
-      //   Padding(
-      //     padding: EdgeInsets.only(right: screenWidth! * 0.05),
-      //     child: ProfileButtonWidget(color: color),
-      //   ),
-      // ],
     );
   }
 }

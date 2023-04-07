@@ -44,8 +44,8 @@
 
 import 'package:ccd2023/features/home/presentation/partners/models/partner_model.dart';
 import 'package:ccd2023/features/home/presentation/partners/repo/partners_repo.dart';
+import 'package:ccd2023/utils/mixin/cubit_maybe_emit_mixin.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
@@ -62,7 +62,7 @@ class PartnersState with _$PartnersState {
   const factory PartnersState.error(String message) = _Error;
 }
 
-class PartnersCubit extends HydratedCubit<PartnersState> {
+class PartnersCubit extends HydratedCubit<PartnersState>  with CubitMaybeEmit<PartnersState>{
   PartnersCubit(this._partnersRepository)
       : super(const PartnersState.initial());
 

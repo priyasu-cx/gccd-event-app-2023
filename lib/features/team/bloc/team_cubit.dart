@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'package:ccd2023/features/team/model/team_model.dart';
 import 'package:ccd2023/features/team/repo/team_repo.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:http/http.dart' as http;
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'team_cubit.freezed.dart';

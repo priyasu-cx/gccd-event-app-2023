@@ -39,7 +39,7 @@ class _TeamPageState extends State<TeamPage> {
                   builder: (context, state) {
                     return state.when(
                       initial: () => const SizedBox.shrink(),
-                      loading: () => Container(
+                      loading: () => SizedBox(
                         height: screenHeight! * 0.8,
                         child: const Center(
                           child: CircularProgressIndicator(
@@ -84,7 +84,7 @@ class _TeamPageState extends State<TeamPage> {
                             ]);
                           },
                         );
-                      }, error: (message) => Center(child: Text("Connect to Internet")),
+                      }, error: (message) => const Center(child: Text("Connect to Internet")),
                     );
 
                     }

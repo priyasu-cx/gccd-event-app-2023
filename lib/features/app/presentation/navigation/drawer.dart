@@ -50,7 +50,7 @@ class CCDDrawer extends StatelessWidget {
                   },
                 ),
                 const SizedBox(
-                  height: kPadding * 3,
+                  height: kPadding * 2,
                 ),
                 Row(
                   children: [
@@ -96,6 +96,7 @@ class CCDDrawer extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: drawerItemsMain.length,
+            padding: EdgeInsets.zero,
             itemBuilder: (context, index) {
               bool isSelected =
                   context.router.currentPath == drawerItemsMainPath[index];
@@ -104,6 +105,9 @@ class CCDDrawer extends StatelessWidget {
                 return const Offstage();
               } else if (drawerItemsMain[index] == 'Buy Tickets') {
                 final ticketState = context.read<TicketCubit>().state;
+                isSelected =
+                    context.router.currentPath == drawerItemsMainPath[index] ||
+                        (context.router.currentPath == '/view-tickets');
                 return Padding(
                   padding: EdgeInsets.all(isSelected ? kPadding / 2 : 0),
                   child: DrawerListTile(
@@ -184,6 +188,7 @@ class CCDDrawer extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: drawerItemsFooter.length,
+            padding: EdgeInsets.zero,
             itemBuilder: (context, index) {
               bool isSelected =
                   context.router.currentPath == drawerItemsFooterPath[index];
@@ -198,13 +203,13 @@ class CCDDrawer extends StatelessWidget {
                       : drawerItemsFooterIconOutlined[index],
                   onTap: () {
                     if (drawerItemsFooter[index] == 'Share') {
-                      String text = "Hey! Let's join together for the largest developer conference "
+                      String text =
+                          "Hey! Let's join together for the largest developer conference "
                           "in eastern India - Google Cloud Community Days Kolkata, to"
                           " join hundreds of developers and engage with industry experts presenting on cutting edge technology. "
-                          '${user!=null ? "Here is my referral email: ${user.email}\n\nHurry, get your ticket!\n" : "\n\nHurry, get your ticket!\n"}'
+                          '${user != null ? "Here is my referral email: ${user.email}\n\nHurry, get your ticket!\n" : "\n\nHurry, get your ticket!\n"}'
                           'Download GCCD 2023 Official App: https://play.google.com/store/apps/details?id=com.gdgck.gccd';
-                      launchExternalUrl(
-                          "whatsapp://send?text=$text");
+                      launchExternalUrl("whatsapp://send?text=$text");
                     } else {
                       Navigator.pop(context);
                       context.router.pushNamed(drawerItemsFooterPath[index]);
