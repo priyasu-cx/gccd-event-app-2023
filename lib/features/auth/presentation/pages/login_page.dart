@@ -1,8 +1,8 @@
+import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:ccd2023/configurations/configurations.dart';
 
 import '../../../app/presentation/pages/form_page.dart';
 
@@ -39,6 +39,8 @@ class _LoginPageState extends State<LoginPage> {
         );
   }
 
+  bool obscure = true;
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -69,7 +71,24 @@ class _LoginPageState extends State<LoginPage> {
         ReactiveTextField(
           autofillHints: const [AutofillHints.password],
           formControlName: passwordControlName,
-          obscureText: true,
+          obscureText: obscure,
+          decoration: InputDecoration(
+            suffixIcon: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: kPadding * 2,
+              ),
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    obscure = !obscure;
+                  });
+                },
+                child: Icon(
+                  !obscure ? Icons.visibility : Icons.visibility_off,
+                ),
+              ),
+            ),
+          ),
           validationMessages: {
             ValidationMessage.required: (_) => 'Password cannot be empty',
           },
