@@ -261,14 +261,14 @@ List<String> tshirtSize = [
 const String sponsorDesc =
     "We're thankful to all our sponsors who are making CCD 2023 Kolkata amazing.";
 
-const List<Map<String, dynamic>> titleSponsor = [
-  {
-    "name": "Google Developers",
-    "logo":
-        "https://gdgcloud.kolkata.dev/ccd2023/images/sponsors/GoogleDevelopers.svg",
-    "link": "https://developers.google.com/",
-  },
-];
+// const List<Map<String, dynamic>> titleSponsor = [
+//   {
+//     "name": "Google Developers",
+//     "logo":
+//         "https://gdgcloud.kolkata.dev/ccd2023/images/sponsors/GoogleDevelopers.svg",
+//     "link": "https://developers.google.com/",
+//   },
+// ];
 
 // BuyTicket
 const String RefundPolicy =

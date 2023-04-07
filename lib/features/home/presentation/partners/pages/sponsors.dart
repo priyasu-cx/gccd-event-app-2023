@@ -61,7 +61,6 @@ class Sponsors extends StatelessWidget {
                     color: GCCDColor.googleBlue,
                   ),
                   loaded: (partners) {
-                    print(partners.partners);
                     return ListView.builder(
                         itemCount: partners.partners.length,
                         shrinkWrap: true,
@@ -70,12 +69,14 @@ class Sponsors extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: screenWidth! * 0.02),
+                                    vertical: screenWidth! * 0.04,
+                                    horizontal: screenWidth! * 0.1),
                                 child: Text(
-                                  partners.partners[index].title!,
+                                  partners.partners[index].title!.toUpperCase(),
+                                  textAlign: TextAlign.center,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headlineMedium,
+                                      .headlineSmall,
                                 ),
                               ),
                               Column(
@@ -84,7 +85,10 @@ class Sponsors extends StatelessWidget {
                                           padding: EdgeInsets.symmetric(
                                               vertical: screenWidth! * 0.02),
                                           child: SponsorCard(
-                                            imageUrl: sponsor!.imgSrc!,
+                                            title: partners.partners[index]
+                                                .title!,
+                                            imageUrl:
+                                                "https://gdgcloud.kolkata.dev/ccd2023/images/sponsors/${sponsor!.imgSrc!}",
                                             url: sponsor.hyperlink!,
                                           ),
                                         ))
@@ -93,57 +97,10 @@ class Sponsors extends StatelessWidget {
                             ],
                           );
                         });
-
-                    // return GridView.builder(
-                    //   physics: const NeverScrollableScrollPhysics(),
-                    //   shrinkWrap: true,
-                    //   gridDelegate:
-                    //       const SliverGridDelegateWithFixedCrossAxisCount(
-                    //     crossAxisCount: 2,
-                    //     crossAxisSpacing: kPadding,
-                    //     mainAxisSpacing: kPadding,
-                    //   ),
-                    //   itemCount: partners.community_partners.sponsors.length,
-                    //   itemBuilder: (context, index) {
-                    //     return CommunityCard(
-                    //       imageUrl: partners
-                    //           .community_partners.sponsors[index].imgSrc,
-                    //       url: partners.community_partners.sponsors[index]
-                    //               .hyperlink ??
-                    //           '',
-                    //       name: partners
-                    //           .community_partners.sponsors[index].sponsorName,
-                    //     );
-                    //   },
-                    // );
                   },
-                  error: (message) => Text("Connect to Internet"),
+                  error: (message) => const Text("Connect to Internet"),
                 );
               }),
-              // Column(
-              //   children: [
-              //     Padding(
-              //       padding:
-              //           EdgeInsets.symmetric(vertical: screenWidth! * 0.02),
-              //       child: Text(
-              //         "TITLE SPONSOR",
-              //         style: Theme.of(context).textTheme.headlineMedium,
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              Column(
-                children: titleSponsor
-                    .map((Map<String, dynamic> sponsor) => Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: screenWidth! * 0.02),
-                          child: SponsorCard(
-                            imageUrl: sponsor['logo'],
-                            url: sponsor['link'],
-                          ),
-                        ))
-                    .toList(),
-              ),
               SizedBox(height: screenWidth! * 0.04),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: screenWidth! * 0.04),
@@ -175,11 +132,12 @@ class Sponsors extends StatelessWidget {
 }
 
 class SponsorCard extends StatelessWidget {
-  const SponsorCard({required this.imageUrl, required this.url, Key? key})
+  const SponsorCard({required this.imageUrl, required this.url, required this.title, Key? key})
       : super(key: key);
 
   final String imageUrl;
   final String url;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -188,35 +146,42 @@ class SponsorCard extends StatelessWidget {
         launchExternalUrl(url);
       },
       child: Container(
-        padding: const EdgeInsets.all(kPadding * 2),
-        // color: Colors.white,
-        decoration: const BoxDecoration(
-          // borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          border: Border(
-            top: BorderSide(
-              color: GCCDColor.googleRed,
-              width: 4,
-            ),
-            bottom: BorderSide(
-              color: GCCDColor.googleYellow,
-              width: 4,
-            ),
-            left: BorderSide(
-              color: GCCDColor.googleGreen,
-              width: 4,
-            ),
-            right: BorderSide(
-              color: GCCDColor.googleBlue,
-              width: 4,
+        margin: title == "Title Sponsor"
+            ? const EdgeInsets.all(0)
+            : const EdgeInsets.symmetric(horizontal: kPadding * 7),
+          padding: const EdgeInsets.symmetric(horizontal: kPadding * 2, vertical: 4),
+          // color: Colors.white,
+          decoration: const BoxDecoration(
+            // borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+            border: Border(
+              top: BorderSide(
+                color: GCCDColor.googleRed,
+                width: 4,
+              ),
+              bottom: BorderSide(
+                color: GCCDColor.googleYellow,
+                width: 4,
+              ),
+              left: BorderSide(
+                color: GCCDColor.googleGreen,
+                width: 4,
+              ),
+              right: BorderSide(
+                color: GCCDColor.googleBlue,
+                width: 4,
+              ),
             ),
           ),
-        ),
-        child: SvgPicture.network(
-          imageUrl,
-          fit: BoxFit.contain,
-        ),
-      ),
+          child: imageUrl.endsWith('.svg')
+              ? SvgPicture.network(
+                  imageUrl,
+                  fit: BoxFit.contain,
+                )
+              : Image.network(
+                  imageUrl,
+                  fit: BoxFit.contain,
+                )),
     );
   }
 }
