@@ -160,7 +160,7 @@ class HomePage extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
-                          vertical: screenWidth! * 0.06,
+                          vertical: screenWidth! * 0.02,
                         ),
                         child: BlocBuilder<AuthCubit, AuthState>(
                           builder: (context, authState) {
