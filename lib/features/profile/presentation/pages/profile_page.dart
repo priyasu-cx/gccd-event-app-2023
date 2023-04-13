@@ -13,6 +13,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import 'add_social.dart';
+import 'disabled_box.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -517,9 +518,12 @@ class ProfilePage extends StatelessWidget {
                             textAlign: TextAlign.start,
                           ),
                           const SizedBox(height: 6),
-                          ReactiveDropdownField(
-                              items: getTshirtSizeDropdownItems(),
-                              formControlName: tshirtSizeControlName),
+                          // ReactiveDropdownField(
+                          //     items: getTshirtSizeDropdownItems(),
+                          //     formControlName: tshirtSizeControlName),
+                          DisabledField(
+                            text: user?.profile.tSize,
+                          ),
                           const SizedBox(height: 20),
 
                           /// Country
@@ -528,9 +532,12 @@ class ProfilePage extends StatelessWidget {
                             textAlign: TextAlign.start,
                           ),
                           const SizedBox(height: 6),
-                          ReactiveDropdownField(
-                              items: getCountryDropdownItems(),
-                              formControlName: countryControlName),
+                          // ReactiveDropdownField(
+                          //     items: getCountryDropdownItems(),
+                          //     formControlName: countryControlName),
+                          DisabledField(
+                            text: user?.profile.countryCode,
+                          ),
                           const SizedBox(height: 20),
                         ],
                       );
