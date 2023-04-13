@@ -43,7 +43,9 @@ class _EventTimerState extends State<EventTimer>
           children: [
             BlocBuilder<AppCubit, AppState>(
               builder: (context, state) {
-                return Text(
+                return
+                  eventDate <= const Duration(days: 0, hours: 0, minutes: 0, seconds: 0) ? const Offstage() :
+                  Text(
                   "Starting In:",
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: state.themeMode == ThemeMode.light
@@ -53,7 +55,30 @@ class _EventTimerState extends State<EventTimer>
                 );
               },
             ),
-
+            eventDate < const Duration(days: 0, hours: 0, minutes: 0, seconds: 0)
+                ? eventEndDate < const Duration(days: 0, hours: 0, minutes: 0, seconds: 0) ?
+            Container(
+              width: screenWidth,
+                    padding: EdgeInsets.only(top: screenWidth! * 0.02),
+                    child: Text(
+                      "See you next year!",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        color: GCCDColor.blueTimer,
+                      ),
+                    ),
+            ): Container(
+              width: screenWidth,
+              padding: EdgeInsets.only(top: screenWidth! * 0.02),
+              child: Text(
+                "GCCD Kolkata 2023 is Live!",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: GCCDColor.blueTimer,
+                ),
+              ),
+            )
+                :
             Padding(
               padding: EdgeInsets.only(top: screenWidth! * 0.02),
               child: Row(

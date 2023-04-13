@@ -237,7 +237,8 @@ List<Map<String, String>> statData = [
   },
 ];
 
-Duration eventDate = DateTime(2023, 5, 7, 0, 0).difference(DateTime.now());
+Duration eventDate = DateTime(2023, 5, 7, 10, 0).difference(DateTime.now());
+Duration eventEndDate = DateTime(2023, 5, 7, 20, 0).difference(DateTime.now());
 
 const String passwordResetResponse = 'Password reset e-mail has been sent.';
 
