@@ -22,6 +22,7 @@ class Profile with _$Profile {
     @JsonKey(name: 'food_choice') required String foodChoice,
     @JsonKey(name: 'tsize') required String tSize,
     @JsonKey(name: 'referral_count') required int referral,
+    @JsonKey(name: 'profile_lock') required bool profileLock,
   }) = _Profile;
 
   factory Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);

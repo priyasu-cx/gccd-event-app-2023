@@ -13,7 +13,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import 'add_social.dart';
-import 'disabled_box.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -125,8 +124,9 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // fetchProfile();
     final user = context.watch<AuthCubit>().state.user;
-    fetchProfile();
 
     return SafeArea(
       top: true,
@@ -513,31 +513,63 @@ class ProfilePage extends StatelessWidget {
                           const SizedBox(height: 20),
 
                           /// T-Shirt Size
-                          const Text(
-                            "T-Shirt Size",
-                            textAlign: TextAlign.start,
+                          Row(
+                            children: [
+                              const Text(
+                                "T-Shirt Size",
+                                textAlign: TextAlign.start,
+                              ),
+                              const SizedBox(width: 4),
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text("T-Shirt Size"),
+                                        content: const Text(
+                                          "Please select the size of your T-Shirt. This will be used to order your T-Shirt for the event.",
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text("OK"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: const Icon(
+                                  Icons.info_outline,
+                                  size: 16,
+                                ),
+                              )
+                            ],
                           ),
                           const SizedBox(height: 6),
-                          // ReactiveDropdownField(
-                          //     items: getTshirtSizeDropdownItems(),
-                          //     formControlName: tshirtSizeControlName),
-                          DisabledField(
-                            text: user?.profile.tSize,
-                          ),
-                          const SizedBox(height: 20),
-
-                          /// Country
-                          const Text(
-                            "Country",
-                            textAlign: TextAlign.start,
-                          ),
-                          const SizedBox(height: 6),
-                          // ReactiveDropdownField(
-                          //     items: getCountryDropdownItems(),
-                          //     formControlName: countryControlName),
-                          DisabledField(
-                            text: user?.profile.countryCode,
-                          ),
+                          ReactiveDropdownField(
+                              items: getTshirtSizeDropdownItems(),
+                              formControlName: tshirtSizeControlName),
+                          // DisabledField(
+                          //   text: user?.profile.tSize,
+                          // ),
+                          // const SizedBox(height: 20),
+                          //
+                          // /// Country
+                          // const Text(
+                          //   "Country",
+                          //   textAlign: TextAlign.start,
+                          // ),
+                          // const SizedBox(height: 6),
+                          // // ReactiveDropdownField(
+                          // //     items: getCountryDropdownItems(),
+                          // //     formControlName: countryControlName),
+                          // DisabledField(
+                          //   text: user?.profile.countryCode,
+                          // ),
                           const SizedBox(height: 20),
                         ],
                       );
@@ -556,6 +588,9 @@ class ProfilePage extends StatelessWidget {
                             text: "Logout",
                             onPressed: () {
                               AuthCubit.instance.logout();
+                              context.router.pushAndPopUntil(
+                                  const HomeRoute(),
+                                  predicate: (route) => false);
                             }),
                       ),
                     ),
