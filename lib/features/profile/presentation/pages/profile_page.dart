@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/app.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
@@ -125,8 +126,10 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // fetchProfile();
+
     final user = context.watch<AuthCubit>().state.user;
+    user!= null ?
+    fetchProfile(): null;
 
     return SafeArea(
       top: true,
@@ -526,16 +529,34 @@ class ProfilePage extends StatelessWidget {
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
-                                        title: const Text("T-Shirt Size"),
-                                        content: const Text(
-                                          "Please select the size of your T-Shirt. This will be used to order your T-Shirt for the event.",
+                                        backgroundColor: Colors.white,
+                                        contentPadding: const EdgeInsets.all(10),
+                                        content: CachedNetworkImage(
+                                          // set loader
+                                          placeholder: (context, url) =>
+                                              const SizedBox(
+                                                height: 50,
+                                                width: 50,
+                                                child: Center(
+                                                  child: CircularProgressIndicator(
+                                                    color: GCCDColor.googleBlue,
+                                                  ),
+                                                ),
+                                              ),
+                                          imageUrl:"https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/icons/sizechart.jpeg",
+
                                         ),
+                                        actionsAlignment: MainAxisAlignment.center,
                                         actions: [
-                                          TextButton(
-                                            onPressed: () {
+                                          GestureDetector(
+                                            onTap: () {
                                               Navigator.of(context).pop();
                                             },
-                                            child: const Text("OK"),
+                                            child: const Text("CLOSE",
+                                              style: TextStyle(
+                                                color: GCCDColor.googleRed,
+                                                fontWeight: FontWeight.bold,)
+                                              ),
                                           ),
                                         ],
                                       );
