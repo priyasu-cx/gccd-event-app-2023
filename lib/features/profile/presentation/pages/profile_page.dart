@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/app.dart';
 import 'package:ccd2023/features/auth/blocs/auth_cubit/auth_cubit.dart';
@@ -13,7 +14,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import 'add_social.dart';
-import 'disabled_box.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -125,8 +125,11 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     final user = context.watch<AuthCubit>().state.user;
-    fetchProfile();
+    user!= null ?
+    fetchProfile(): null;
 
     return SafeArea(
       top: true,
@@ -513,31 +516,81 @@ class ProfilePage extends StatelessWidget {
                           const SizedBox(height: 20),
 
                           /// T-Shirt Size
-                          const Text(
-                            "T-Shirt Size",
-                            textAlign: TextAlign.start,
-                          ),
-                          const SizedBox(height: 6),
-                          // ReactiveDropdownField(
-                          //     items: getTshirtSizeDropdownItems(),
-                          //     formControlName: tshirtSizeControlName),
-                          DisabledField(
-                            text: user?.profile.tSize,
-                          ),
-                          const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              const Text(
+                                "T-Shirt Size",
+                                textAlign: TextAlign.start,
+                              ),
+                              const SizedBox(width: 4),
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        contentPadding: const EdgeInsets.all(10),
+                                        content: CachedNetworkImage(
+                                          // set loader
+                                          placeholder: (context, url) =>
+                                              const SizedBox(
+                                                height: 50,
+                                                width: 50,
+                                                child: Center(
+                                                  child: CircularProgressIndicator(
+                                                    color: GCCDColor.googleBlue,
+                                                  ),
+                                                ),
+                                              ),
+                                          imageUrl:"https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/icons/sizechart.jpeg",
 
-                          /// Country
-                          const Text(
-                            "Country",
-                            textAlign: TextAlign.start,
+                                        ),
+                                        actionsAlignment: MainAxisAlignment.center,
+                                        actions: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text("CLOSE",
+                                              style: TextStyle(
+                                                color: GCCDColor.googleRed,
+                                                fontWeight: FontWeight.bold,)
+                                              ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: const Icon(
+                                  Icons.info_outline,
+                                  size: 16,
+                                ),
+                              )
+                            ],
                           ),
                           const SizedBox(height: 6),
-                          // ReactiveDropdownField(
-                          //     items: getCountryDropdownItems(),
-                          //     formControlName: countryControlName),
-                          DisabledField(
-                            text: user?.profile.countryCode,
-                          ),
+                          ReactiveDropdownField(
+                              items: getTshirtSizeDropdownItems(),
+                              formControlName: tshirtSizeControlName),
+                          // DisabledField(
+                          //   text: user?.profile.tSize,
+                          // ),
+                          // const SizedBox(height: 20),
+                          //
+                          // /// Country
+                          // const Text(
+                          //   "Country",
+                          //   textAlign: TextAlign.start,
+                          // ),
+                          // const SizedBox(height: 6),
+                          // // ReactiveDropdownField(
+                          // //     items: getCountryDropdownItems(),
+                          // //     formControlName: countryControlName),
+                          // DisabledField(
+                          //   text: user?.profile.countryCode,
+                          // ),
                           const SizedBox(height: 20),
                         ],
                       );
@@ -556,6 +609,9 @@ class ProfilePage extends StatelessWidget {
                             text: "Logout",
                             onPressed: () {
                               AuthCubit.instance.logout();
+                              context.router.pushAndPopUntil(
+                                  const HomeRoute(),
+                                  predicate: (route) => false);
                             }),
                       ),
                     ),
