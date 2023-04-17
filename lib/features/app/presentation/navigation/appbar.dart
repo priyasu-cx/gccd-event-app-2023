@@ -10,6 +10,7 @@ class CCDAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: true,
       title: BlocBuilder<AppCubit, AppState>(
         builder: (context, state) {
           // return ColorFiltered(
@@ -23,9 +24,18 @@ class CCDAppBar extends StatelessWidget {
           // );
           return Image.asset(
             GCCDImageAssets.gdgCloudKolkataLogo,
-            width: screenWidth! * 0.54,
+            width: screenWidth! * 0.45,
           );
         },
+      ),
+      leading: Builder(
+        builder: (context) => Padding(
+          padding: EdgeInsets.only(left: screenWidth! * 0.08),
+          child: GestureDetector(
+            child: const Icon(Icons.menu_rounded, size: 26),
+            onTap: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
       ),
     );
   }

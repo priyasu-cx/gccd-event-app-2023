@@ -1,5 +1,6 @@
 import 'package:ccd2023/features/app/data/repository/dio/dio_api_client.dart';
 import 'package:ccd2023/features/auth/auth.dart';
+import 'package:ccd2023/features/schedule/data/repository/schedule_repo.dart';
 import 'package:ccd2023/features/speaker/bloc/speaker_cubit.dart';
 import 'package:ccd2023/features/speaker/data/repos/speaker_repo.dart';
 import 'package:ccd2023/features/team/bloc/team_cubit.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'configurations/configurations.dart';
+import 'features/schedule/bloc/schedule_cubit.dart';
 import 'features/speaker/bloc/cfs_cubit.dart';
 import 'features/speaker/bloc/technology_cubit.dart';
 import 'features/speaker/data/repos/cfs_repo.dart';
@@ -71,6 +73,11 @@ class CCDAppBuilder extends AppBuilder {
                 context.read<DioApiClient>(),
               ),
             ),
+            RepositoryProvider<ScheduleRepository>(
+                create: (context) => ScheduleRepository(
+                      context.read<DioApiClient>(),
+                    ),
+            ),
           ],
           providers: [
             BlocProvider<AppCubit>(
@@ -116,6 +123,11 @@ class CCDAppBuilder extends AppBuilder {
                 create: (context) =>
                     SpeakerCubit(context.read<SpeakerRepository>())
                       ..getSpeaker(),
+                lazy: true),
+            BlocProvider<ScheduleCubit>(
+                create: (context) =>
+                    ScheduleCubit(context.read<ScheduleRepository>())
+                      ..getSchedule(),
                 lazy: true),
           ],
           builder: (context) => LoginListener(
