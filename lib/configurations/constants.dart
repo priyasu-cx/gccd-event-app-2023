@@ -14,6 +14,7 @@ const teamDataURI =
     'https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/team/content.json';
 const speakerDataURI =
     'https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/speakers/content.json';
+const scheduleDataURI = "https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/schedule/content.json";
 
 // Add referral
 const addReferralEndpoint = 'users/add_referrer/';

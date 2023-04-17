@@ -24,16 +24,16 @@ class CCDAppBar extends StatelessWidget {
           // );
           return Image.asset(
             GCCDImageAssets.gdgCloudKolkataLogo,
-            width: screenWidth! * 0.45,
+            width: screenWidth! * 0.5,
           );
         },
       ),
       leading: Builder(
         builder: (context) => Padding(
-          padding: EdgeInsets.only(left: screenWidth! * 0.08),
-          child: GestureDetector(
-            child: const Icon(Icons.menu_rounded, size: 26),
-            onTap: () => Scaffold.of(context).openDrawer(),
+          padding: EdgeInsets.only(left: screenWidth! * 0.06),
+          child: IconButton(
+            icon: const Icon(Icons.menu_rounded, size: 28),
+            onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
       ),
