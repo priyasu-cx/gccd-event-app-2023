@@ -121,14 +121,14 @@ class CCDDrawer extends StatelessWidget {
                     onTap: () {
                       if (ticketState.hasTickets) {
                         Navigator.pop(context);
-                        context.router.push(
+                        context.router.replace(
                           ViewTicketRoute(
                             ticket: ticketState.ticket!,
                           ),
                         );
                       } else {
                         Navigator.pop(context);
-                        context.router.pushNamed(drawerItemsMainPath[index]);
+                        context.router.replaceNamed(drawerItemsMainPath[index]);
                       }
                     },
                   ),
@@ -144,7 +144,7 @@ class CCDDrawer extends StatelessWidget {
                         : drawerItemsMainIconOutlined[index],
                     onTap: () {
                       Navigator.pop(context);
-                      context.router.pushNamed(drawerItemsMainPath[index]);
+                      context.router.replaceNamed(drawerItemsMainPath[index]);
                     },
                   ),
                 );
@@ -212,7 +212,7 @@ class CCDDrawer extends StatelessWidget {
                       launchExternalUrl("whatsapp://send?text=$text");
                     } else {
                       Navigator.pop(context);
-                      context.router.pushNamed(drawerItemsFooterPath[index]);
+                      context.router.replaceNamed(drawerItemsFooterPath[index]);
                     }
                   },
                 ),

@@ -14,6 +14,7 @@ const teamDataURI =
     'https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/team/content.json';
 const speakerDataURI =
     'https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/speakers/content.json';
+const scheduleDataURI = "https://raw.githubusercontent.com/gdgcloudkol/ccd2023/prod/src/assets/content/schedule/content.json";
 
 // Add referral
 const addReferralEndpoint = 'users/add_referrer/';
@@ -70,7 +71,7 @@ const drawerItemsMain = [
   'Home',
   'Profile',
   'Buy Tickets',
-  // 'Schedule',
+  'Schedule',
   'Speakers',
 
   'Team',
@@ -80,7 +81,7 @@ const drawerItemsMainPath = [
   '/home',
   '/profile',
   '/buy-tickets',
-  // '/schedule',
+  '/schedule',
   '/speakers',
 
   '/team',
@@ -90,7 +91,7 @@ const drawerItemsMainIconOutlined = [
   Icons.home_outlined,
   Icons.person_outlined,
   Icons.local_activity_outlined,
-  // Icons.calendar_month_outlined,
+  Icons.calendar_month_outlined,
   Icons.campaign_outlined,
 
   Icons.group_outlined,
@@ -100,7 +101,7 @@ const drawerItemsMainIcon = [
   Icons.home,
   Icons.person,
   Icons.local_activity,
-  // Icons.calendar_month,
+  Icons.calendar_month,
   Icons.campaign,
 
   Icons.group,

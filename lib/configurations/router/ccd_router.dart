@@ -5,6 +5,7 @@ import 'package:ccd2023/features/coc/pages/coc_page.dart';
 import 'package:ccd2023/features/faq/pages/faq_page.dart';
 import 'package:ccd2023/features/home/presentation/pages/home_page.dart';
 import 'package:ccd2023/features/profile/presentation/pages/profile_page.dart';
+import 'package:ccd2023/features/schedule/presentation/schedule_page.dart';
 import 'package:ccd2023/features/speaker/presentation/pages/speaker_details_page.dart';
 import 'package:ccd2023/features/speaker/speaker.dart';
 import 'package:ccd2023/features/team/pages/team_page.dart';
@@ -33,6 +34,7 @@ export 'ccd_router.gr.dart';
     AutoRoute(page: ForgotPassPage, path: "/forgot-pass"),
     AutoRoute(page: BuyTicketPage, path: "/buy-tickets", guards: [AuthGuard]),
     AutoRoute(page: ViewTicketPage, path: "/view-tickets", guards: [AuthGuard]),
+    AutoRoute(page: SchedulePage, path: "/schedule"),
     AutoRoute(page: ProfilePage, path: "/profile", guards: [AuthGuard]),
     AutoRoute(page: TeamPage, path: "/team"),
     AutoRoute(page: FAQPage, path: "/faq"),
