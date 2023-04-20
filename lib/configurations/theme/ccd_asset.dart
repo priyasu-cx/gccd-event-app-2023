@@ -10,4 +10,7 @@ abstract class GCCDImageAssets {
   // HomePage
   static const String googleCloudLogo = 'assets/Google_Cloud_Logo.png';
   static const String backgroundGraphics = 'assets/Background_Home.png';
+
+  // Connecten
+  static const String connectenLogo = 'assets/connecten_logo.png';
 }

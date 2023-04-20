@@ -791,6 +791,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  ripple_wave:
+    dependency: "direct main"
+    description:
+      name: ripple_wave
+      sha256: "188f7982e27a4dbf8c420996d5a37c6659d74e422d67ce7500098907a041f657"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   rxdart:
     dependency: transitive
     description:
