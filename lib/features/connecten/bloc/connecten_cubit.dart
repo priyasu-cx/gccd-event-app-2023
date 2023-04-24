@@ -9,14 +9,82 @@ part 'connecten_state.dart';
 part 'connecten_cubit.freezed.dart';
 
 class ConnectenCubit extends Cubit<ConnectenState> {
-  ConnectenCubit() : super(const ConnectenState.initial());
+  late Timer _timer;
+  ConnectenCubit() : super(const ConnectenState.initial()) {
+    _timer = Timer.periodic(Duration(seconds: 10), (_) async {
+      // Perform some logic here
+      switch(state.runtimeType){
+        case _$_Initial:
+          break;
+        case _$_Advertising:
+          print("Advertising State ------------------------------------------------------------------ 2");
+          // sleep(Duration(seconds: 2));
+          await Nearby().stopAdvertising();
+          startDiscovery();
+          break;
+        case _$_Discovering:
+          print("Discovering State ------------------------------------------------------------------ 3");
+          // sleep(Duration(seconds: 2));
+          await Nearby().stopDiscovery();
+          startAdvertising();
+          break;
+        default:
+          print("Default State ------------------------------------------------------------------ n");
+          break;
+      }
+    });
+  }
+
+  // MyCubit() : super(MyInitialState()) {
+  //   _timer = Timer.periodic(Duration(seconds: 1), (_) {
+  //     // Perform some logic here
+  //   });
+  // }
+
+  bool permissionState = false;
+
 
   @override
   Future<void> close() async{
     await Nearby().stopAdvertising();
     await Nearby().stopDiscovery();
     await Nearby().stopAllEndpoints();
-    super.close();
+    _timer.cancel();
+    return super.close();
+  }
+
+  void initialize() async {
+    Nearby().stopAllEndpoints();
+    checkPermission();
+    emit(ConnectenState.discovering());
+    print("Initialize State $state");
+  }
+
+  void checkPermission() async {
+    print("Initial state $state");
+    bool isLocationPermission = await Nearby().checkLocationPermission();
+    bool isBluetoothPermission = await Nearby().checkBluetoothPermission();
+    bool isLocationEnabled = await Nearby().checkLocationEnabled();
+
+    if(!isLocationPermission) {
+      Nearby().askLocationPermission();
+    }
+    if(!isBluetoothPermission) {
+      Nearby().askBluetoothPermission();
+    }
+    if(!isLocationEnabled) {
+      Nearby().enableLocationServices();
+    }
+
+    if(isLocationPermission && isBluetoothPermission && isLocationEnabled){
+      permissionState = true;
+      // emit(const ConnectenState.initial());
+      print("Permission granted $state");
+      // startCycle();
+      // startDiscovery();
+    } else {
+      checkPermission();
+    }
   }
 
   void startAdvertising() async {
@@ -40,8 +108,9 @@ class ConnectenCubit extends Cubit<ConnectenState> {
   }
 
   void startDiscovery() async {
+    print("Start Discovery State: $state");
     emit(const ConnectenState.discovering());
-    print("startDiscovery");
+    // print("startDiscovery");
     await Nearby().startDiscovery(
       "Hello World",
       Strategy.P2P_STAR,
@@ -55,28 +124,33 @@ class ConnectenCubit extends Cubit<ConnectenState> {
     );
   }
 
-  void startCycle(){
 
-    Timer.periodic(Duration(seconds: 30), (timer) {
-      // print(state);
-      if(state is _Initial){
-        print("Initial State ------------------------------------------------------------------ 1");
-        // sleep(Duration(seconds: 2));
-        startDiscovery();
-        sleep(Duration(seconds: 30));
-      } else if(state is _Advertising){
-        print("Advertising State ------------------------------------------------------------------ 2");
-        sleep(Duration(seconds: 2));
-        Nearby().stopAdvertising();
-        startDiscovery();
-        sleep(Duration(seconds: 30));
-      }
-      else if(state is _Discovering){
-        print("Discovery State ------------------------------------------------------------------ 3");
-        sleep(Duration(seconds: 2));
-        Nearby().stopDiscovery();
-        startAdvertising();
-        sleep(Duration(seconds: 30));
+
+  void startCycle(){
+    print("Cycle STate ${state.runtimeType}");
+    _timer=  Timer.periodic(Duration(seconds: 20), (timer) async {
+      switch(state.runtimeType){
+        case _$_Initial:
+          print("Initial State ------------------------------------------------------------------ 1");
+          // sleep(Duration(seconds: 2));
+          // await Nearby().stopAllEndpoints();
+          startAdvertising();
+          break;
+        case _$_Advertising:
+          print("Advertising State ------------------------------------------------------------------ 2");
+          // sleep(Duration(seconds: 2));
+          await Nearby().stopAdvertising();
+          startDiscovery();
+          break;
+        case _$_Discovering:
+          print("Discovering State ------------------------------------------------------------------ 3");
+          // sleep(Duration(seconds: 2));
+          await Nearby().stopDiscovery();
+          startAdvertising();
+          break;
+        default:
+          print("Default State ------------------------------------------------------------------ n");
+          break;
       }
     });
   }

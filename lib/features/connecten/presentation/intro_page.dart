@@ -1,14 +1,13 @@
+import 'dart:async';
+
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/presentation/navigation/appbar.dart';
-import 'package:ccd2023/features/connecten/bloc/connecten_bloc.dart';
-import 'package:ccd2023/features/connecten/bloc/connecten_cubit.dart';
 import 'package:ccd2023/features/connecten/bloc/connecten_cubit.dart';
 import 'package:ccd2023/features/home/presentation/default_button_widget.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ripple_wave/ripple_wave.dart';
-import 'package:nearby_connections/nearby_connections.dart';
 
 class ConnectenHomePage extends StatefulWidget {
   const ConnectenHomePage({Key? key}) : super(key: key);
@@ -17,9 +16,16 @@ class ConnectenHomePage extends StatefulWidget {
   State<ConnectenHomePage> createState() => _ConnectenHomePageState();
 }
 
-class _ConnectenHomePageState extends State<ConnectenHomePage> with TickerProviderStateMixin{
+class _ConnectenHomePageState extends State<ConnectenHomePage>{
   // final NearbyConnectionBloc _nearbyConnectionBloc = NearbyConnectionBloc();
-  final ConnectenCubit _connectenCubit = ConnectenCubit();
+  late ConnectenCubit _connectenCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _connectenCubit = ConnectenCubit();
+    _connectenCubit.initialize(); // Call the initialization method
+  }
 
   @override
   void dispose() {
@@ -30,26 +36,10 @@ class _ConnectenHomePageState extends State<ConnectenHomePage> with TickerProvid
 
 
   // create function checkPermission
-  void checkPermission() async {
-    bool isLocationPermission = await Nearby().checkLocationPermission();
-    bool isBluetoothPermission = await Nearby().checkBluetoothPermission();
-    bool isLocationEnabled = await Nearby().checkLocationEnabled();
 
-    if(!isLocationPermission) {
-      Nearby().askLocationPermission();
-    }
-    if(!isBluetoothPermission) {
-      Nearby().askBluetoothPermission();
-    }
-    if(!isLocationEnabled) {
-      Nearby().enableLocationServices();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    checkPermission();
-
     // context.read<ConnectenCubit>().startAdvertising();
     return SafeArea(
       top: true,
@@ -114,17 +104,12 @@ class _ConnectenHomePageState extends State<ConnectenHomePage> with TickerProvid
                       create: (context) => ConnectenCubit(),
                       child: BlocBuilder<ConnectenCubit, ConnectenState>(
                         builder: (context, state) {
-                          context.read<ConnectenCubit>().startDiscovery();
-                          return SizedBox(
-                            // width: screenWidth! * 0.6,
-                            // child: DefaultButton(
-                            //   isOutlined: false,
-                            //   text: "Start Networking",
-                            //   onPressed: () {
-                            //     context.read<ConnectenCubit>().startCycle();
-                            //   },
-                            // ),
-                          );
+                          // context.read<ConnectenCubit>().startCycle();
+                          // context.watch<ConnectenCubit>().checkPermission();
+                          // timer = Timer.periodic(Duration(seconds: 5), (timer) {
+                          //   print("Timer is running. State: ${state}");
+                          // });
+                          return const Offstage();
                         },
                       )
                   ),
