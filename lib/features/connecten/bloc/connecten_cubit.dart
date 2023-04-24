@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:djangoflow_app/djangoflow_app.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nearby_connections/nearby_connections.dart';
 
@@ -12,7 +13,6 @@ class ConnectenCubit extends Cubit<ConnectenState> {
   late Timer _timer;
   ConnectenCubit() : super(const ConnectenState.initial()) {
     _timer = Timer.periodic(Duration(seconds: 10), (_) async {
-      // Perform some logic here
       switch(state.runtimeType){
         case _$_Initial:
           break;
@@ -35,6 +35,8 @@ class ConnectenCubit extends Cubit<ConnectenState> {
     });
   }
   bool permissionState = false;
+  Strategy strategy = Strategy.P2P_STAR;
+  String _serviceId = "com.gdgck.gccd";
 
   @override
   Future<void> close() async{
@@ -95,7 +97,7 @@ class ConnectenCubit extends Cubit<ConnectenState> {
       onDisconnected: (String endpointId) {
         // Handle disconnection
       },
-      serviceId: "com.gdgck.gccd",
+      serviceId: _serviceId,
     );
   }
 
@@ -108,11 +110,12 @@ class ConnectenCubit extends Cubit<ConnectenState> {
       Strategy.P2P_STAR,
       onEndpointFound: (String endpointId, String serviceId, String endpointName) {
         // Handle endpoint found
+        DjangoflowAppSnackbar.showInfo("Endpoint found: $endpointName");
       },
       onEndpointLost: (String? endpointId) {
         // Handle endpoint lost
       },
-      serviceId: "com.gdgck.gccd",
+      serviceId: _serviceId,
     );
   }
 }
