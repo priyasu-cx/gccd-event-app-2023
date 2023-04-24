@@ -1,9 +1,14 @@
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/presentation/navigation/appbar.dart';
+import 'package:ccd2023/features/connecten/bloc/connecten_bloc.dart';
+import 'package:ccd2023/features/connecten/bloc/connecten_cubit.dart';
+import 'package:ccd2023/features/connecten/bloc/connecten_cubit.dart';
 import 'package:ccd2023/features/home/presentation/default_button_widget.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ripple_wave/ripple_wave.dart';
+import 'package:nearby_connections/nearby_connections.dart';
 
 class ConnectenHomePage extends StatefulWidget {
   const ConnectenHomePage({Key? key}) : super(key: key);
@@ -13,9 +18,39 @@ class ConnectenHomePage extends StatefulWidget {
 }
 
 class _ConnectenHomePageState extends State<ConnectenHomePage> with TickerProviderStateMixin{
+  // final NearbyConnectionBloc _nearbyConnectionBloc = NearbyConnectionBloc();
+  final ConnectenCubit _connectenCubit = ConnectenCubit();
+
+  @override
+  void dispose() {
+    // _nearbyConnectionBloc.close();
+    _connectenCubit.close();
+    super.dispose();
+  }
+
+
+  // create function checkPermission
+  void checkPermission() async {
+    bool isLocationPermission = await Nearby().checkLocationPermission();
+    bool isBluetoothPermission = await Nearby().checkBluetoothPermission();
+    bool isLocationEnabled = await Nearby().checkLocationEnabled();
+
+    if(!isLocationPermission) {
+      Nearby().askLocationPermission();
+    }
+    if(!isBluetoothPermission) {
+      Nearby().askBluetoothPermission();
+    }
+    if(!isLocationEnabled) {
+      Nearby().enableLocationServices();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    checkPermission();
+
+    // context.read<ConnectenCubit>().startAdvertising();
     return SafeArea(
       top: true,
       child: Scaffold(
@@ -75,6 +110,30 @@ class _ConnectenHomePageState extends State<ConnectenHomePage> with TickerProvid
                       child: Image.asset(GCCDImageAssets.yoda, width: screenWidth! * 0.45),
                     ),
                   ),
+                  BlocProvider(
+                      create: (context) => ConnectenCubit(),
+                      child: BlocBuilder<ConnectenCubit, ConnectenState>(
+                        builder: (context, state) {
+                          context.read<ConnectenCubit>().startDiscovery();
+                          return SizedBox(
+                            // width: screenWidth! * 0.6,
+                            // child: DefaultButton(
+                            //   isOutlined: false,
+                            //   text: "Start Networking",
+                            //   onPressed: () {
+                            //     context.read<ConnectenCubit>().startCycle();
+                            //   },
+                            // ),
+                          );
+                        },
+                      )
+                  ),
+                  // BlocBuilder<ConnectenCubit, ConnectenState>(
+                  //   builder: (context, state) {
+                  //     context.read<ConnectenCubit>().startAdvertising();
+                  //     return Container();
+                  //   },
+                  // ),
                   SizedBox(
                     width: screenWidth! * 0.6,
                     child: DefaultButton(
