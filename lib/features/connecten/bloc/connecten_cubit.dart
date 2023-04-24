@@ -34,15 +34,7 @@ class ConnectenCubit extends Cubit<ConnectenState> {
       }
     });
   }
-
-  // MyCubit() : super(MyInitialState()) {
-  //   _timer = Timer.periodic(Duration(seconds: 1), (_) {
-  //     // Perform some logic here
-  //   });
-  // }
-
   bool permissionState = false;
-
 
   @override
   Future<void> close() async{
@@ -122,36 +114,5 @@ class ConnectenCubit extends Cubit<ConnectenState> {
       },
       serviceId: "com.gdgck.gccd",
     );
-  }
-
-
-
-  void startCycle(){
-    print("Cycle STate ${state.runtimeType}");
-    _timer=  Timer.periodic(Duration(seconds: 20), (timer) async {
-      switch(state.runtimeType){
-        case _$_Initial:
-          print("Initial State ------------------------------------------------------------------ 1");
-          // sleep(Duration(seconds: 2));
-          // await Nearby().stopAllEndpoints();
-          startAdvertising();
-          break;
-        case _$_Advertising:
-          print("Advertising State ------------------------------------------------------------------ 2");
-          // sleep(Duration(seconds: 2));
-          await Nearby().stopAdvertising();
-          startDiscovery();
-          break;
-        case _$_Discovering:
-          print("Discovering State ------------------------------------------------------------------ 3");
-          // sleep(Duration(seconds: 2));
-          await Nearby().stopDiscovery();
-          startAdvertising();
-          break;
-        default:
-          print("Default State ------------------------------------------------------------------ n");
-          break;
-      }
-    });
   }
 }

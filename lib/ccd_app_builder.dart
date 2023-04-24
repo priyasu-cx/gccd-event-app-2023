@@ -1,7 +1,5 @@
 import 'package:ccd2023/features/app/data/repository/dio/dio_api_client.dart';
 import 'package:ccd2023/features/auth/auth.dart';
-import 'package:ccd2023/features/connecten/bloc/connecten_bloc.dart';
-import 'package:ccd2023/features/connecten/bloc/connecten_cubit.dart';
 import 'package:ccd2023/features/schedule/data/repository/schedule_repo.dart';
 import 'package:ccd2023/features/speaker/bloc/speaker_cubit.dart';
 import 'package:ccd2023/features/speaker/data/repos/speaker_repo.dart';

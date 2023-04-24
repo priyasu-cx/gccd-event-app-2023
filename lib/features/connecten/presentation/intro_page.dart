@@ -1,12 +1,9 @@
-import 'dart:async';
-
 import 'package:ccd2023/configurations/configurations.dart';
 import 'package:ccd2023/features/app/presentation/navigation/appbar.dart';
 import 'package:ccd2023/features/connecten/bloc/connecten_cubit.dart';
 import 'package:ccd2023/features/home/presentation/default_button_widget.dart';
 import 'package:ccd2023/utils/size_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ripple_wave/ripple_wave.dart';
 
 class ConnectenHomePage extends StatefulWidget {
@@ -62,11 +59,6 @@ class _ConnectenHomePageState extends State<ConnectenHomePage>{
                     padding: const EdgeInsets.only(top: 40),
                     child: Column(
                       children: [
-                        // Text(
-                        //   "GCCD Kol'23",
-                        //   style: Theme.of(context).textTheme.displaySmall?.copyWith(color: GCCDColor.googleYellow),
-                        // ),
-                        // Text("X", style: Theme.of(context).textTheme.displaySmall),
                         Image.asset(GCCDImageAssets.connectenLogo, width: screenWidth! * 0.1),
                         SizedBox(height: 5),
                         RichText(
@@ -100,25 +92,6 @@ class _ConnectenHomePageState extends State<ConnectenHomePage>{
                       child: Image.asset(GCCDImageAssets.yoda, width: screenWidth! * 0.45),
                     ),
                   ),
-                  BlocProvider(
-                      create: (context) => ConnectenCubit(),
-                      child: BlocBuilder<ConnectenCubit, ConnectenState>(
-                        builder: (context, state) {
-                          // context.read<ConnectenCubit>().startCycle();
-                          // context.watch<ConnectenCubit>().checkPermission();
-                          // timer = Timer.periodic(Duration(seconds: 5), (timer) {
-                          //   print("Timer is running. State: ${state}");
-                          // });
-                          return const Offstage();
-                        },
-                      )
-                  ),
-                  // BlocBuilder<ConnectenCubit, ConnectenState>(
-                  //   builder: (context, state) {
-                  //     context.read<ConnectenCubit>().startAdvertising();
-                  //     return Container();
-                  //   },
-                  // ),
                   SizedBox(
                     width: screenWidth! * 0.6,
                     child: DefaultButton(
@@ -129,8 +102,6 @@ class _ConnectenHomePageState extends State<ConnectenHomePage>{
                   ),
                   const SizedBox(height: 10),
                   Text("This is a limited access feature", style: Theme.of(context).textTheme.bodySmall?.copyWith(color: GCCDColor.googleBlue))
-
-
                 ],
               ),
             ],
