@@ -88,44 +88,86 @@ class SessionWidget extends StatelessWidget {
           ),
           session!.speakers!.isEmpty
               ? const SizedBox.shrink()
-              : Container(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 6, horizontal: screenWidth! * 0.02),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: GCCDColor.googleBlue,
-                      width: 0.5,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 14,
-                        backgroundColor: GCCDColor.googleBlue,
-                        child: CircleAvatar(
-                          radius: 12,
-                          backgroundImage: CachedNetworkImageProvider(
-                            "https://gdgcloud.kolkata.dev/${session!.speakers![0].profilePicture!}",
+              : Column(
+                  children: session!.speakers!
+                      .map((speaker) => Container(
+                          margin: EdgeInsets.only(bottom: 6),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 6, horizontal: screenWidth! * 0.02),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: GCCDColor.googleBlue,
+                              width: 0.5,
+                            ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Text(
-                          session!.speakers![0].name!,
-                          textAlign: TextAlign.left,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 14,
+                                backgroundColor: GCCDColor.googleBlue,
+                                child: CircleAvatar(
+                                  radius: 12,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    "https://gdgcloud.kolkata.dev/${speaker.profilePicture!}",
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  speaker.name!,
+                                  textAlign: TextAlign.left,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(color: GCCDColor.googleBlue),
+                                ),
+                              ),
+                            ],
+                          )))
+                      .toList(),
+                )
+          // Container(
+          //         padding: EdgeInsets.symmetric(
+          //             vertical: 6, horizontal: screenWidth! * 0.02),
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(10),
+          //           border: Border.all(
+          //             color: GCCDColor.googleBlue,
+          //             width: 0.5,
+          //           ),
+          //         ),
+          //         child: Row(
+          //           children: [
+          //             CircleAvatar(
+          //               radius: 14,
+          //               backgroundColor: GCCDColor.googleBlue,
+          //               child: CircleAvatar(
+          //                 radius: 12,
+          //                 backgroundImage: CachedNetworkImageProvider(
+          //                   "https://gdgcloud.kolkata.dev/${session!.speakers![0].profilePicture!}",
+          //                 ),
+          //               ),
+          //             ),
+          //             const SizedBox(
+          //               width: 10,
+          //             ),
+          //             Expanded(
+          //               child: Text(
+          //                 session!.speakers![0].name!,
+          //                 textAlign: TextAlign.left,
+          //                 style: Theme.of(context)
+          //                     .textTheme
+          //                     .bodyMedium
+          //                     ?.copyWith(color: Colors.white),
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       ),
         ],
       ),
     );

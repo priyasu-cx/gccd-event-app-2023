@@ -176,6 +176,7 @@ class SponsorCard extends StatelessWidget {
           child: imageUrl.endsWith('.svg')
               ? SvgPicture.network(
                   imageUrl,
+                  height: screenWidth! * 0.2,
                   fit: BoxFit.contain,
                 )
               : Image.network(
